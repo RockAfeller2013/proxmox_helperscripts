@@ -1,17 +1,26 @@
 
+## Proxmox Setup 
+
 Setup WOL via script: https://github.com/Aizen-Barbaros/Proxmox-WoL
 
 Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo
+
 Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
+
 Proxmox VE Kernel Clean: https://community-scripts.github.io/ProxmoxVE/scripts?id=kernel-clean
+
 Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/scripts?id=host-backup
+
 System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
 
 Proxmox VE LXC Updater: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-lxcs
+
 Proxmox VE LXC Monitor: https://community-scripts.github.io/ProxmoxVE/scripts?id=monitor-all
 
 LXC Container Install Scripts (Home Assistant)
+
 Updating LXC vs Updating Docker Containers
+
 Turnkey Linux Containers
 
 ```

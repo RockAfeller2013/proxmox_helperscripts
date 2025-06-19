@@ -13,6 +13,16 @@ Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/script
 
 System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
 
+```
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"
+
+```
+```
+
+crontab -e
+0 2 * * * bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"
+```
+
 Proxmox VE LXC Updater: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-lxcs
 
 Proxmox VE LXC Monitor: https://community-scripts.github.io/ProxmoxVE/scripts?id=monitor-all
@@ -23,12 +33,4 @@ Updating LXC vs Updating Docker Containers
 
 Turnkey Linux Containers
 
-```
-bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"
 
-```
-```
-
-crontab -e
-0 2 * * * bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"
-```

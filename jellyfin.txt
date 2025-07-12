@@ -5,10 +5,10 @@ apt update && apt install cifs-utils -y
 mkdir -p /mnt/nas
 
 # Step 3: Mount Synology NAS share (replace IP, share, username, password)
-mount -t cifs //192.168.1.X/Movies /mnt/nas -o username=nas_user,password=nas_pass,vers=3.0
+mount -t cifs //192.168.1.146/video/Movies /mnt/nas -o guest,vers=2.1
 
 # Step 4: (Optional) Add to /etc/fstab for persistent mount
-echo '//192.168.1.X/Movies /mnt/nas cifs username=nas_user,password=nas_pass,vers=3.0 0 0' >> /etc/fstab
+echo '//192.168.1.146/video/Movies /mnt/nas -o guest,vers=2.1' >> /etc/fstab
 
 # Step 5: In Jellyfin web UI, go to:
 # Dashboard > Libraries > Add Library

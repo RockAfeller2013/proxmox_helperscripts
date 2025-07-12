@@ -1,0 +1,45 @@
+# Step 1: Inside the LXC container (Jellyfin, Plex, etc.)
+# --------------------------------------
+# Create group that maps to GID=110000 on host
+groupadd -g 10000 lxc_shares
+
+# Add Jellyfin (or other app) user to that group
+usermod -aG lxc_shares jellyfin
+
+# Shutdown the container
+poweroff
+
+
+# Step 2: On the Proxmox host
+# --------------------------------------
+# Create the mount point
+mkdir -p /mnt/lxc_shares/nas_rwx
+
+# Add CIFS share to /etc/fstab
+# (replace IP, share name, user/pass accordingly)
+echo -e '\n# Mount CIFS share for LXC with mapped UID/GID\n//192.168.1.X/Movies /mnt/lxc_shares/nas_rwx cifs _netdev,x-systemd.automount,noatime,uid=100000,gid=110000,dir_mode=0770,file_mode=0770,user=nas_user,pass=nas_pass 0 0' >> /etc/fstab
+
+# Mount the share
+mount /mnt/lxc_shares/nas_rwx
+
+
+# Step 3: Bind mount into LXC
+# --------------------------------------
+# Replace 101 with your container ID
+echo 'mp0: /mnt/lxc_shares/nas_rwx,mp=/mnt/nas' >> /etc/pve/lxc/101.conf
+
+# (Optional) For read-only access
+# echo 'mp0: /mnt/lxc_shares/nas_rwx,mp=/mnt/nas,ro=1' >> /etc/pve/lxc/101.conf
+
+
+# Step 4: Start the container
+# --------------------------------------
+pct start 101
+
+
+# Step 5: Inside Jellyfin Web UI
+# --------------------------------------
+# Go to Dashboard → Libraries
+# Add new library (e.g. Movies)
+# Use the folder path:
+/mnt/nas

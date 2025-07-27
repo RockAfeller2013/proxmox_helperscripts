@@ -1,7 +1,5 @@
 #!/bin/bash
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/omakub.sh)"
-# chmod +x proxmox-create-ubuntu-gui.sh
-# ./proxmox-create-ubuntu-gui.sh
 # ver 1.0
 
 set -e
@@ -22,7 +20,7 @@ fi
 STORAGE_MENU=$(for s in $STORAGE_OPTIONS; do echo "$s" "\"\""; done)
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "Version 1. Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
+VMID=$(whiptail --inputbox "Version 3: Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3)
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3)
 PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3)
@@ -35,15 +33,18 @@ ENABLE_OMAKUB=$(whiptail --title "Omakub Installer" --yesno "Install Omakub auto
 ENABLE_AUTOLOGIN=$(whiptail --title "GNOME Auto-login" --yesno "Enable GNOME auto-login for $USERNAME?" 8 60 && echo "yes" || echo "no")
 
 # ===== Select or download ISO =====
-ISO_LIST=$(find /var/lib/pve/${STORAGE}/iso -iname "*.iso" 2>/dev/null | xargs -n1 basename)
-if [ -z "$ISO_LIST" ]; then
+ISO_DIR="/var/lib/pve/${STORAGE}/iso"
+FOUND_ISOS=$(find "$ISO_DIR" -iname "*.iso" 2>/dev/null)
+
+if [ -z "$FOUND_ISOS" ]; then
   ISO_NAME="ubuntu-25.04-desktop-amd64.iso"
   ISO_URL="https://releases.ubuntu.com/25.04/$ISO_NAME"
-  ISO_PATH="/var/lib/pve/${STORAGE}/iso/$ISO_NAME"
+  ISO_PATH="$ISO_DIR/$ISO_NAME"
   echo "==> No ISOs found. Downloading $ISO_NAME..."
   mkdir -p "$(dirname "$ISO_PATH")"
   wget -O "$ISO_PATH" "$ISO_URL"
 else
+  ISO_LIST=$(echo "$FOUND_ISOS" | xargs -n1 basename)
   ISO_MENU=$(for iso in $ISO_LIST; do echo "$iso" "\"\""; done)
   ISO_NAME=$(whiptail --title "Available ISO Images" --menu "Select an ISO image to use" 20 70 10 ${ISO_MENU} 3>&1 1>&2 2>&3)
 fi
@@ -147,4 +148,3 @@ echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"
 echo "🧹  Cloud-init ISO will auto-eject after boot"
 echo "🔑  Login via Proxmox VNC Console"
-

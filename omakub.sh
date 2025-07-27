@@ -3,7 +3,6 @@
 # ver 1.0
 # This script automates creating an Ubuntu 25.04 Proxmox VM with a GUI and cloud-init support. It prompts for VM parameters using whiptail (VM ID, name, user, password, memory, disk size, CPU cores, network bridge, and optional Omakub installer and GNOME auto-login). The disk storage is fixed to local-lvm, and the ISO is downloaded or reused from the default Proxmox ISO location (/var/lib/vz/template/iso). It generates a cloud-init ISO that configures the user, password, installs GNOME, optionally enables auto-login, and runs Omakub if chosen. The cloud-init ISO is attached and configured to auto-eject after first boot. Finally, the VM is started with VNC access and a summary of settings is displayed.
 
-
 set -e
 
 # ===== Ensure required tools =====
@@ -21,7 +20,7 @@ DEFAULT_ISO="ubuntu-25.04-desktop-amd64.iso"
 ISO_URL="https://releases.ubuntu.com/25.04/${DEFAULT_ISO}"
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "Version4: Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
+VMID=$(whiptail --inputbox "V5: Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3) || exit 1
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3) || exit 1
 PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3) || exit 1
@@ -44,6 +43,7 @@ fi
 ISO_NAME="$DEFAULT_ISO"
 ISO_PATH="$ISO_DIR/$ISO_NAME"
 CI_ISO="/var/lib/pve/template/iso/ci-$VMID.iso"
+mkdir -p "/var/lib/pve/template/iso"
 
 # ===== Create VM =====
 echo "==> Creating VM $VMID..."
@@ -59,7 +59,7 @@ qm create $VMID \
   --boot order=ide2 \
   --agent enabled=1
 
-qm set $VMID --scsi0 ${DISK_STORAGE}:${DISK_SIZE}G
+qm set $VMID --scsi0 ${DISK_STORAGE}:${DISK_SIZE},format=qcow2  # Fixed LVM syntax
 qm set $VMID --ide2 local:iso/$ISO_NAME,media=cdrom
 qm set $VMID --efidisk0 ${DISK_STORAGE}:0,format=qcow2,efitype=4m,pre-enrolled-keys=1
 
@@ -139,3 +139,6 @@ echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"
 echo "🧹  Cloud-init ISO will auto-eject after boot"
 echo "🔑  Login via Proxmox VNC Console"
+
+# Cleanup
+rm -rf "$TMPDIR"

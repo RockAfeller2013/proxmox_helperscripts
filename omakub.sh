@@ -3,10 +3,9 @@
 # chmod +x proxmox-create-ubuntu-gui.sh
 # ./proxmox-create-ubuntu-gui.sh
 
-
 set -e
 
-# ===== Ensure dependencies =====
+# ===== Ensure whiptail =====
 if ! command -v whiptail >/dev/null 2>&1; then
   echo "whiptail is not installed. Run: apt install whiptail"
   exit 1
@@ -19,10 +18,9 @@ if [ -z "$STORAGE_OPTIONS" ]; then
   exit 1
 fi
 
-# Convert to whiptail format (e.g., "local" "" "local-lvm" "")
 STORAGE_MENU=$(for s in $STORAGE_OPTIONS; do echo "$s" "\"\""; done)
 
-# ===== Get User Input =====
+# ===== Collect user input =====
 VMID=$(whiptail --inputbox "Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3)
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3)
@@ -31,26 +29,27 @@ MEMORY=$(whiptail --inputbox "Memory in MB" 10 60 4096 --title "Memory" 3>&1 1>&
 DISK_SIZE=$(whiptail --inputbox "Disk size in GB" 10 60 32 --title "Disk Size" 3>&1 1>&2 2>&3)
 CORES=$(whiptail --inputbox "Number of CPU cores" 10 60 2 --title "CPU Cores" 3>&1 1>&2 2>&3)
 BRIDGE=$(whiptail --inputbox "Network bridge (e.g. vmbr0)" 10 60 "vmbr0" --title "Network Bridge" 3>&1 1>&2 2>&3)
-
-# ===== Choose Storage =====
 STORAGE=$(whiptail --title "Storage Location" --menu "Select storage for ISO and disks" 15 50 5 ${STORAGE_MENU} 3>&1 1>&2 2>&3)
-
-# ===== Confirm Features =====
 ENABLE_OMAKUB=$(whiptail --title "Omakub Installer" --yesno "Install Omakub automatically?" 8 60 && echo "yes" || echo "no")
 ENABLE_AUTOLOGIN=$(whiptail --title "GNOME Auto-login" --yesno "Enable GNOME auto-login for $USERNAME?" 8 60 && echo "yes" || echo "no")
 
-# ===== Setup paths =====
-ISO_NAME="ubuntu-25.04-desktop-amd64.iso"
-ISO_PATH="/var/lib/pve/local-btrfs/iso/$ISO_NAME"
-CI_ISO="/var/lib/pve/template/iso/ci-$VMID.iso"
-
-# ===== Download ISO if missing =====
-if [ ! -f "$ISO_PATH" ]; then
-  echo "==> Downloading Ubuntu 25.04 ISO..."
-  wget -O "$ISO_PATH" "https://releases.ubuntu.com/25.04/$ISO_NAME"
+# ===== List available ISOs =====
+ISO_LIST=$(find /var/lib/pve/${STORAGE}/iso -iname "*.iso" 2>/dev/null | xargs -n1 basename)
+if [ -z "$ISO_LIST" ]; then
+  ISO_NAME="ubuntu-25.04-desktop-amd64.iso"
+  ISO_URL="https://releases.ubuntu.com/25.04/$ISO_NAME"
+  ISO_PATH="/var/lib/pve/${STORAGE}/iso/$ISO_NAME"
+  echo "==> No ISOs found. Downloading $ISO_NAME..."
+  mkdir -p "$(dirname "$ISO_PATH")"
+  wget -O "$ISO_PATH" "$ISO_URL"
 else
-  echo "==> ISO already exists."
+  ISO_MENU=$(for iso in $ISO_LIST; do echo "$iso" "\"\""; done)
+  ISO_NAME=$(whiptail --title "Available ISO Images" --menu "Select an ISO image to use" 20 70 10 ${ISO_MENU} 3>&1 1>&2 2>&3)
 fi
+
+# ===== Define ISO and cloud-init path =====
+ISO_PATH="/var/lib/pve/${STORAGE}/iso/$ISO_NAME"
+CI_ISO="/var/lib/pve/template/iso/ci-$VMID.iso"
 
 # ===== Create VM =====
 echo "==> Creating VM $VMID..."
@@ -107,6 +106,22 @@ cat >> "$TMPDIR/user-data" <<EOF
 EOF
 fi
 
+# Self-deleting cloud-init systemd unit
+cat >> "$TMPDIR/user-data" <<EOF
+  - echo "[Unit]" > /etc/systemd/system/cleanup-ci.service
+  - echo "Description=Cleanup cloud-init ISO" >> /etc/systemd/system/cleanup-ci.service
+  - echo "After=multi-user.target" >> /etc/systemd/system/cleanup-ci.service
+  - echo "" >> /etc/systemd/system/cleanup-ci.service
+  - echo "[Service]" >> /etc/systemd/system/cleanup-ci.service
+  - echo "ExecStart=/usr/bin/systemd-run --on-active=5 /bin/bash -c 'umount /dev/sr1 && eject /dev/sr1'" >> /etc/systemd/system/cleanup-ci.service
+  - echo "Type=oneshot" >> /etc/systemd/system/cleanup-ci.service
+  - echo "RemainAfterExit=true" >> /etc/systemd/system/cleanup-ci.service
+  - echo "" >> /etc/systemd/system/cleanup-ci.service
+  - echo "[Install]" >> /etc/systemd/system/cleanup-ci.service
+  - echo "WantedBy=multi-user.target" >> /etc/systemd/system/cleanup-ci.service
+  - systemctl enable cleanup-ci.service
+EOF
+
 cat > "$TMPDIR/meta-data" <<EOF
 instance-id: $VMNAME
 local-hostname: $VMNAME
@@ -116,13 +131,19 @@ echo "==> Creating cloud-init ISO..."
 genisoimage -output "$CI_ISO" -volid cidata -joliet -rock "$TMPDIR/user-data" "$TMPDIR/meta-data"
 qm set $VMID --ide3 ${STORAGE}:iso/ci-$VMID.iso,media=cdrom
 
-# ===== Start the VM =====
+# ===== Start VM =====
 echo "==> Starting VM..."
 qm start $VMID
 
+# ===== Summary =====
+echo
 echo "✅ VM $VMID ($VMNAME) created with:"
 echo "🧑  User: $USERNAME"
 echo "💻  Memory: $MEMORY MB | Cores: $CORES | Disk: ${DISK_SIZE}G"
 echo "📦  Storage: $STORAGE"
+echo "📀  ISO: $ISO_NAME"
 echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"
+echo "🧹  Cloud-init ISO will auto-eject after boot"
+echo "🔑  Login via Proxmox VNC Console"
+

@@ -3,6 +3,7 @@
 # chmod +x proxmox-create-ubuntu-gui.sh
 # ./proxmox-create-ubuntu-gui.sh
 
+
 set -e
 
 # ===== Ensure whiptail =====
@@ -33,7 +34,7 @@ STORAGE=$(whiptail --title "Storage Location" --menu "Select storage for ISO and
 ENABLE_OMAKUB=$(whiptail --title "Omakub Installer" --yesno "Install Omakub automatically?" 8 60 && echo "yes" || echo "no")
 ENABLE_AUTOLOGIN=$(whiptail --title "GNOME Auto-login" --yesno "Enable GNOME auto-login for $USERNAME?" 8 60 && echo "yes" || echo "no")
 
-# ===== List available ISOs =====
+# ===== Select or download ISO =====
 ISO_LIST=$(find /var/lib/pve/${STORAGE}/iso -iname "*.iso" 2>/dev/null | xargs -n1 basename)
 if [ -z "$ISO_LIST" ]; then
   ISO_NAME="ubuntu-25.04-desktop-amd64.iso"

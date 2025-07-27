@@ -22,7 +22,7 @@ fi
 STORAGE_MENU=$(for s in $STORAGE_OPTIONS; do echo "$s" "\"\""; done)
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
+VMID=$(whiptail --inputbox "Version 1. Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3)
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3)
 PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3)

@@ -20,7 +20,7 @@ DEFAULT_ISO="ubuntu-25.04-desktop-amd64.iso"
 ISO_URL="https://releases.ubuntu.com/25.04/${DEFAULT_ISO}"
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "V5: Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
+VMID=$(whiptail --inputbox "6. Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3) || exit 1
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3) || exit 1
 PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3) || exit 1
@@ -59,9 +59,12 @@ qm create $VMID \
   --boot order=ide2 \
   --agent enabled=1
 
-qm set $VMID --scsi0 ${DISK_STORAGE}:${DISK_SIZE},format=qcow2  # Fixed LVM syntax
+# Use raw format for LVM storage
+qm set $VMID --scsi0 ${DISK_STORAGE}:${DISK_SIZE}
 qm set $VMID --ide2 local:iso/$ISO_NAME,media=cdrom
-qm set $VMID --efidisk0 ${DISK_STORAGE}:0,format=qcow2,efitype=4m,pre-enrolled-keys=1
+
+# EFI disk with raw format
+qm set $VMID --efidisk0 ${DISK_STORAGE}:0,efitype=4m,pre-enrolled-keys=1
 
 # ===== Create cloud-init ISO =====
 TMPDIR=$(mktemp -d)
@@ -133,7 +136,7 @@ echo
 echo "✅ VM $VMID ($VMNAME) created with:"
 echo "🧑  User: $USERNAME"
 echo "💻  Memory: $MEMORY MB | Cores: $CORES | Disk: ${DISK_SIZE}G"
-echo "📦  Disk Storage: $DISK_STORAGE"
+echo "📦  Disk Storage: $DISK_STORAGE (RAW format)"
 echo "📀  ISO: $ISO_NAME"
 echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"

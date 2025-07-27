@@ -20,7 +20,7 @@ DEFAULT_ISO="ubuntu-25.04-desktop-amd64.iso"
 ISO_URL="https://releases.ubuntu.com/25.04/${DEFAULT_ISO}"
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "6. Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
+VMID=$(whiptail --inputbox "A Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
 VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3) || exit 1
 USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3) || exit 1
 PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3) || exit 1
@@ -31,8 +31,10 @@ BRIDGE=$(whiptail --inputbox "Network bridge (e.g. vmbr0)" 10 60 "vmbr0" --title
 ENABLE_OMAKUB=$(whiptail --title "Omakub Installer" --yesno "Install Omakub automatically?" 8 60 && echo "yes" || echo "no")
 ENABLE_AUTOLOGIN=$(whiptail --title "GNOME Auto-login" --yesno "Enable GNOME auto-login for $USERNAME?" 8 60 && echo "yes" || echo "no")
 
-# ===== Ensure ISO exists =====
+# ===== Ensure ISO directory exists =====
 mkdir -p "$ISO_DIR"
+
+# ===== Download Ubuntu ISO if needed =====
 if [ ! -f "$ISO_DIR/$DEFAULT_ISO" ]; then
   echo "==> ISO not found. Downloading $DEFAULT_ISO..."
   wget -O "$ISO_DIR/$DEFAULT_ISO" "$ISO_URL"
@@ -42,8 +44,9 @@ fi
 
 ISO_NAME="$DEFAULT_ISO"
 ISO_PATH="$ISO_DIR/$ISO_NAME"
-CI_ISO="/var/lib/pve/template/iso/ci-$VMID.iso"
-mkdir -p "/var/lib/pve/template/iso"
+
+# ===== Create cloud-init ISO in the correct location =====
+CI_ISO="$ISO_DIR/ci-$VMID.iso"
 
 # ===== Create VM =====
 echo "==> Creating VM $VMID..."
@@ -138,6 +141,7 @@ echo "🧑  User: $USERNAME"
 echo "💻  Memory: $MEMORY MB | Cores: $CORES | Disk: ${DISK_SIZE}G"
 echo "📦  Disk Storage: $DISK_STORAGE (RAW format)"
 echo "📀  ISO: $ISO_NAME"
+echo "🌩️  Cloud-init ISO: ci-$VMID.iso"
 echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"
 echo "🧹  Cloud-init ISO will auto-eject after boot"

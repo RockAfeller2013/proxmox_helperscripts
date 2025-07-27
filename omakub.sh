@@ -1,5 +1,5 @@
 #!/bin/bash
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/ubuntu.sh)"
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/omakub.sh)"
 # chmod +x proxmox-create-ubuntu-gui.sh
 # ./proxmox-create-ubuntu-gui.sh
 

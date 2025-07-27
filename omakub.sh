@@ -4,59 +4,49 @@
 
 set -e
 
-# ===== Ensure whiptail =====
-if ! command -v whiptail >/dev/null 2>&1; then
-  echo "whiptail is not installed. Run: apt install whiptail"
-  exit 1
-fi
+# ===== Ensure required tools =====
+for tool in whiptail wget genisoimage; do
+  if ! command -v $tool >/dev/null 2>&1; then
+    echo "Missing required tool: $tool"
+    exit 1
+  fi
+done
 
-# ===== Detect ISO-capable storages =====
-STORAGE_OPTIONS=$(pvesm status -content iso | awk '!/Name/ {print $1}' | xargs)
-if [ -z "$STORAGE_OPTIONS" ]; then
-  echo "No storage with ISO content type found!"
-  exit 1
-fi
-
-STORAGE_MENU=$(for s in $STORAGE_OPTIONS; do echo "$s" "\"\""; done)
+# ===== Constants =====
+DISK_STORAGE="local-lvm"
+ISO_DIR="/var/lib/vz/template/iso"
+DEFAULT_ISO="ubuntu-25.04-desktop-amd64.iso"
+ISO_URL="https://releases.ubuntu.com/25.04/${DEFAULT_ISO}"
 
 # ===== Collect user input =====
-VMID=$(whiptail --inputbox "Version 3: Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3)
-VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3)
-USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3)
-PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3)
-MEMORY=$(whiptail --inputbox "Memory in MB" 10 60 4096 --title "Memory" 3>&1 1>&2 2>&3)
-DISK_SIZE=$(whiptail --inputbox "Disk size in GB" 10 60 32 --title "Disk Size" 3>&1 1>&2 2>&3)
-CORES=$(whiptail --inputbox "Number of CPU cores" 10 60 2 --title "CPU Cores" 3>&1 1>&2 2>&3)
-BRIDGE=$(whiptail --inputbox "Network bridge (e.g. vmbr0)" 10 60 "vmbr0" --title "Network Bridge" 3>&1 1>&2 2>&3)
-STORAGE=$(whiptail --title "Storage Location" --menu "Select storage for ISO and disks" 15 50 5 ${STORAGE_MENU} 3>&1 1>&2 2>&3)
+VMID=$(whiptail --inputbox "Enter VM ID (e.g. 2504)" 10 60 2504 --title "VM ID" 3>&1 1>&2 2>&3) || exit 1
+VMNAME=$(whiptail --inputbox "Enter VM name" 10 60 "ubuntu-2504-desktop" --title "VM Name" 3>&1 1>&2 2>&3) || exit 1
+USERNAME=$(whiptail --inputbox "Enter default username" 10 60 "ubuntu" --title "Username" 3>&1 1>&2 2>&3) || exit 1
+PASSWORD=$(whiptail --passwordbox "Enter password for user" 10 60 --title "Password" 3>&1 1>&2 2>&3) || exit 1
+MEMORY=$(whiptail --inputbox "Memory in MB" 10 60 4096 --title "Memory" 3>&1 1>&2 2>&3) || exit 1
+DISK_SIZE=$(whiptail --inputbox "Disk size in GB" 10 60 32 --title "Disk Size" 3>&1 1>&2 2>&3) || exit 1
+CORES=$(whiptail --inputbox "Number of CPU cores" 10 60 2 --title "CPU Cores" 3>&1 1>&2 2>&3) || exit 1
+BRIDGE=$(whiptail --inputbox "Network bridge (e.g. vmbr0)" 10 60 "vmbr0" --title "Network Bridge" 3>&1 1>&2 2>&3) || exit 1
 ENABLE_OMAKUB=$(whiptail --title "Omakub Installer" --yesno "Install Omakub automatically?" 8 60 && echo "yes" || echo "no")
 ENABLE_AUTOLOGIN=$(whiptail --title "GNOME Auto-login" --yesno "Enable GNOME auto-login for $USERNAME?" 8 60 && echo "yes" || echo "no")
 
-# ===== Select or download ISO =====
-ISO_DIR="/var/lib/pve/${STORAGE}/iso"
-FOUND_ISOS=$(find "$ISO_DIR" -iname "*.iso" 2>/dev/null)
-
-if [ -z "$FOUND_ISOS" ]; then
-  ISO_NAME="ubuntu-25.04-desktop-amd64.iso"
-  ISO_URL="https://releases.ubuntu.com/25.04/$ISO_NAME"
-  ISO_PATH="$ISO_DIR/$ISO_NAME"
-  echo "==> No ISOs found. Downloading $ISO_NAME..."
-  mkdir -p "$(dirname "$ISO_PATH")"
-  wget -O "$ISO_PATH" "$ISO_URL"
+# ===== Ensure ISO exists =====
+mkdir -p "$ISO_DIR"
+if [ ! -f "$ISO_DIR/$DEFAULT_ISO" ]; then
+  echo "==> ISO not found. Downloading $DEFAULT_ISO..."
+  wget -O "$ISO_DIR/$DEFAULT_ISO" "$ISO_URL"
 else
-  ISO_LIST=$(echo "$FOUND_ISOS" | xargs -n1 basename)
-  ISO_MENU=$(for iso in $ISO_LIST; do echo "$iso" "\"\""; done)
-  ISO_NAME=$(whiptail --title "Available ISO Images" --menu "Select an ISO image to use" 20 70 10 ${ISO_MENU} 3>&1 1>&2 2>&3)
+  echo "==> Using existing ISO: $DEFAULT_ISO"
 fi
 
-# ===== Define ISO and cloud-init path =====
-ISO_PATH="/var/lib/pve/${STORAGE}/iso/$ISO_NAME"
+ISO_NAME="$DEFAULT_ISO"
+ISO_PATH="$ISO_DIR/$ISO_NAME"
 CI_ISO="/var/lib/pve/template/iso/ci-$VMID.iso"
 
 # ===== Create VM =====
 echo "==> Creating VM $VMID..."
 qm create $VMID \
-  --name $VMNAME \
+  --name "$VMNAME" \
   --memory $MEMORY \
   --cores $CORES \
   --net0 virtio,bridge=$BRIDGE \
@@ -67,11 +57,11 @@ qm create $VMID \
   --boot order=ide2 \
   --agent enabled=1
 
-qm set $VMID --scsi0 ${STORAGE}:${DISK_SIZE}G
-qm set $VMID --ide2 ${STORAGE}:iso/$ISO_NAME,media=cdrom
-qm set $VMID --efidisk0 ${STORAGE}:0,format=qcow2,efitype=4m,pre-enrolled-keys=1
+qm set $VMID --scsi0 ${DISK_STORAGE}:${DISK_SIZE}G
+qm set $VMID --ide2 local:iso/$ISO_NAME,media=cdrom
+qm set $VMID --efidisk0 ${DISK_STORAGE}:0,format=qcow2,efitype=4m,pre-enrolled-keys=1
 
-# ===== Generate cloud-init config =====
+# ===== Create cloud-init ISO =====
 TMPDIR=$(mktemp -d)
 cat > "$TMPDIR/user-data" <<EOF
 #cloud-config
@@ -108,7 +98,6 @@ cat >> "$TMPDIR/user-data" <<EOF
 EOF
 fi
 
-# Self-deleting cloud-init systemd unit
 cat >> "$TMPDIR/user-data" <<EOF
   - echo "[Unit]" > /etc/systemd/system/cleanup-ci.service
   - echo "Description=Cleanup cloud-init ISO" >> /etc/systemd/system/cleanup-ci.service
@@ -131,7 +120,7 @@ EOF
 
 echo "==> Creating cloud-init ISO..."
 genisoimage -output "$CI_ISO" -volid cidata -joliet -rock "$TMPDIR/user-data" "$TMPDIR/meta-data"
-qm set $VMID --ide3 ${STORAGE}:iso/ci-$VMID.iso,media=cdrom
+qm set $VMID --ide3 local:iso/ci-$VMID.iso,media=cdrom
 
 # ===== Start VM =====
 echo "==> Starting VM..."
@@ -142,9 +131,10 @@ echo
 echo "✅ VM $VMID ($VMNAME) created with:"
 echo "🧑  User: $USERNAME"
 echo "💻  Memory: $MEMORY MB | Cores: $CORES | Disk: ${DISK_SIZE}G"
-echo "📦  Storage: $STORAGE"
+echo "📦  Disk Storage: $DISK_STORAGE"
 echo "📀  ISO: $ISO_NAME"
 echo "🖥️  GNOME auto-login: $ENABLE_AUTOLOGIN"
 echo "✨  Omakub auto-install: $ENABLE_OMAKUB"
 echo "🧹  Cloud-init ISO will auto-eject after boot"
 echo "🔑  Login via Proxmox VNC Console"
+

@@ -2,7 +2,7 @@
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/omakub.sh)"
 # chmod +x proxmox-create-ubuntu-gui.sh
 # ./proxmox-create-ubuntu-gui.sh
-
+# ver 1.0
 
 set -e
 

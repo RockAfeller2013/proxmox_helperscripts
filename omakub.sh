@@ -3,11 +3,6 @@
 # ver 1.0
 # This script automates creating an Ubuntu 25.04 Proxmox VM with a GUI and cloud-init support. It prompts for VM parameters using whiptail (VM ID, name, user, password, memory, disk size, CPU cores, network bridge, and optional Omakub installer and GNOME auto-login). The disk storage is fixed to local-lvm, and the ISO is downloaded or reused from the default Proxmox ISO location (/var/lib/vz/template/iso). It generates a cloud-init ISO that configures the user, password, installs GNOME, optionally enables auto-login, and runs Omakub if chosen. The cloud-init ISO is attached and configured to auto-eject after first boot. Finally, the VM is started with VNC access and a summary of settings is displayed.
 
-#!/bin/bash
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/omakub.sh)"
-# ver 1.5 (final ISO path fix)
-# This script automates creating an Ubuntu 25.04 Proxmox VM with GUI and cloud-init support.
-
 set -e
 
 # ===== Ensure required tools =====

@@ -1,7 +1,10 @@
 
 ## Proxmox Setup 
 
-- Setup WOL via script: https://github.com/Aizen-Barbaros/Proxmox-WoL
+- Setup WOL via script, based on https://github.com/Aizen-Barbaros/Proxmox-WoL
+```
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/enable_wake_on_lan_proxmox.sh)"
+```
 
 - Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo
 

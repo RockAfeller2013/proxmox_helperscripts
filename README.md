@@ -1,17 +1,17 @@
 
 ## Proxmox Setup 
 
-Setup WOL via script: https://github.com/Aizen-Barbaros/Proxmox-WoL
+- Setup WOL via script: https://github.com/Aizen-Barbaros/Proxmox-WoL
 
-Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo
+- Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo
 
-Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
+- Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
 
-Proxmox VE Kernel Clean: https://community-scripts.github.io/ProxmoxVE/scripts?id=kernel-clean
+- Proxmox VE Kernel Clean: https://community-scripts.github.io/ProxmoxVE/scripts?id=kernel-clean
 
-Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/scripts?id=host-backup
+- Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/scripts?id=host-backup
 
-System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
+- System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
 
 ```
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"

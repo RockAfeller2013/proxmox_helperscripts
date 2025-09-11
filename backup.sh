@@ -2,7 +2,7 @@
 
 # Set date and destination
 DATE=$(date +%F)
-DEST="/mnt/backup/pve-config/$DATE"
+DEST="/mnt/synology-backups/pve-config/$DATE"
 mkdir -p "$DEST"
 
 # Backup key config folders

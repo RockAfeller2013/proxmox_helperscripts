@@ -37,57 +37,17 @@ qm start NEW_VMID
 ```
 
 - Mount Backup Snology
+
 ```
-NFS Share (Recommended)
-On Synology:
-Create shared folder for backups in DSM
-Enable NFS service: Control Panel → File Services → NFS → Enable NFS
-Set NFS permissions: Click "Edit" → Allow Proxmox server IP (e.g., 192.168.1.100), no_mapping
-Note the mount path: Usually /volume1/backup or similar
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/nfssetup.sh )"
 
-1. Basic NFS Setup (Copy-Paste These Commands)
-bash
-# Set your variables (EDIT THESE FIRST)
-SYNOLOGY_IP="192.168.1.50"
-SYNOLOGY_SHARE="/volume1/proxmox-backups"
-STORAGE_NAME="synology-backups"
-
-# Install NFS client
-apt install nfs-common -y
-
-# Create mount point
-mkdir -p /mnt/synology-backups
-
-# Add to fstab
-echo "$SYNOLOGY_IP:$SYNOLOGY_SHARE /mnt/synology-backups nfs vers=4.1,defaults,nofail,timeo=5,retrans=5,_netdev 0 0" >> /etc/fstab
-
-# Mount immediately
-mount -a
-
-# Add to Proxmox storage
-pvesm add nfs $STORAGE_NAME --server $SYNOLOGY_IP --export $SYNOLOGY_SHARE --content backup --options vers=4.1
-2. Verification Commands
-bash
-# Check if mounted
-df -h | grep synology
-
-# Check Proxmox storage
-pvesm status
-
-# Test write access
-touch /mnt/synology-backups/testfile && rm /mnt/synology-backups/testfile
-echo "✓ Write test successful"
-3. Test Backup Command
-bash
-# Test with a VM backup (replace 100 with your VM ID)
-vzdump 100 --storage synology-backups --mode snapshot --compress zstd
-4. Troubleshooting Commands
-bash
-# If something goes wrong, check these
-tail -f /var/log/syslog
-dmesg | grep nfs
-showmount -e $SYNOLOGY_IP
-That's it! Just edit the first 3 variables and run the commands in order.
+```
+# Restore VM
+vzdump VMID --storage backup --mode snapshot --compress zstd
+ls -lh /mnt/backup/dump/
+qmrestore /mnt/backup/dump/vzdump-qemu-VMID-*.vma.zst NEW_VMID
+qm list
+qm start NEW_VMID
 ```
 
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install

@@ -1,6 +1,6 @@
 # Set your variables (EDIT THESE FIRST)
-SYNOLOGY_IP="192.168.1.50"
-SYNOLOGY_SHARE="/volume1/proxmox-backups"
+SYNOLOGY_IP="http://192.168.1.146/"
+SYNOLOGY_SHARE="/volume2/PROXMOX_NFS"
 STORAGE_NAME="synology-backups"
 
 # Install NFS client

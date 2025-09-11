@@ -8,7 +8,7 @@ fi
 
 # List network devices
 echo "Available network interfaces:"
-ip addr show | grep "^[0-9]:" | awk '{print $2}' | tr -d :
+ip addr
 
 # Select physical network device
 echo "Please enter the name of the physical network device (e.g., enp3s0, eth0):"

@@ -1,9 +1,11 @@
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-repo.sh)"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
+
 
 
 ## Proxmox Setup 
+
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
 
 - Setup WOL via script, based on https://github.com/Aizen-Barbaros/Proxmox-WoL
 ```
@@ -30,28 +32,33 @@ pvenode config get | grep wakeonlan
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-repo.sh)"
 ```
 
-- Mount Backup Disk
+- Mount spare SATA Disk as Backup, Run the backupdisksetup.sh
 ```
+# Backup and Restore Test
+vzdump VMID --storage backup --mode snapshot --compress zstd
+ls -lh /mnt/backup/dump/
+qmrestore /mnt/backup/dump/vzdump-qemu-VMID-*.vma.zst NEW_VMID
+qm list
+qm start NEW_VMID
 
-lsblk -d -o NAME,SIZE,MODEL,TYPE
 ```
 
 
 - Mount Backup Snology
-- 
+
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
-
+```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
-
+```
 - Proxmox VE Kernel Clean: https://community-scripts.github.io/ProxmoxVE/scripts?id=kernel-clean
-
+```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
-
+```
 - Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/scripts?id=host-backup
-
+```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
 - System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
-
+```
 - 
 
 ```

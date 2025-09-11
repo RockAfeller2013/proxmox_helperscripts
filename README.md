@@ -27,6 +27,12 @@ pvenode config get | grep wakeonlan
 ```
 
 - Mount Backup Disk
+```
+
+lsblk -d -o NAME,SIZE,MODEL,TYPE
+```
+
+
 - Mount Backup Snology
 - 
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install

@@ -51,6 +51,19 @@ qm list
 qm start NEW_VMID
 ```
 
+- CRON Jobs
+  
+```
+# Check active cron jobs
+crontab -l
+
+# Check all cron.d files
+ls -la /etc/cron.d/
+
+# Test cron syntax
+crontab -l | crontab -
+```
+
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"

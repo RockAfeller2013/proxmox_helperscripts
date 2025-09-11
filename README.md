@@ -22,14 +22,27 @@ pvenode config get | grep wakeonlan
 ```
 
 - Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo
+```
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-repo.sh)"
+```
 
+- Mount Backup Disk
+- Mount Backup Snology
+- 
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
 
 - Proxmox VE Kernel Clean: https://community-scripts.github.io/ProxmoxVE/scripts?id=kernel-clean
 
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
+
 - Proxmox Host Backup Script: https://community-scripts.github.io/ProxmoxVE/scripts?id=host-backup
 
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
 - System Backup - https://github.com/RockAfeller2013/proxmox_helperscripts/tree/main
+
+- 
 
 ```
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"

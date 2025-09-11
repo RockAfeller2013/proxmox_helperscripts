@@ -42,7 +42,7 @@ NFS Share (Recommended)
 On Synology:
 Create shared folder for backups in DSM
 Enable NFS service: Control Panel → File Services → NFS → Enable NFS
-Set NFS permissions: Click "Edit" → Allow Proxmox server IP (e.g., 192.168.1.100)
+Set NFS permissions: Click "Edit" → Allow Proxmox server IP (e.g., 192.168.1.100), no_mapping
 Note the mount path: Usually /volume1/backup or similar
 
 1. Basic NFS Setup (Copy-Paste These Commands)

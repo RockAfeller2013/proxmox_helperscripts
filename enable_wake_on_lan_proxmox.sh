@@ -27,7 +27,7 @@ fi
 echo "Checking Wake-on-LAN support for $device_name:"
 ethtool_output=$(ethtool $device_name)
 wol_support=$(echo "$ethtool_output" | grep "Supports Wake-on:" | awk '{print $3}')
-wol_current=$(echo "$ethtool_output" | grep "Wake-on:" | tr -d ' ' | cut -d: -f2)
+wol_current=$(echo "$ethtool_output" | grep "Wake-on:" | awk '{print $2}')
 
 echo "Supports Wake-on: $wol_support"
 echo "Current Wake-on: $wol_current"
@@ -44,16 +44,17 @@ if [ "$wol_current" = "g" ]; then
 else
     # Enable WOL on the physical device
     ethtool -s $device_name wol g
-    echo "Attempted to enable Wake-on-LAN on $device_name"
+    echo "Wake-on-LAN enabled on $device_name (changed from $wol_current to g)"
     
     # Verify the change
     sleep 2
-    wol_verify=$(ethtool $device_name | grep "Wake-on:" | tr -d ' ' | cut -d: -f2)
+    wol_verify=$(ethtool $device_name | grep "Wake-on:" | awk '{print $2}')
     if [ "$wol_verify" = "g" ]; then
-        echo "✓ Wake-on-LAN successfully enabled (changed from $wol_current to g)"
+        echo "✓ Wake-on-LAN successfully enabled and verified"
     else
         echo "✗ Failed to enable Wake-on-LAN. Current setting: $wol_verify"
         echo "This might require root privileges or the setting might not be supported"
+        exit 1
     fi
 fi
 

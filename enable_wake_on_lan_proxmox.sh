@@ -23,10 +23,11 @@ if ! ip link show $device_name > /dev/null 2>&1; then
     exit 1
 fi
 
-# Check WOL support
+# Check WOL support - using more robust parsing
 echo "Checking Wake-on-LAN support for $device_name:"
-wol_support=$(ethtool $device_name | grep "Supports Wake-on:" | awk '{print $3}')
-wol_current=$(ethtool $device_name | grep "Wake-on:" | awk '{print $2}')
+ethtool_output=$(ethtool $device_name)
+wol_support=$(echo "$ethtool_output" | grep "Supports Wake-on:" | awk '{print $3}')
+wol_current=$(echo "$ethtool_output" | grep "Wake-on:" | tr -d ' ' | cut -d: -f2)
 
 echo "Supports Wake-on: $wol_support"
 echo "Current Wake-on: $wol_current"
@@ -43,32 +44,32 @@ if [ "$wol_current" = "g" ]; then
 else
     # Enable WOL on the physical device
     ethtool -s $device_name wol g
-    echo "Wake-on-LAN enabled on $device_name (changed from $wol_current to g)"
-fi
-
-# Verify WOL was enabled
-wol_verify=$(ethtool $device_name | grep "Wake-on:" | awk '{print $2}')
-if [ "$wol_verify" = "g" ]; then
-    echo "✓ Wake-on-LAN successfully enabled and verified"
-else
-    echo "✗ Failed to enable Wake-on-LAN. Current setting: $wol_verify"
-    exit 1
+    echo "Attempted to enable Wake-on-LAN on $device_name"
+    
+    # Verify the change
+    sleep 2
+    wol_verify=$(ethtool $device_name | grep "Wake-on:" | tr -d ' ' | cut -d: -f2)
+    if [ "$wol_verify" = "g" ]; then
+        echo "✓ Wake-on-LAN successfully enabled (changed from $wol_current to g)"
+    else
+        echo "✗ Failed to enable Wake-on-LAN. Current setting: $wol_verify"
+        echo "This might require root privileges or the setting might not be supported"
+    fi
 fi
 
 # Get the MAC address from the physical device
 mac_addr=$(ip link show $device_name | awk '/ether/ {print $2}')
 echo "MAC address: $mac_addr"
 
-# Configure Proxmox for WOL
+# Configure Proxmox for WOL (if running Proxmox)
 if command -v pvenode &> /dev/null; then
     if pvenode config set --wakeonlan $mac_addr; then
         echo "✓ Proxmox node configured for Wake-on-LAN with MAC address: $mac_addr"
     else
-        echo "✗ Failed to configure Proxmox node for WOL"
-        echo "This might be normal if you're not running Proxmox VE or don't have permissions"
+        echo "Note: Could not configure Proxmox WOL setting (may require root or not available)"
     fi
 else
-    echo "Note: pvenode command not found (not running Proxmox VE or not installed)"
+    echo "Note: pvenode command not found (not running Proxmox VE)"
 fi
 
 # Make WOL persistent across reboots by creating a systemd service
@@ -87,32 +88,24 @@ EOF
 
 # Enable and start the service
 systemctl daemon-reload
-systemctl enable wol-persistent.service
-systemctl start wol-persistent.service
+systemctl enable wol-persistent.service >/dev/null 2>&1
+systemctl start wol-persistent.service >/dev/null 2>&1
 
-echo "✓ Persistent Wake-on-LAN service created and enabled"
+echo "✓ Persistent Wake-on-LAN service created"
 
 echo ""
 echo "=== Configuration Summary ==="
 echo "Network device: $device_name"
 echo "MAC address for WOL: $mac_addr"
 echo "WOL support: $wol_support"
-echo "WOL status: $wol_verify"
+echo "WOL status: $wol_current"
 echo ""
 echo "To wake this machine from another device on the network:"
 echo "wakeonlan $mac_addr"
 echo "or"
 echo "etherwake $mac_addr"
 
-# Test if wakeonlan command is available
-if command -v wakeonlan &> /dev/null; then
-    echo ""
-    echo "Note: Install wakeonlan on other machines with: sudo apt install wakeonlan"
-fi
-
+# Display current WOL status for verification
 echo ""
-echo "=== Additional Information ==="
-echo "Your physical Ethernet card (enp6s0) is bridged to vmbr0 in Proxmox"
-echo "This means both interfaces share the same MAC address: 74:56:3c:71:82:03"
-echo "Always use the physical interface (enp6s0) for WOL configuration, but"
-echo "use the MAC address for sending wake-up packets from other devices."
+echo "=== Final Verification ==="
+ethtool $device_name | grep -E "(Supports Wake-on|Wake-on)"

@@ -42,7 +42,8 @@ qm start NEW_VMID
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/nfssetup.sh )"
 
 ```
-# Restore VM
+```
+Restore VM
 vzdump VMID --storage backup --mode snapshot --compress zstd
 ls -lh /mnt/backup/dump/
 qmrestore /mnt/backup/dump/vzdump-qemu-VMID-*.vma.zst NEW_VMID

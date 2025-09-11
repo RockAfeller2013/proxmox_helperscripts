@@ -4,6 +4,21 @@
 - Setup WOL via script, based on https://github.com/Aizen-Barbaros/Proxmox-WoL
 ```
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/enable_wake_on_lan_proxmox.sh)"
+
+ip addr
+ethtool -s enp6s0 wol g
+ethtool enp6s0
+
+
+# Check current WOL status (should show "g")
+ethtool enp6s0 | grep "Wake-on:"
+
+# Test the persistent service
+systemctl status wol-persistent.service
+
+# Check Proxmox configuration
+pvenode config get | grep wakeonlan
+
 ```
 
 - Proxmox Update Repositories: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-repo

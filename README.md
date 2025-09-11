@@ -1,11 +1,4 @@
-
-
-
-## Proxmox Setup 
-
-
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
+# Proxmox Setup 
 
 - Setup WOL via script, based on https://github.com/Aizen-Barbaros/Proxmox-WoL
 ```
@@ -43,8 +36,14 @@ qm start NEW_VMID
 
 ```
 
-
 - Mount Backup Snology
+
+NFS Share (Recommended)
+On Synology:
+Create shared folder for backups in DSM
+Enable NFS service: Control Panel → File Services → NFS → Enable NFS
+Set NFS permissions: Click "Edit" → Allow Proxmox server IP (e.g., 192.168.1.100)
+Note the mount path: Usually /volume1/backup or similar
 
 - Proxmox Post Install https://community-scripts.github.io/ProxmoxVE/scripts?id=post-pve-install
 ```
@@ -80,5 +79,7 @@ LXC Container Install Scripts (Home Assistant)
 Updating LXC vs Updating Docker Containers
 
 Turnkey Linux Containers
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
 
 

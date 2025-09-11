@@ -1,6 +1,13 @@
 #!/bin/bash
 # Proxmox Storage Manager Setup for Additional Disk
 # Run as root or with sudo
+# **********Important Notes: *********************************************************************************************************************
+#Only run the partitioning commands if you're sure the disk doesn't contain important data
+#Replace /dev/sda1 with your actual partition if different
+#The storage will appear in Proxmox web GUI under Datacenter → Storage
+#You can now schedule backups to this storage through the web interface
+#This approach gives you proper Proxmox integration with web GUI management, automatic permission handling, and better error reporting than manual mounting.
+
 
 # Step 1: Identify the disk and partitions
 echo "=== Step 1: Identifying disk partitions ==="

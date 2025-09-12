@@ -1,6 +1,8 @@
 # Disable firewall on Proxmox
 pve-firewall stop
+systemctl stop pve-firewall
 systemctl disable pve-firewall
+systemctl mask pve-firewall
 
 # Disable IPv6 temporarily
 sysctl -w net.ipv6.conf.all.disable_ipv6=1

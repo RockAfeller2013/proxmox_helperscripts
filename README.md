@@ -5,6 +5,12 @@
 https://tteck.github.io/Proxmox/#proxmox-ve-tools
 ```
 
+- Disbale IPv6 / Firewall
+```
+
+  https://gist.github.com/sergey-dryabzhinsky/bcc1a15cb7d06f3d4606823fcc834824
+```
+
 - Setup WOL via script, based on https://github.com/Aizen-Barbaros/Proxmox-WoL
 ```
 bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/enable_wake_on_lan_proxmox.sh)"

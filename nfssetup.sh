@@ -1,3 +1,5 @@
+# Insure yous etup and share NFS and enabl 4.3 and allow the Proxmox IP inside File Services, etc.
+
 # FIRST: Remove the malicious fstab entry
 sed -i '/http:/d' /etc/fstab
 

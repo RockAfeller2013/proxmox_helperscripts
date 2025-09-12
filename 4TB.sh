@@ -19,3 +19,7 @@ pvesm add lvmthin lvm-data -vgname vgdata -thinpool thinpool
 
 # Verify
 pvesm status
+
+lsblk /dev/nvme0n1
+mount | grep nvme0n1
+pvs | grep nvme0n1

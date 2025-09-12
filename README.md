@@ -88,17 +88,24 @@ bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox
 crontab -e
 0 2 * * * bash -c "$(wget -qLO - https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/backup.sh)"
 ```
+- Proxmox Nvidia Passthrough and Windows 11 Setup
+```
+  https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/4TB.sh
+```
 
-Proxmox VE LXC Updater: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-lxcs
+-cProxmox VE LXC Updater: https://community-scripts.github.io/ProxmoxVE/scripts?id=update-lxcs
 
-Proxmox VE LXC Monitor: https://community-scripts.github.io/ProxmoxVE/scripts?id=monitor-all
+=cProxmox VE LXC Monitor: https://community-scripts.github.io/ProxmoxVE/scripts?id=monitor-all
 
-LXC Container Install Scripts (Home Assistant)
+-cLXC Container Install Scripts (Home Assistant)
 
-Updating LXC vs Updating Docker Containers
+-cUpdating LXC vs Updating Docker Containers
 
-Turnkey Linux Containers
+-Turnkey Linux Containers
+```
+
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
 
+```
 

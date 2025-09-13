@@ -4,6 +4,13 @@
  ```
 - wget -O "/var/lib/vz/template/iso/virtio-win.iso"  "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
 ```
+
+- Check for Nested Virtulization
+
+```
+Nested Virtualization - https://pve.proxmox.com/wiki/Nested_Virtualization
+cat /sys/module/kvm_intel/parameters/nested   
+```
 - Helper Scripts
 ```
 https://tteck.github.io/Proxmox/#proxmox-ve-tools

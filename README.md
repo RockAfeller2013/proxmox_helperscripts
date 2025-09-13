@@ -9,7 +9,9 @@
 
 ```
 Nested Virtualization - https://pve.proxmox.com/wiki/Nested_Virtualization
-cat /sys/module/kvm_intel/parameters/nested   
+cat /sys/module/kvm_intel/parameters/nested
+qm set <vmid> --cpu host
+egrep '(vmx|svm)' --color=always /proc/cpuinfo
 ```
 - Helper Scripts
 ```

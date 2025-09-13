@@ -1,5 +1,9 @@
 # Proxmox Setup 
 
+- Download VirtIO.iso for Windows
+ ```
+- wget -O "/var/lib/vz/template/iso/virtio-win.iso"  "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
+```
 - Helper Scripts
 ```
 https://tteck.github.io/Proxmox/#proxmox-ve-tools

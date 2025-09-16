@@ -1,12 +1,12 @@
 # Unbuntu on Proxmox
 
 
-- After deployment, you need to turn of the Keyring to enable RDP
+- Use the promox commands to build the VM, then use console to login and enable RDP, After deployment, you need to turn of the Keyring to enable RDP
 - Install QEMU Guest Tools
 - Disable Firewall
 - Disable IPV6
   
-Method 1: Unlocking the Keyring
+## Unlocking the Keyring
 
 
 This method involves creating a keyring that doesn't require a password, which allows the remote desktop to consistently use the same password. 
@@ -16,7 +16,8 @@ Blank the Password: Enter your current user password when prompted, and then pre
 Accept the Warning: You will receive a warning about leaving the keyring unencrypted; accept this to proceed. 
 Restart and Set Password: Reboot the computer, then go back into the remote desktop settings and set your desired password. This password will now remain the same after rebootin
 
-Using Ubuntu Autoinstall with Cloud-Init\
+## Proxmox Automation Tools
+### Using Ubuntu Autoinstall with Cloud-Init\
 This approach automates the installation process itself.
 
 1.  Download a Cloud-Init ISO image for Ubuntu.\
@@ -29,7 +30,6 @@ This approach automates the installation process itself.
     the generated Cloud-Init ISO, and start the VM. The installation
     will be fully automated using the provided configuration.
 
-## Proxmox Automation Tools
 
 Beyond Packer and Cloud-Init, you can also use other tools for more
 advanced automation.

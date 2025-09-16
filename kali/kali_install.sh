@@ -4,6 +4,9 @@
 #!/bin/bash
 set -e
 
+apt-get install -y p7zip-full
+
+
 STORAGE="local-lvm"
 VMID="9000"
 VMNAME="kali-rdp-vm"

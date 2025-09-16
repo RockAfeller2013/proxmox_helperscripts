@@ -1,4 +1,4 @@
-# Unbuntu on Proxmox
+# Ubuntu on Proxmox
 
 
 - Use the promox commands to build the VM, then use console to login and enable RDP, After deployment, you need to turn of the Keyring to enable RDP

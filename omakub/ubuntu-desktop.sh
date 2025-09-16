@@ -1,4 +1,4 @@
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2504-vm.sh)"
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/ubuntu-desktop.sh)"
 # Create a VM with ID 100 and name ubuntu-desktop
 qm create 5001 --name ubuntu-desktop --memory 4096 --cores 2 --sockets 1 --cpu host
 

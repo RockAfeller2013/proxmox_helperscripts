@@ -8,11 +8,19 @@ sudo apt update
 sudo apt install -y qemu-guest-agent
 sudo systemctl enable --now qemu-guest-agent
 
-gsettings set org.gnome.desktop.remote-desktop.vnc enable true
-gsettings set org.gnome.desktop.remote-desktop.vnc view-only false
-gsettings set org.gnome.desktop.remote-desktop.vnc auth-method "password"
-gsettings set org.gnome.desktop.remote-desktop.vnc password "$(echo -n 'password' | base64)"
+gsettings set org.gnome.desktop.remote-desktop.rdp enable true
+gsettings set org.gnome.desktop.remote-desktop.rdp view-only false
+gsettings set org.gnome.desktop.remote-desktop.rdp auth-method "password"
+gsettings set org.gnome.desktop.remote-desktop.rdp password "$(echo -n 'password' | base64)"
 
+
+# Enable RDP
+gsettings set org.gnome.desktop.remote-desktop.rdp enable true
+gsettings set org.gnome.desktop.remote-desktop.rdp allow-clipping true
+
+# Optional: enable sharing of current session
+gsettings set org.gnome.desktop.remote-desktop.rdp network-access "any"
+systemctl --user restart gnome-remote-desktop
 
 # Allow RDP access
 #gsettings set org.gnome.desktop.remote-desktop.rdp enable true

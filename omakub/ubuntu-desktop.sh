@@ -8,7 +8,7 @@ qm set 5001 --ide2 local:iso/ubuntu-25.04-desktop-amd64.iso,media=cdrom
 
 qm set 5001 --bios ovmf --efidisk0 local-lvm:4
 
-qm set 5001 --boot order=ide2;scsi0
+qm set 5001 --boot order='ide2;scsi0'
 
 qm set 5001 --net0 virtio,bridge=vmbr0
 

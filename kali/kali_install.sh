@@ -3,8 +3,9 @@
 
 set -e
 
+# Install required packages
 apt-get update
-apt-get install -y p7zip-full wget qemu-utils
+apt-get install -y p7zip-full wget qemu-utils novnc x11vnc
 
 STORAGE="local-lvm"
 VMID="9000"
@@ -61,3 +62,10 @@ runcmd:
 EOF
 
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
+
+# Set up noVNC with x11vnc
+echo "Starting x11vnc..."
+x11vnc -display :0 -autoport -localhost -nopw -bg -xkb -ncache -ncache_cr -quiet -forever
+
+echo "Starting noVNC proxy..."
+/usr/share/novnc/utils/novnc_proxy --listen 8081 --vnc localhost:5900 &

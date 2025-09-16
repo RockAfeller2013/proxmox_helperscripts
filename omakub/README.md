@@ -1,5 +1,14 @@
 # Unbuntu on Proxmox
 
+
+Method 1: Unlocking the Keyring
+This method involves creating a keyring that doesn't require a password, which allows the remote desktop to consistently use the same password. 
+Open Password and Keys: Search for and open the "Password and Keys" application (also known as Seahorse). 
+Change the Keyring Password: Right-click on the "Default" keyring in the left-hand panel and select "Change password". 
+Blank the Password: Enter your current user password when prompted, and then press Enter three times for the new password fields, leaving them blank. 
+Accept the Warning: You will receive a warning about leaving the keyring unencrypted; accept this to proceed. 
+Restart and Set Password: Reboot the computer, then go back into the remote desktop settings and set your desired password. This password will now remain the same after rebootin
+
 Using Ubuntu Autoinstall with Cloud-Init\
 This approach automates the installation process itself.
 

@@ -12,7 +12,7 @@ sudo systemctl enable --now qemu-guest-agent
 gsettings set org.gnome.desktop.remote-desktop.rdp enable true
 
 # Set RDP authentication (replace with your password)
-secret=$(echo -n "YourPasswordHere" | base64)
+secret=$(echo -n "password" | base64)
 gsettings set org.gnome.desktop.remote-desktop.rdp password "$secret"
 
 # Allow screen sharing promptless

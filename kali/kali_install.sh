@@ -1,11 +1,10 @@
 #!/bin/bash
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"
 
-#!/bin/bash
 set -e
 
-apt-get install -y p7zip-full
-
+apt-get update
+apt-get install -y p7zip-full wget qemu-utils
 
 STORAGE="local-lvm"
 VMID="9000"
@@ -29,10 +28,10 @@ fi
 IMG_FILE=$(echo "$LATEST_FILE" | sed 's/\.7z$/.qcow2/')
 if [[ ! -f "$IMG_FILE" ]]; then
     7z x "$LATEST_FILE"
-    EXTRACTED_IMG=$(ls kali-linux-*-qemu-amd64.img || ls kali-linux-*-qemu-amd64.qcow2)
+    EXTRACTED_IMG=$(ls kali-linux-*-qemu-amd64.img 2>/dev/null || ls kali-linux-*-qemu-amd64.qcow2 2>/dev/null)
     if [[ "$EXTRACTED_IMG" == *.img ]]; then
         qemu-img convert -O qcow2 "$EXTRACTED_IMG" "$IMG_FILE"
-    else
+    elif [[ "$EXTRACTED_IMG" != "$IMG_FILE" ]]; then
         mv "$EXTRACTED_IMG" "$IMG_FILE"
     fi
 fi

@@ -5,7 +5,9 @@ set -e
 
 # Install required packages
 apt-get update
-apt-get install -y p7zip-full wget qemu-utils novnc x11vnc
+apt-get install -y p7zip-full
+
+#  wget qemu-utils novnc x11vnc
 
 STORAGE="local-lvm"
 VMID="9000"

@@ -1,5 +1,5 @@
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/Omakub.sh)"
-
+sudo su
 
 sudo apt update
 
@@ -7,6 +7,12 @@ sudo apt update
 
 sudo apt install -y qemu-guest-agent
 sudo systemctl enable --now qemu-guest-agent
+
+gsettings set org.gnome.desktop.remote-desktop.vnc enable true
+gsettings set org.gnome.desktop.remote-desktop.vnc view-only false
+gsettings set org.gnome.desktop.remote-desktop.vnc auth-method "password"
+gsettings set org.gnome.desktop.remote-desktop.vnc password "$(echo -n 'password' | base64)"
+
 
 # Allow RDP access
 #gsettings set org.gnome.desktop.remote-desktop.rdp enable true

@@ -1,7 +1,14 @@
 # Unbuntu on Proxmox
 
 
+- After deployment, you need to turn of the Keyring to enable RDP
+- Install QEMU Guest Tools
+- Disable Firewall
+- Disable IPV6
+  
 Method 1: Unlocking the Keyring
+
+
 This method involves creating a keyring that doesn't require a password, which allows the remote desktop to consistently use the same password. 
 Open Password and Keys: Search for and open the "Password and Keys" application (also known as Seahorse). 
 Change the Keyring Password: Right-click on the "Default" keyring in the left-hand panel and select "Change password". 

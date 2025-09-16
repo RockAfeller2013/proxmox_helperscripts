@@ -12,5 +12,7 @@ qm set 5001 --boot order='ide2;scsi0'
 
 qm set 5001 --net0 virtio,bridge=vmbr0
 
+qm set 5001 --agent enabled=1
+
 qm start 5001
 

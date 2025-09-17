@@ -1,4 +1,4 @@
-# kali auto install on Proxmox
+# Auto installing Kali on Proxmox
 
 - This scripts downloads the latest Kali QEMU image and deloys VM inside Proxmox, it then runs a Cloudint script to; Disable ipv6, Disable Firewall, Install Qemu Agent and configure RDP.
 

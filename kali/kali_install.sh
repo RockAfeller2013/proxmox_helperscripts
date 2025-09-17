@@ -60,7 +60,7 @@ runcmd:
   - apt-get update -y
   - apt-get full-upgrade -y
   - apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
-  - 
+  - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/rdpconfig.sh)"
   - echo 'kali:kali' | chpasswd
   - systemctl enable xrdp --now
   - systemctl enable xrdp-sesman --now

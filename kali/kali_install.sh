@@ -59,19 +59,22 @@ runcmd:
   - systemctl disable ufw || true
   - apt-get update -y
   - apt-get full-upgrade -y
-  - apt-get --yes install qemu-guest-agent wget kali-desktop-xfce xorg xrdp xorgxrdp
-  - wget https://gitlab.com/kalilinux/recipes/kali-scripts/-/raw/main/xfce4.sh
-  - chmod +x xfce4.sh
-  - sudo ./xfce4.sh
+  - apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
+  - cat <<EOF > /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
+[Allow Colord all Users]
+Identity=unix-user:*
+Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
+ResultAny=no
+ResultInactive=no
+ResultActive=yes
+EOF
   - echo 'kali:kali' | chpasswd
-  - sudo systemctl enable xrdp --now
-  - sudo  enable xrdp-sesman --now
-  - sudo systemctl restart xrdp 
-  - sudo systemctl restart xrdp-sesman
+  - systemctl enable xrdp --now
+  - systemctl enable xrdp-sesman --now
+  - systemctl restart xrdp
+  - systemctl restart xrdp-sesman
 EOF
 #   - # sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
-
-
 
 #cloud-config
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

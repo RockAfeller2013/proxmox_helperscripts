@@ -44,7 +44,7 @@ qm create $VMID --name $VMNAME --memory 2048 --cores 2 --net0 virtio,bridge=vmbr
 qm importdisk $VMID "$IMG_FILE" $STORAGE
 qm set $VMID --scsihw virtio-scsi-pci --scsi0 $STORAGE:vm-$VMID-disk-0
 qm set $VMID --boot order=scsi0
-qm set $VMID --serial0 socket --vga serial0
+qm set $VMID --vga std
 qm set $VMID --ide2 $STORAGE:cloudinit
 
 # Cloud-Init user-data
@@ -67,7 +67,7 @@ runcmd:
   - systemctl restart xrdp-sesman
 EOF
 
-qm set $VMID --vga std
+
 
 #cloud-config
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

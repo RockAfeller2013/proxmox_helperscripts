@@ -1,3 +1,8 @@
+#!/bin/bash
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"
+
+set -e
+
 apt-get update
 apt-get full-upgrade -y
 

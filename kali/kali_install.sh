@@ -57,15 +57,19 @@ runcmd:
   - sysctl -p
   - systemctl stop ufw || true
   - systemctl disable ufw || true
-  - apt-get update
-  - apt-get --yes install qemu-guest-agent xrdp
+  - apt-get update -y
+  - apt-get full-upgrade -y
+  - apt-get --yes install qemu-guest-agent wget kali-desktop-xfce xorg xrdp xorgxrdp
+  - wget https://gitlab.com/kalilinux/recipes/kali-scripts/-/raw/main/xfce4.sh
+  - chmod +x xfce4.sh
+  - sudo ./xfce4.sh
   - echo 'kali:kali' | chpasswd
-  - sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
-  - systemctl enable xrdp
-  - systemctl enable xrdp-sesman
-  - systemctl restart xrdp
-  - systemctl restart xrdp-sesman
+  - sudo systemctl enable xrdp --now
+  - sudo  enable xrdp-sesman --now
+  - sudo systemctl restart xrdp 
+  - sudo systemctl restart xrdp-sesman
 EOF
+#   - # sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
 
 
 

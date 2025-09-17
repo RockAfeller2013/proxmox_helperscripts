@@ -60,14 +60,7 @@ runcmd:
   - apt-get update -y
   - apt-get full-upgrade -y
   - apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
-  - cat <<EOF > /etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla
-[Allow Colord all Users]
-Identity=unix-user:*
-Action=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile
-ResultAny=no
-ResultInactive=no
-ResultActive=yes
-EOF
+  - 
   - echo 'kali:kali' | chpasswd
   - systemctl enable xrdp --now
   - systemctl enable xrdp-sesman --now

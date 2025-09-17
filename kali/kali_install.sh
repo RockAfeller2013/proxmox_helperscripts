@@ -57,17 +57,13 @@ runcmd:
   - systemctl stop ufw || true
   - systemctl disable ufw || true
   - apt-get update
-  - apt-get --yes install kali-desktop-xfce xorg xrdp
+  - apt-get --yes install kali-desktop-xfce xorg xrdp x11vnc novnc
   - sed -i 's/port=3389/port=3390/g' /etc/xrdp/xrdp.ini
   - echo 'kali:kali' | chpasswd
   - systemctl enable xrdp
+  - x11vnc -display :0 -autoport -localhost -nopw -bg -xkb -ncache -ncache_cr -quiet -forever
+  - /usr/share/novnc/utils/novnc_proxy --listen 8081 --vnc localhost:5900 &
 EOF
 
+#cloud-config
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
-
-# Set up noVNC with x11vnc
-echo "Starting x11vnc..."
-x11vnc -display :0 -autoport -localhost -nopw -bg -xkb -ncache -ncache_cr -quiet -forever
-
-echo "Starting noVNC proxy..."
-/usr/share/novnc/utils/novnc_proxy --listen 8081 --vnc localhost:5900 &

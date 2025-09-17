@@ -3,8 +3,7 @@
 
 set -e
 
-#apt-get update
-#apt-get full-upgrade -y
+sudo apt-get update && apt-get full-upgrade -y
 
 echo "net.ipv6.conf.all.disable_ipv6=1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6=1" >> /etc/sysctl.conf

@@ -53,9 +53,9 @@ cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 #cloud-config
 runcmd:
   - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
-EOF
+
 
 #   - # sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
 
-#cloud-config
+
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

@@ -12,6 +12,7 @@ sysctl -p
 systemctl stop ufw || true
 systemctl disable ufw || true
 apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
+sed -i 's/port=3389/port=3390/g' /etc/xrdp/xrdp.ini
 bash -c "$(curl -fsSL https://gitlab.com/kalilinux/recipes/kali-scripts/-/raw/main/xfce4.sh)"
 sudo systemctl enable xrdp --now
 sudo systemctl enable xrdp-sesman --now

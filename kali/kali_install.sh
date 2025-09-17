@@ -4,7 +4,7 @@
 set -e
 
 # Install required packages
-apt-get update
+
 apt-get install -y p7zip-full
 
 #  wget qemu-utils novnc x11vnc

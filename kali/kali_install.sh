@@ -57,13 +57,17 @@ runcmd:
   - systemctl stop ufw || true
   - systemctl disable ufw || true
   - apt-get update
-  - apt-get --yes install kali-desktop-xfce xorg xrdp x11vnc novnc
+  - apt-get --yes install qeum-guest-agent xrdp
   - sed -i 's/port=3389/port=3390/g' /etc/xrdp/xrdp.ini
   - echo 'kali:kali' | chpasswd
+  - sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
   - systemctl enable xrdp
-  - x11vnc -display :0 -autoport -localhost -nopw -bg -xkb -ncache -ncache_cr -quiet -forever
-  - /usr/share/novnc/utils/novnc_proxy --listen 8081 --vnc localhost:5900 &
+  - systemctl enable xrdp-sesman
+  - systemctl restart xrdp
+  - systemctl restart xrdp-sesman
 EOF
+
+qm set $VMID --vga std
 
 #cloud-config
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

@@ -56,4 +56,4 @@ runcmd:
   - poweroff
 EOF
 
-qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml
+qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

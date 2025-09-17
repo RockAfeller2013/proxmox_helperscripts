@@ -52,21 +52,9 @@ mkdir -p /var/lib/vz/snippets
 cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 #cloud-config
 runcmd:
-  - echo "net.ipv6.conf.all.disable_ipv6=1" >> /etc/sysctl.conf
-  - echo "net.ipv6.conf.default.disable_ipv6=1" >> /etc/sysctl.conf
-  - sysctl -p
-  - systemctl stop ufw || true
-  - systemctl disable ufw || true
-  - apt-get update -y
-  - apt-get full-upgrade -y
-  - apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
-  - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/rdpconfig.sh)"
-  - echo 'kali:kali' | chpasswd
-  - systemctl enable xrdp --now
-  - systemctl enable xrdp-sesman --now
-  - systemctl restart xrdp
-  - systemctl restart xrdp-sesman
+  - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
 EOF
+
 #   - # sed -i '/^exit 0/i export DESKTOP_SESSION=kali\nexport GNOME_SHELL_SESSION_MODE=kali\nexport XDG_CURRENT_DESKTOP=kali:GNOME' /etc/xrdp/startwm.sh
 
 #cloud-config

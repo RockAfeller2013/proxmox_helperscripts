@@ -1,17 +1,17 @@
 #!/bin/bash
-# Combined Kali Linux Proxmox VM installer with cloud-init - VNC for Royal TSX
+# Combined Kali Linux Proxmox VM installer with cloud-init - noVNC for Browser Access
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_combined_install.sh)"
 
 set -e
 
 # Install required packages on Proxmox host
 echo "Installing required packages on Proxmox host..."
-# apt-get update
+apt-get update
 apt-get install -y p7zip-full wget
 
 STORAGE="local-lvm"
 VMID="9000"
-VMNAME="kali-vnc-vm"
+VMNAME="kali-novnc-vm"
 TMPDIR="/tmp/kali-cloudinit"
 
 mkdir -p "$TMPDIR"
@@ -66,11 +66,9 @@ qm set $VMID --scsihw virtio-scsi-pci --scsi0 "$STORAGE:vm-$VMID-disk-0"
 qm set $VMID --boot order=scsi0
 qm set $VMID --ide2 "$STORAGE:cloudinit"
 
-# Configure VNC for external clients like Royal TSX
+# Configure for noVNC (Proxmox handles this automatically through web interface)
 qm set $VMID --vga std
 qm set $VMID --serial0 socket
-qm set $VMID --vnc 0.0.0.0:1  # VNC on display :1 (port 5901)
-qm set $VMID --vncsocket 1    # Enable VNC socket
 
 # Cloud-Init user-data with embedded scripts
 echo "Creating cloud-init configuration..."
@@ -82,6 +80,9 @@ package_upgrade: true
 packages:
   - qemu-guest-agent
   - kali-desktop-xfce
+  - novnc
+  - x11vnc
+  - websockify
 
 users:
   - name: kali
@@ -96,7 +97,7 @@ runcmd:
   - echo "net.ipv6.conf.default.disable_ipv6=1" >> /etc/sysctl.conf
   - sysctl -p
   
-  # Disable firewall
+  # Disable firewall (temporarily for setup)
   - systemctl stop ufw 2>/dev/null || true
   - systemctl disable ufw 2>/dev/null || true
   
@@ -106,7 +107,7 @@ runcmd:
   # Remove any RDP packages if they exist
   - apt-get remove --purge -y xrdp xorgxrdp 2>/dev/null || true
   
-  # Install XFCE configuration (minimal setup)
+  # Install XFCE configuration
   - curl -fsSL https://gitlab.com/kalilinux/recipes/kali-scripts/-/raw/main/xfce4.sh | bash
   
   # Create polkit configuration for colord
@@ -120,38 +121,67 @@ ResultInactive=no
 ResultActive=yes
 INNER_EOF
 
+  # Set up automatic login for kali user (optional, for easier noVNC access)
+  - mkdir -p /etc/lightdm/lightdm.conf.d
+  - cat > /etc/lightdm/lightdm.conf.d/50-autologin.conf <<'INNER_EOF'
+[Seat:*]
+autologin-user=kali
+autologin-user-timeout=0
+INNER_EOF
+
+  # Configure X11VNC for better compatibility (as mentioned in Kali docs)
+  - mkdir -p /home/kali/.vnc
+  - echo "kali" | vncpasswd -f > /home/kali/.vnc/passwd
+  - chown -R kali:kali /home/kali/.vnc
+  - chmod 600 /home/kali/.vnc/passwd
+
+  # Create systemd service for x11vnc (optional - Proxmox noVNC may not need this)
+  - cat > /etc/systemd/system/x11vnc.service <<'INNER_EOF'
+[Unit]
+Description=X11 VNC Server
+After=display-manager.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /home/kali/.vnc/passwd -rfbport 5900 -shared
+
+[Install]
+WantedBy=multi-user.target
+INNER_EOF
+
   # Clean up
   - apt-get autoremove -y
   - apt-get clean
 
-  # Ensure VNC agent is properly configured
+  # Ensure services are properly configured
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
 
-final_message: "Kali Linux VM setup complete! Connect via VNC using Royal TSX to your Proxmox server IP on port 5901 with username: kali, password: kali"
+final_message: |
+  Kali Linux VM setup complete!
+  Access via: Proxmox Web Interface -> Select VM -> Console -> noVNC
+  Username: kali, Password: kali
+  Alternatively, you can use the built-in noVNC by accessing port 5900
 EOF
 
 # Apply cloud-init configuration
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
 
-# Get Proxmox server IP
-PROXMOX_IP=$(hostname -I | awk '{print $1}')
-
 echo "Kali Linux VM creation complete!"
 echo "VM ID: $VMID"
 echo "VM Name: $VMNAME"
-echo "VNC Configuration for Royal TSX:"
-echo "  Server: $PROXMOX_IP"
-echo "  Port: 5901"
-echo "  Display: :1"
-echo "  Username: kali"
-echo "  Password: kali"
+echo ""
+echo "Access Methods:"
+echo "1. Proxmox Web Interface (Recommended):"
+echo "   - Go to your Proxmox web interface"
+echo "   - Select VM $VMID"
+echo "   - Click 'Console'"
+echo "   - Choose 'noVNC'"
+echo ""
+echo "2. Direct noVNC access (if network allows):"
+echo "   - Connect to: https://your-proxmox-ip:8006/?console=kvm&novnc=1&vmid=$VMID&vmname=$VMNAME&node=your-node-name"
 echo ""
 echo "Start the VM with: qm start $VMID"
+echo "Username: kali, Password: kali"
 echo ""
-echo "Royal TSX Connection Instructions:"
-echo "1. Create new VNC connection in Royal TSX"
-echo "2. Host: $PROXMOX_IP"
-echo "3. Port: 5901"
-echo "4. Authentication: None (Proxmox handles auth)"
-echo "5. Start VM first, then connect with Royal TSX"
+echo "Note: Proxmox's built-in noVNC is the preferred method as it's secure and doesn't require additional firewall rules."

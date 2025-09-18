@@ -16,6 +16,13 @@ The main service that performs the initial configuration on first boot is called
 - All cloud config examples - https://cloudinit.readthedocs.io/en/latest/reference/examples.html
 - Kali In The Browser (noVNC) - https://www.kali.org/docs/general-use/novnc-kali-in-browser/
 - Cloud-init not working with Kali image - https://www.reddit.com/r/Proxmox/comments/1gnbcaz/cloudinit_not_working_with_kali_image/
+- Using Cloud Init with Proxmox VM's - https://mattedwards.org/2024/07/using-cloud-init-with-proxmox-vms/
+- Cloud Init Templates in Proxmox VE - Quickstart https://www.thomas-krenn.com/en/wiki/Cloud_Init_Templates_in_Proxmox_VE_-_Quickstart
+- How to customize VM and cloud images with guestfish - https://www.redhat.com/en/blog/customize-vm-cloud-images-guestfish
+- Generic cloud or qcow - https://forums.rockylinux.org/t/generic-cloud-or-qcow/2446
+- libguestfs + cloud-init = KVM provisioning made easy - https://farazfazli.medium.com/libguestfs-cloud-init-kvm-provisioning-made-easy-17931d9ea8cf
+- Create VMs on Proxmox in Seconds! - https://www.youtube.com/watch?v=1nf3WOEFq1Y
+- Installing tools into a cloud-init image? - https://www.reddit.com/r/Proxmox/comments/1058ko7/installing_tools_into_a_cloudinit_image/
 
 
   
@@ -184,3 +191,5 @@ resize_rootfs: true
 #     ens18:
 #       dhcp4: true
 ```
+
+

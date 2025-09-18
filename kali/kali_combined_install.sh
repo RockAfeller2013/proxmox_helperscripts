@@ -1,16 +1,17 @@
 #!/bin/bash
-# Combined Kali Linux Proxmox VM installer with cloud-init
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_combined_install.sh)"
+# Combined Kali Linux Proxmox VM installer with cloud-init - VNC for Royal TSX
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/yourusername/proxmox_helperscripts/main/kali_royal_tsx_install.sh)"
 
 set -e
 
 # Install required packages on Proxmox host
 echo "Installing required packages on Proxmox host..."
+apt-get update
 apt-get install -y p7zip-full wget
 
 STORAGE="local-lvm"
 VMID="9000"
-VMNAME="kali-rdp-vm"
+VMNAME="kali-vnc-vm"
 TMPDIR="/tmp/kali-cloudinit"
 
 mkdir -p "$TMPDIR"
@@ -63,8 +64,13 @@ qm create $VMID --name "$VMNAME" --memory 2048 --cores 2 --net0 virtio,bridge=vm
 qm importdisk $VMID "$IMG_FILE" "$STORAGE"
 qm set $VMID --scsihw virtio-scsi-pci --scsi0 "$STORAGE:vm-$VMID-disk-0"
 qm set $VMID --boot order=scsi0
-qm set $VMID --vga std
 qm set $VMID --ide2 "$STORAGE:cloudinit"
+
+# Configure VNC for external clients like Royal TSX
+qm set $VMID --vga std
+qm set $VMID --serial0 socket
+qm set $VMID --vnc 0.0.0.0:1  # VNC on display :1 (port 5901)
+qm set $VMID --vncsocket 1    # Enable VNC socket
 
 # Cloud-Init user-data with embedded scripts
 echo "Creating cloud-init configuration..."
@@ -76,9 +82,6 @@ package_upgrade: true
 packages:
   - qemu-guest-agent
   - kali-desktop-xfce
-  - xorg
-  - xrdp
-  - xorgxrdp
 
 users:
   - name: kali
@@ -100,17 +103,11 @@ runcmd:
   # Enable guest agent
   - systemctl enable --now qemu-guest-agent
   
-  # Change RDP port
-  - sed -i 's/port=3389/port=3390/g' /etc/xrdp/xrdp.ini
+  # Remove any RDP packages if they exist
+  - apt-get remove --purge -y xrdp xorgxrdp 2>/dev/null || true
   
-  # Install XFCE configuration
+  # Install XFCE configuration (minimal setup)
   - curl -fsSL https://gitlab.com/kalilinux/recipes/kali-scripts/-/raw/main/xfce4.sh | bash
-  
-  # Set up RDP services
-  - systemctl enable xrdp --now
-  - systemctl enable xrdp-sesman --now
-  - systemctl restart xrdp
-  - systemctl restart xrdp-sesman
   
   # Create polkit configuration for colord
   - mkdir -p /etc/polkit-1/localauthority/50-local.d
@@ -127,15 +124,34 @@ INNER_EOF
   - apt-get autoremove -y
   - apt-get clean
 
-final_message: "Kali Linux VM setup complete! Connect via RDP on port 3390 with username: kali, password: kali"
+  # Ensure VNC agent is properly configured
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+
+final_message: "Kali Linux VM setup complete! Connect via VNC using Royal TSX to your Proxmox server IP on port 5901 with username: kali, password: kali"
 EOF
 
 # Apply cloud-init configuration
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
 
+# Get Proxmox server IP
+PROXMOX_IP=$(hostname -I | awk '{print $1}')
+
 echo "Kali Linux VM creation complete!"
 echo "VM ID: $VMID"
 echo "VM Name: $VMNAME"
-echo "RDP will be available on port 3390 after VM boots"
-echo "Username: kali, Password: kali"
+echo "VNC Configuration for Royal TSX:"
+echo "  Server: $PROXMOX_IP"
+echo "  Port: 5901"
+echo "  Display: :1"
+echo "  Username: kali"
+echo "  Password: kali"
+echo ""
 echo "Start the VM with: qm start $VMID"
+echo ""
+echo "Royal TSX Connection Instructions:"
+echo "1. Create new VNC connection in Royal TSX"
+echo "2. Host: $PROXMOX_IP"
+echo "3. Port: 5901"
+echo "4. Authentication: None (Proxmox handles auth)"
+echo "5. Start VM first, then connect with Royal TSX"

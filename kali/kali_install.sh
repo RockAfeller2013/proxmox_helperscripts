@@ -52,18 +52,17 @@ mkdir -p /var/lib/vz/snippets
 cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 #cloud-config
 package_update: true
- sudo: "ALL=(ALL) NOPASSWD:ALL"
- bootcmd:
+package_upgrade: true
+package_reboot_if_required: true
+package_update: true
+sudo: "ALL=(ALL) NOPASSWD:ALL"
+bootcmd:
   - echo 192.168.1.130 us.archive.ubuntu.com >> /etc/hosts
   - [ cloud-init-per, once, mymkfs, mkfs, /dev/vdb ]
 runcmd:
-  - sudo apt update
-  - - [ wget, "http://slashdot.org", -O, /run/mydir/index.html ]
-  packages:
+  - [ wget, "http://slashdot.org", -O, /run/mydir/index.html ]
+packages:
  - pwgen
- package_update: true
-
-package_upgrade: true
 EOF
 
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

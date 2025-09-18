@@ -53,7 +53,6 @@ cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 #cloud-config
 runcmd:
   - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
-  - poweroff
 EOF
 
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Combined Kali Linux Proxmox VM installer with cloud-init
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/yourusername/proxmox_helperscripts/main/kali_combined_install.sh)"
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_combined_install.sh)"
 
 set -e
 

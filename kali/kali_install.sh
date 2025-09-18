@@ -51,8 +51,9 @@ qm set $VMID --ide2 $STORAGE:cloudinit
 mkdir -p /var/lib/vz/snippets
 cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 #cloud-config
+package_update: true
 runcmd:
-  - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
+  - sudo apt update
 EOF
 
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"

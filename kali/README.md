@@ -69,6 +69,7 @@ How to Do This Yourself (The Practical Steps)
 Here is a step-by-step guide to implement this solution, which is more reliable than hoping the image works out-of-the-box.
 
 Step 1: Install the required tools on your Proxmox server or any Linux machine.
+```
 bash
 # On Debian/Ubuntu/Proxmox
 apt update
@@ -76,14 +77,17 @@ apt install libguestfs-tools
 
 # On Fedora/CentOS/RHEL
 # dnf install libguestfs-tools
+```
 Step 2: Download your Kali (or any other) image.
+```
 bash
 wget https://url-to-kali-image/kali-linux-rolling-qcow2-amd64.tar.xz
 tar -xf kali-linux-rolling-qcow2-amd64.tar.xz
+```
 # You should now have a .qcow2 file
 Step 3: Use virt-customize to enable cloud-init.
 This is the most important step. Run a command like this:
-
+```
 bash
 virt-customize -a ./kali-linux-2024.3-qemu-amd64.qcow2 \
     --update \
@@ -97,7 +101,7 @@ virt-customize -a ./kali-linux-2024.3-qemu-amd64.qcow2 \
     --ssh-inject kali:file:/path/to/your/public_ssh_key.pub \
     --root-password password:your_secure_temp_password
 What this mega-command does:
-
+```
 --update: Updates the package list inside the image.
 
 --install: Installs cloud-init and related utilities (in case they are missing!).

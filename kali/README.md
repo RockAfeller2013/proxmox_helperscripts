@@ -6,6 +6,9 @@
 - Setting up RDP with Xfce - https://www.kali.org/docs/general-use/xfce-with-rdp/
 - Kali inside Proxmox (Guest VM) - https://www.kali.org/docs/virtualization/install-proxmox-guest-vm/
 - wget https://cdimage.kali.org/current/kali-linux-2025.2-installer-amd64.iso -O /var/lib/vz/template/iso/kali-linux-2025.2-installer-amd64.iso
+- All cloud config examples - https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+- Kali In The Browser (noVNC) - https://www.kali.org/docs/general-use/novnc-kali-in-browser/
+
   
 ```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"

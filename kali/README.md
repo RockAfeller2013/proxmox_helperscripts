@@ -8,6 +8,8 @@
 - wget https://cdimage.kali.org/current/kali-linux-2025.2-installer-amd64.iso -O /var/lib/vz/template/iso/kali-linux-2025.2-installer-amd64.iso
 - All cloud config examples - https://cloudinit.readthedocs.io/en/latest/reference/examples.html
 - Kali In The Browser (noVNC) - https://www.kali.org/docs/general-use/novnc-kali-in-browser/
+- Cloud-init not working with Kali image - https://www.reddit.com/r/Proxmox/comments/1gnbcaz/cloudinit_not_working_with_kali_image/
+
 
   
 ```

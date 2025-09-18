@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"
 
 set -e
@@ -10,7 +10,7 @@ apt-get install -y p7zip-full
 #  wget qemu-utils novnc x11vnc
 
 STORAGE="local-lvm"
-VMID="9000"
+VMID="9001"
 VMNAME="kali-rdp-vm"
 TMPDIR="/tmp/kali-cloudinit"
 
@@ -54,13 +54,14 @@ cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
-package_update: true
 sudo: "ALL=(ALL) NOPASSWD:ALL"
 bootcmd:
   - echo 192.168.1.130 us.archive.ubuntu.com >> /etc/hosts
-  - [ cloud-init-per, once, mymkfs, mkfs, /dev/vdb ]
 runcmd:
   - [ wget, "http://slashdot.org", -O, /run/mydir/index.html ]
 packages:
  - pwgen
 EOF
+
+qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
+qm start $VMID

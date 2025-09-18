@@ -6,7 +6,7 @@ set -e
 
 # Install required packages on Proxmox host
 echo "Installing required packages on Proxmox host..."
-apt-get update
+# apt-get update
 apt-get install -y p7zip-full wget
 
 STORAGE="local-lvm"

@@ -2,6 +2,13 @@
 
 - This scripts downloads the latest Kali QEMU image and deloys VM inside Proxmox, it then runs a Cloudint script to; Disable ipv6, Disable Firewall, Install Qemu Agent and configure RDP.
 
+# DUFUK
+After days testing cloud-init for kali, it seems for Desktop images that services is disabled. Go figure.. 
+
+### Pre-made operating system images (especially ones designed for desktop use or specialized distros like Kali) have cloud-init disabled by default. This is because if it ran on a standard desktop install, it might try to re-configure the system on every boot, which isn't desired.
+
+The main service that performs the initial configuration on first boot is called cloud-init.target or sometimes specific services like cloud-init-local.service.
+
 ## References
 - Setting up RDP with Xfce - https://www.kali.org/docs/general-use/xfce-with-rdp/
 - Kali inside Proxmox (Guest VM) - https://www.kali.org/docs/virtualization/install-proxmox-guest-vm/

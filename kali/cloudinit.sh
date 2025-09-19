@@ -5,7 +5,7 @@
 set -e
 
 # Install required packages
-apt-get install -y p7zip-full
+apt-get install -y
 
 STORAGE="local-lvm"
 VMID="9000"

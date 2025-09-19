@@ -19,3 +19,5 @@ x11vnc -display :0 -autoport -localhost -nopw -bg -xkb -ncache -ncache_cr -quiet
 ss -antp | grep vnc
 /usr/share/novnc/utils/novnc_proxy --listen 8081 --vnc localhost:5900
 sudo systemctl enable ssh --now
+
+echo "http://192.168.1.46:8081/vnc.html"

@@ -21,3 +21,6 @@ ss -antp | grep vnc
 sudo systemctl enable ssh --now
 
 echo "http://192.168.1.46:8081/vnc.html"
+
+http://192.168.1.46:8081/vnc.html?host=192.168.1.46&port=5901&password=kali&autoconnect=true
+

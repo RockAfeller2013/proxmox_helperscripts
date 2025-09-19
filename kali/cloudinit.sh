@@ -5,10 +5,10 @@
 set -e
 
 # Install required packages
-apt-get install -y p7zip-full 
+apt-get install -y p7zip-full qemu-utils
 
 STORAGE="local-lvm"
-VMID="9005"
+VMID="9000"
 VMNAME="kali-rdp-vm"
 TMPDIR="/tmp/kali-cloudinit"
 
@@ -18,7 +18,6 @@ cd "$TMPDIR"
 # Use the new cloud image URL
 IMAGE_URL="https://kali.download/cloud-images/kali-2025.2/kali-linux-2025.2-cloud-genericcloud-amd64.tar.xz"
 IMAGE_FILE="kali-linux-2025.2-cloud-genericcloud-amd64.tar.xz"
-EXTRACTED_DIR="kali-linux-2025.2-cloud-genericcloud-amd64"
 
 # Download only if not already downloaded
 if [[ ! -f "$IMAGE_FILE" ]]; then
@@ -28,27 +27,34 @@ fi
 # Extract image if not already extracted
 if [[ ! -f "kali-linux-2025.2-cloud-genericcloud-amd64.qcow2" ]]; then
     # Extract the tar.xz file
+    echo "Extracting Kali cloud image..."
     tar -xf "$IMAGE_FILE"
     
-    # The extracted directory should contain the qcow2 file
-    if [[ -d "$EXTRACTED_DIR" ]]; then
-        cd "$EXTRACTED_DIR"
-        QCOW2_FILE=$(ls *.qcow2 2>/dev/null | head -1)
-        if [[ -n "$QCOW2_FILE" ]]; then
-            mv "$QCOW2_FILE" "../kali-linux-2025.2-cloud-genericcloud-amd64.qcow2"
-            cd ..
-            rm -rf "$EXTRACTED_DIR"
-        else
-            echo "Error: No qcow2 file found in the extracted directory"
-            exit 1
-        fi
+    # Find the extracted qcow2 file (could be in various locations)
+    QCOW2_FILE=$(find . -name "*.qcow2" -type f | head -1)
+    
+    if [[ -n "$QCOW2_FILE" ]]; then
+        echo "Found QCOW2 file: $QCOW2_FILE"
+        # Move and rename the qcow2 file to our expected location
+        mv "$QCOW2_FILE" "kali-linux-2025.2-cloud-genericcloud-amd64.qcow2"
+        
+        # Clean up any extracted directories
+        find . -type d -name "kali-linux-*" -exec rm -rf {} + 2>/dev/null || true
     else
-        echo "Error: Extraction failed or directory structure unexpected"
+        echo "Error: No qcow2 file found after extraction"
+        echo "Contents of extraction directory:"
+        ls -la
         exit 1
     fi
 fi
 
 IMG_FILE="kali-linux-2025.2-cloud-genericcloud-amd64.qcow2"
+
+# Verify the image file exists
+if [[ ! -f "$IMG_FILE" ]]; then
+    echo "Error: Image file $IMG_FILE not found"
+    exit 1
+fi
 
 # Create VM with Cloud-Init
 qm create $VMID --name $VMNAME --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0 --agent 1
@@ -72,25 +78,14 @@ users:
     shell: /bin/bash
     lock_passwd: false
     # Set default password: kali
-    passwd: \$6\$rounds=4096\$kali\$X4qy2hJNq0UoW6PjY8L7v8eLzF7nT1cR7qY2hJNq0UoW6PjY8L7v8eLzF7nT1cR7qY2hJNq0UoW6PjY8L7v8eLzF7nT1cR
+    passwd: kali
 
 packages:
   - pwgen
-  - kali-defaults
-  - kali-root-login
-  - desktop-base
-  - xfce4
-  - xfce4-places-plugin
-  - xfce4-goodies
+  - kali-desktop-xfce
   - xrdp
-  - lightdm
 
 runcmd:
-  # Set Kali repositories first (before any package operations)
-  - echo "deb http://http.kali.org/kali kali-rolling main non-free contrib" > /etc/apt/sources.list
-  - echo "deb-src http://http.kali.org/kali kali-rolling main non-free contrib" >> /etc/apt/sources.list
-  - apt-get update
-  
   # Set graphical target as default
   - systemctl set-default graphical.target
   
@@ -100,49 +95,31 @@ runcmd:
   - echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.conf
   - sysctl -p
   
-  # Disable and stop ufw (Uncomplicated Firewall)
-  - ufw disable
-  - systemctl stop ufw
-  - systemctl disable ufw
+  # Disable and stop ufw (Uncomplicated Firewall) if present
+  - if command -v ufw >/dev/null 2>&1; then ufw disable; systemctl stop ufw; systemctl disable ufw; fi
   
-  # Disable and stop nftables (Kali's default firewall)
-  - systemctl stop nftables
-  - systemctl disable nftables
-  - nft flush ruleset
+  # Disable and stop nftables if present
+  - if systemctl is-active --quiet nftables 2>/dev/null; then systemctl stop nftables; systemctl disable nftables; nft flush ruleset; fi
   
-  # Disable and stop iptables (if present)
-  - systemctl stop iptables 2>/dev/null || true
-  - systemctl disable iptables 2>/dev/null || true
-  - systemctl stop ip6tables 2>/dev/null || true
-  - systemctl disable ip6tables 2>/dev/null || true
-  
-  # Remove firewall rules
-  - iptables -F
-  - iptables -X
-  - iptables -t nat -F
-  - iptables -t nat -X
-  - iptables -t mangle -F
-  - iptables -t mangle -X
-  - iptables -P INPUT ACCEPT
-  - iptables -P FORWARD ACCEPT
-  - iptables -P OUTPUT ACCEPT
+  # Remove firewall rules for iptables if present
+  - if command -v iptables >/dev/null 2>&1; then iptables -F; iptables -X; iptables -t nat -F; iptables -t nat -X; iptables -t mangle -F; iptables -t mangle -X; iptables -P INPUT ACCEPT; iptables -P FORWARD ACCEPT; iptables -P OUTPUT ACCEPT; fi
+  - if command -v ip6tables >/dev/null 2>&1; then ip6tables -F; ip6tables -X; ip6tables -t nat -F; ip6tables -t nat -X; ip6tables -t mangle -F; ip6tables -t mangle -X; ip6tables -P INPUT ACCEPT; ip6tables -P FORWARD ACCEPT; ip6tables -P OUTPUT ACCEPT; fi
   
   # Enable and start xrdp
   - systemctl enable xrdp
   - systemctl start xrdp
   
-  # Enable lightdm for graphical login
-  - systemctl enable lightdm
-  
-  # Set XFCE as default session for RDP and local login
+  # Set XFCE as default session for RDP
   - echo "xfce4-session" > /home/kali/.xsession
   - chown kali:kali /home/kali/.xsession
-  - mkdir -p /etc/lightdm/lightdm.conf.d
-  - echo "[SeatDefaults]" > /etc/lightdm/lightdm.conf.d/60-xfce.conf
-  - echo "user-session=xfce" >> /etc/lightdm/lightdm.conf.d/60-xfce.conf
   
-  # Final reboot to apply all changes
-  - shutdown -r now
+  # Configure XRDP for XFCE
+  - echo "xfce4-session" > /etc/xrdp/startwm.sh
+  - chmod +x /etc/xrdp/startwm.sh
+  
+  # Ensure proper display manager is configured (use existing one)
+  - if [ -f /etc/lightdm/lightdm.conf ]; then echo -e "[SeatDefaults]\nuser-session=xfce" > /etc/lightdm/lightdm.conf.d/60-xfce.conf; fi
+  - if [ -f /etc/gdm3/greeter.dconf ]; then echo -e "[org/gnome/desktop/session]\nname=xfce" > /etc/gdm3/custom.conf; fi
 
 bootcmd:
   # Apply IPv6 disable early in boot process
@@ -159,12 +136,10 @@ echo "Kali cloud image installation complete!"
 echo "VM ID: $VMID"
 echo "Username: kali"
 echo "Password: kali"
-echo "Desktop Environment: XFCE with full Kali defaults"
+echo "Desktop Environment: XFCE with Kali defaults"
 echo "Note: The VM will have:"
 echo "  - Graphical target set as default"
-echo "  - Official Kali repositories configured"
 echo "  - IPv6 disabled permanently"
 echo "  - All firewalls disabled"
 echo "  - XRDP enabled for remote desktop access"
-echo "  - LightDM display manager for graphical login"
-echo "  - System will reboot automatically to apply changes"
+echo "  - System will handle reboots automatically if needed"

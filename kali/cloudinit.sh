@@ -5,7 +5,7 @@
 set -e
 
 # Install required packages
-apt-get install -y p7zip-full qemu-utils
+apt-get install -y p7zip-full
 
 STORAGE="local-lvm"
 VMID="9000"

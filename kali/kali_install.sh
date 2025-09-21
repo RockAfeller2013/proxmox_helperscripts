@@ -10,7 +10,7 @@ apt-get install -y p7zip-full
 #  wget qemu-utils novnc x11vnc
 
 STORAGE="local-lvm"
-VMID="9000"
+VMID="5003"
 VMNAME="kali-rdp-vm"
 TMPDIR="/tmp/kali-cloudinit"
 
@@ -39,14 +39,15 @@ if [[ ! -f "$IMG_FILE" ]]; then
     fi
 fi
 
-# Create VM with Cloud-Init
+# Create VM 
 qm create $VMID --name $VMNAME --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0 --agent 1
 qm importdisk $VMID "$IMG_FILE" $STORAGE
 qm set $VMID --scsihw virtio-scsi-pci --scsi0 $STORAGE:vm-$VMID-disk-0
 qm set $VMID --boot order=scsi0
 qm set $VMID --vga std
-qm set $VMID --ide2 $STORAGE:cloudinit
 
+: <<'END_COMMENT'
+<# qm set $VMID --ide2 $STORAGE:cloudinit
 # Cloud-Init user-data
 mkdir -p /var/lib/vz/snippets
 cat > /var/lib/vz/snippets/cloudinit-kali.yaml <<EOF
@@ -66,3 +67,7 @@ packages:
 EOF
 
 qm set $VMID --cicustom "user=local:snippets/cloudinit-kali.yaml"
+#>
+END_COMMENT
+
+

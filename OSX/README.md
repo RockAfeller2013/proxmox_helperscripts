@@ -1,5 +1,6 @@
 # Wow to download and install macOS on Promox
 - How to download and install macOS - http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg
+- How to download and install macOS - https://support.apple.com/en-au/102662
 
 
 ```

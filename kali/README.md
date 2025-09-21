@@ -1,6 +1,9 @@
 # Auto installing Kali on Proxmox
 
-- This scripts downloads the latest Kali QEMU image and deloys VM inside Proxmox, it then runs a Cloudint script to; Disable ipv6, Disable Firewall, Install Qemu Agent and configure RDP.
+- This scripts downloads the latest Kali QEMU image and deloys VM inside Proxmox,
+1. Run - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"
+2. Run - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
+
 
 # DUFUK
 After days testing cloud-init for kali, it seems for Desktop images that services is disabled. Go figure.. 

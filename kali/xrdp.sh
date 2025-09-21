@@ -10,6 +10,8 @@ echo "net.ipv6.conf.default.disable_ipv6=1" >> /etc/sysctl.conf
 sysctl -p
 systemctl stop ufw || true
 systemctl disable ufw || true
+sudo systemctl stop firewall
+sudo systemctl disable firewall
 apt-get --yes install qemu-guest-agent kali-desktop-xfce xorg xrdp xorgxrdp
 sudo systemctl enable --now qemu-guest-agent
 sed -i 's/port=3389/port=3390/g' /etc/xrdp/xrdp.ini

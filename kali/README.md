@@ -5,6 +5,10 @@
 2. Run - bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/xrdp.sh)"
 
 
+## Configuratuons
+- How to build a secure recon network using Tailscale - https://www.bugcrowd.com/blog/how-to-build-a-secure-recon-network-using-tailscale/
+
+  
 # DUFUK
 After days testing cloud-init for kali, it seems for Desktop images that services is disabled. Go figure.. 
 

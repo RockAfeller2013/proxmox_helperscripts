@@ -199,4 +199,16 @@ resize_rootfs: true
 #       dhcp4: true
 ```
 
+# Upgrade Kali
+```
+sudo apt update -y && sudo apt full-upgrade -y
+sudo apt dist-upgrade -y
+sudo apt autoremove -y
+sudo apt autoclean
+cat /etc/os-release
+```
+
+
+
+
 

@@ -8,3 +8,6 @@ curl -L https://downloads.portainer.io/ce-lts/portainer-compose.yaml docker comp
 https://192.168.1.26:9443/#!/init/admin adminpassword123123
 ```
 - Configure DockerHub Key and add to registry Personal access tokens https://docs.docker.com/security/access-tokens/
+
+
+- Install Docker MCP on Linux https://github.com/docker/mcp-gateway

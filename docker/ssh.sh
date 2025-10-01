@@ -19,3 +19,20 @@ sudo systemctl restart ssh
 
 echo "Root SSH login enabled. Use: ssh root@<server-ip>"
 
+
+# Create admin user with sudo access for SSH login
+NEWUSER="admin"
+PASSWORD="password"   # change this
+
+# Create user and set password
+sudo useradd -m -s /bin/bash "$NEWUSER"
+echo "$NEWUSER:$PASSWORD" | sudo chpasswd
+
+# Add to sudo group
+sudo usermod -aG sudo "$NEWUSER"
+
+# Ensure SSH allows password login
+sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo systemctl restart ssh
+
+echo "User '$NEWUSER' created with sudo privileges. You can SSH using: ssh $NEWUSER@<server-ip>"

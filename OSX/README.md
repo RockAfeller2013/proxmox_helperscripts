@@ -102,3 +102,41 @@ curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installins
 chmod +x installinstallmacos.py
 sudo ./installinstallmacos.py
 ```
+
+```
+usage: softwareupdate <cmd> [<args> ...]
+
+** Manage Updates:
+	-l | --list		List all appropriate update labels (options:  --no-scan, --product-types)
+	-d | --download		Download Only
+	-i | --install		Install
+		<label> ...	specific updates
+		-a | --all		All appropriate updates
+		-R | --restart		Automatically restart (or shut down) if required to complete installation.
+		-r | --recommended	Only recommended updates
+		     --os-only	Only OS updates
+		     --safari-only	Only Safari updates
+		     --stdinpass	Password to authenticate as an owner. Apple Silicon only.
+		     --user	Local username to authenticate as an owner. Apple Silicon only.
+	--list-full-installers		List the available macOS Installers
+	--fetch-full-installer		Install the latest recommended macOS Installer
+		--full-installer-version	The version of macOS to install. Ex: --full-installer-version 10.15
+	--install-rosetta	Install Rosetta 2
+	--background		Trigger a background scan and update operation
+
+** Other Tools:
+	--dump-state		Log the internal state of the SU daemon to /var/log/install.log
+	--evaluate-products	Evaluate a list of product keys specified by the --products option 
+	--history		Show the install history.  By default, only displays updates installed by softwareupdate.  
+
+** Options:
+	--no-scan		Do not scan when listing or installing updates (use available updates previously scanned)
+	--product-types <type>		Limit a scan to a particular product type only - ignoring all others
+		Ex:  --product-types macOS  || --product-types macOS,Safari 
+	--products		A comma-separated (no spaces) list of product keys to operate on. 
+	--force			Force an operation to complete.  Use with --background to trigger a background scan regardless of "Automatically check" pref 
+	--agree-to-license		Agree to the software license agreement without user interaction.
+
+	--verbose		Enable verbose output
+	--help			Print this help
+```

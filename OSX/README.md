@@ -35,7 +35,9 @@ hdiutil eject /Volumes/Install\ macOS
 
 
 ```
-
+```
+curl -O https://github.com/thenickdude/KVM-Opencore/releases/download/v21/OpenCore-v21.iso.gz
+```
 
 
 ### Use this script

@@ -137,5 +137,4 @@ For those whose installation gets stuck at the Apple logo, they should use this 
 ```
 curl -k -L -o proxmox-ve-8.4.iso "https://download.proxmox.com/iso/proxmox-ve_8.4-1.iso"
 
-qm create 100 --name "proxmox-vm" --memory 32000 --cores 2 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci --ostype l26 --scsi0 local-lvm:60G --cdrom local:iso/proxmox-ve-8.4.iso --boot order=cdrom --cpu host
-```
+qm create 110 --name "proxmox-vm" --memory 32000 --cores 2 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-pci --ostype l26 --scsi0 local-lvm:60 --ide2 local:iso/proxmox-ve-8.4.iso,media=cdrom --boot order=ide2```

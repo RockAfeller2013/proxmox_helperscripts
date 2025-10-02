@@ -124,6 +124,12 @@ Save changes and exit
 For those whose installation gets stuck at the Apple logo, they should use this method: When creating a VM, set it up with 6 cores and 8GB of RAM. Start the VM, and if it gets stuck at the Apple logo, stop the VM, reduce it to 2 cores and 4GB of RAM, and then start it again. This should resolve your issue
 
 
+For those whose installation gets stuck at the Apple logo, they should use this method: When creating a VM, set it up with 6 cores and 8GB of RAM. Start the VM, and if it gets stuck at the Apple logo, stop the VM, reduce it to 2 cores and 4GB of RAM, and then start it again. This should resolve your issue
+
+8
+
+
+
 ```
 
 ### Setup Proxmox just for MacOS

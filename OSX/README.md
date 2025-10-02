@@ -17,54 +17,6 @@
 # 1. First, download macOS Sonoma from App Store
 softwareupdate --fetch-full-installer
 
-
-#    Search "macOS Sonoma" in App Store and download
-
-# 2. Create ISO from the installer
-sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolume
-
-# Alternative method using hdiutil:
-hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
-hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
-sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --nointeraction
-hdiutil detach /Volumes/Install\ macOS\ Sonoma
-hdiutil convert /tmp/Sonoma.cdr.dmg -format UDTO -o ~/Desktop/Sonoma
-mv ~/Desktop/Sonoma.cdr ~/Desktop/Sonoma.iso
-```
-
-### Download MacOS OSX Sonoma for Intel and create a ISO
-
-```
-
-# 1. Download installer DMG
-curl -O http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg
-
-# 2. Mount the DMG
-hdiutil attach InstallOS.dmg
-
-# 3. Create a temporary empty image
-hdiutil create -o /tmp/Sonoma -size 15000m -layout SPUD -fs HFS+J
-
-# 4. Mount the temporary image
-hdiutil attach /tmp/Sonoma.dmg -noverify -mountpoint /Volumes/Sonoma
-
-# 5. Copy installer contents
-rsync -av /Volumes/InstallOS/ /Volumes/Sonoma/
-
-# 6. Detach both
-hdiutil detach /Volumes/InstallOS
-hdiutil detach /Volumes/Sonoma
-
-# 7. Convert to ISO
-hdiutil convert /tmp/Sonoma.dmg -format UDTO -o /tmp/Sonoma.iso
-
-# 8. Rename to .iso
-mv /tmp/Sonoma.iso.cdr ~/Desktop/Sonoma.iso
-
-```
-
-
-```
 # Download specific version (if available)
 softwareupdate --fetch-full-installer --full-installer-version 14.1.1
 
@@ -73,6 +25,18 @@ softwareupdate --fetch-full-installer --latest
 
 # Set download directory
 softwareupdate --fetch-full-installer --volume /path/to/volume
+curl -O http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg
+
+# Create a bootable installer for macOS - https://support.apple.com/en-us/101578
+
+hdiutil convert nstallOS.dmg -format UDTO -o InstallOS.iso
+mv InstallOS.iso.cdr InstallOS.iso
+hdiutil info
+hdiutil detach /Volumes/Install\ macOS   -force
+hdiutil eject /Volumes/Install\ macOS
+
+
+
 ```
 
 

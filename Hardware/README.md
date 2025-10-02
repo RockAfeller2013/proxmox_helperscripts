@@ -1,1 +1,14 @@
-
+- RPI
+- Mini Rack
+- RTX
+- NUC + Display Screen
+- Frame demo laptop for opensource software 3 x Boot (Windows, Omkud, Opensource. )
+- Projector and Mount
+- M.2 NAS 10 GB https://www.lincplustech.com/products/lincstation-n2-network-attached-storage
+- Unfi Router + Access Point
+- 3 x NUC Proxmox Cluster
+- Linux Mobile
+- Ahttps://meshcore.co.uk/get.html
+- Art Screen
+- iPad
+- IPKVM

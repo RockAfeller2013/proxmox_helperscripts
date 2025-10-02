@@ -41,3 +41,61 @@ hdiutil convert /tmp/Sonoma.dmg -format UDTO -o /tmp/Sonoma.iso
 mv /tmp/Sonoma.iso.cdr ~/Desktop/Sonoma.iso
 
 ```
+
+
+```
+# Download specific version (if available)
+softwareupdate --fetch-full-installer --full-installer-version 14.1.1
+
+# Download latest version
+softwareupdate --fetch-full-installer --latest
+
+# Set download directory
+softwareupdate --fetch-full-installer --volume /path/to/volume
+```
+```
+# 1. First, download macOS Sonoma from App Store
+softwareupdate --fetch-full-installer
+
+
+#    Search "macOS Sonoma" in App Store and download
+
+# 2. Create ISO from the installer
+sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolume
+
+# Alternative method using hdiutil:
+hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
+hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
+sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --nointeraction
+hdiutil detach /Volumes/Install\ macOS\ Sonoma
+hdiutil convert /tmp/Sonoma.cdr.dmg -format UDTO -o ~/Desktop/Sonoma
+mv ~/Desktop/Sonoma.cdr ~/Desktop/Sonoma.iso
+```
+
+
+```
+# Download the script
+curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installinstallmacos.py
+
+# Make executable
+chmod +x installinstallmacos.py
+
+
+# List available versions without downloading
+./installinstallmacos.py --list
+
+# Download specific version by product ID
+./installinstallmacos.py --raw --version 14.1.1
+
+# Set output directory
+./installinstallmacos.py --workdir /path/to/downloads
+
+
+```
+
+
+```
+curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installinstallmacos.py
+chmod +x installinstallmacos.py
+sudo ./installinstallmacos.py
+```

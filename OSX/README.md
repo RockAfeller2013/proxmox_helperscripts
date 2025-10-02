@@ -10,6 +10,26 @@
 
 - Running a MacOS 15 Sequoia VM in Proxmox VE - https://www.youtube.com/watch?v=ApldztEgh8o
 
+### First, download latest macOS Sonoma from App Store
+
+```
+# 1. First, download macOS Sonoma from App Store
+softwareupdate --fetch-full-installer
+
+
+#    Search "macOS Sonoma" in App Store and download
+
+# 2. Create ISO from the installer
+sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolume
+
+# Alternative method using hdiutil:
+hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
+hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
+sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --nointeraction
+hdiutil detach /Volumes/Install\ macOS\ Sonoma
+hdiutil convert /tmp/Sonoma.cdr.dmg -format UDTO -o ~/Desktop/Sonoma
+mv ~/Desktop/Sonoma.cdr ~/Desktop/Sonoma.iso
+```
 
 ### Download MacOS OSX Sonoma for Intel and create a ISO
 
@@ -54,26 +74,7 @@ softwareupdate --fetch-full-installer --latest
 softwareupdate --fetch-full-installer --volume /path/to/volume
 ```
 
-### First, download latest macOS Sonoma from App Store
 
-```
-# 1. First, download macOS Sonoma from App Store
-softwareupdate --fetch-full-installer
-
-
-#    Search "macOS Sonoma" in App Store and download
-
-# 2. Create ISO from the installer
-sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/MyVolume
-
-# Alternative method using hdiutil:
-hdiutil create -o /tmp/Sonoma.cdr -size 16g -layout SPUD -fs HFS+J
-hdiutil attach /tmp/Sonoma.cdr.dmg -noverify -mountpoint /Volumes/install_build
-sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/install_build --nointeraction
-hdiutil detach /Volumes/Install\ macOS\ Sonoma
-hdiutil convert /tmp/Sonoma.cdr.dmg -format UDTO -o ~/Desktop/Sonoma
-mv ~/Desktop/Sonoma.cdr ~/Desktop/Sonoma.iso
-```
 
 
 ```
@@ -102,6 +103,8 @@ curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installins
 chmod +x installinstallmacos.py
 sudo ./installinstallmacos.py
 ```
+
+### Usage: softwareupdate
 
 ```
 usage: softwareupdate <cmd> [<args> ...]

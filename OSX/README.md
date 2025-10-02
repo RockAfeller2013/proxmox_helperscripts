@@ -16,16 +16,13 @@
 ```
 # 1. First, download macOS Sonoma from App Store
 softwareupdate --fetch-full-installer
-
-# Download specific version (if available)
 softwareupdate --fetch-full-installer --full-installer-version 14.1.1
-
-# Download latest version
 softwareupdate --fetch-full-installer --latest
-
-# Set download directory
 softwareupdate --fetch-full-installer --volume /path/to/volume
+
+# Direct Download
 curl -O http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg
+
 
 # Create a bootable installer for macOS - https://support.apple.com/en-us/101578
 
@@ -41,7 +38,7 @@ hdiutil eject /Volumes/Install\ macOS
 
 
 
-
+### Use this script
 ```
 # Download the script
 curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installinstallmacos.py
@@ -59,15 +56,12 @@ chmod +x installinstallmacos.py
 # Set output directory
 ./installinstallmacos.py --workdir /path/to/downloads
 
-
-```
-
-
-```
 curl -O https://raw.githubusercontent.com/munki/macadmin-scripts/main/installinstallmacos.py
 chmod +x installinstallmacos.py
 sudo ./installinstallmacos.py
 ```
+
+
 
 ### Usage: softwareupdate
 
@@ -107,4 +101,21 @@ usage: softwareupdate <cmd> [<args> ...]
 
 	--verbose		Enable verbose output
 	--help			Print this help
+```
+
+
+```
+
+Once you get to the stage where you have to "nano /etc/pve/qemu-server/1500.conf"
+
+1. DO NOT delete media=cdrom on both entries. 
+2. Change media=cdrom to media=disk
+3. add "cache=unsafe" after media=disk
+4. Should look like this media=disk,chache=unsafe
+5. Do this to both entries
+Save changes and exit
+
+For those whose installation gets stuck at the Apple logo, they should use this method: When creating a VM, set it up with 6 cores and 8GB of RAM. Start the VM, and if it gets stuck at the Apple logo, stop the VM, reduce it to 2 cores and 4GB of RAM, and then start it again. This should resolve your issue
+
+
 ```

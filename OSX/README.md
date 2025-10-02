@@ -53,6 +53,9 @@ softwareupdate --fetch-full-installer --latest
 # Set download directory
 softwareupdate --fetch-full-installer --volume /path/to/volume
 ```
+
+### First, download latest macOS Sonoma from App Store
+
 ```
 # 1. First, download macOS Sonoma from App Store
 softwareupdate --fetch-full-installer

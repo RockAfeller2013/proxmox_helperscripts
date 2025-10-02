@@ -8,7 +8,8 @@
 - https://github.com/kholia/OSX-KVM/blob/master/run_offline.md - https://github.com/nocontent06/OSX-Z
 - McTwist - https://git.aposoc.net/McTwist/docker-files/src/branch/main/osx-cross.dockerfile
 - https://github.com/munki/macadmin-scripts/tree/main
-
+- https://dortania.github.io/GPU-Buyers-Guide/buyers-guide/gpu-avoid.html#powercolor
+- OpenCore Documentation https://dortania.github.io/getting-started/
 - Running a MacOS 15 Sequoia VM in Proxmox VE - https://www.youtube.com/watch?v=ApldztEgh8o
 
 ### First, download latest macOS Sonoma from App Store

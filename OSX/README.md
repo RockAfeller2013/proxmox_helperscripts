@@ -7,6 +7,7 @@
 - How to run the Installation offline without macOS - https://github.com/kholia/OSX-KVM/blob/master/run_offline.md
 - https://github.com/kholia/OSX-KVM/blob/master/run_offline.md - https://github.com/nocontent06/OSX-Z
 - McTwist - https://git.aposoc.net/McTwist/docker-files/src/branch/main/osx-cross.dockerfile
+- https://github.com/munki/macadmin-scripts/tree/main
 
 - Running a MacOS 15 Sequoia VM in Proxmox VE - https://www.youtube.com/watch?v=ApldztEgh8o
 

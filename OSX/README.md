@@ -107,7 +107,7 @@ usage: softwareupdate <cmd> [<args> ...]
 
 
 ```
-curl -L https://github.com/thenickdude/KVM-Opencore/releases/download/v21/OpenCore-v21.iso.gz
+curl -O https://github.com/thenickdude/KVM-Opencore/releases/download/v21/OpenCore-v21.iso.gz
 gz | gunzip > OpenCore-v21.iso
 
 

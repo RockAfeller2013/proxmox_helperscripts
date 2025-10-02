@@ -106,9 +106,10 @@ usage: softwareupdate <cmd> [<args> ...]
 ```
 
 
+### Download OpenCore
 ```
-curl -O https://github.com/thenickdude/KVM-Opencore/releases/download/v21/OpenCore-v21.iso.gz
-gz | gunzip > OpenCore-v21.iso
+curl -L -o OpenCore-v21.iso.gz https://github.com/thenickdude/KVM-Opencore/releases/download/v21/OpenCore-v21.iso.gz
+gunzip OpenCore-v21.iso
 
 
 Once you get to the stage where you have to "nano /etc/pve/qemu-server/1500.conf"

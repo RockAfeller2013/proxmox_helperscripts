@@ -1,6 +1,7 @@
 !/bin/bash
 # Create MacOS 15 Sequoia VM in Proxmox VE (Intel CPU only)
 # Usage: sudo bash create_macos_sequoia.sh
+# bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/kali/kali_install.sh)"
 
 VMID=1500
 VMNAME="MacOSSequoia"

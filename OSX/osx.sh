@@ -1,4 +1,4 @@
-!/bin/bash
+# !/bin/bash
 # Create MacOS 15 Sequoia VM in Proxmox VE (Intel CPU only)
 # sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/OSX/osx.sh)"
 

@@ -4,8 +4,8 @@
 
 VMID=1500
 VMNAME="MacOSSequoia"
-ISO_OPENC="KVM-OpenCore.iso"    # Must be uploaded to ISO storage
-ISO_MACOS="MacOS-Sequoia.iso"   # Must be uploaded to ISO storage
+ISO_OPENC="OpenCore-v21.iso"    # Must be uploaded to ISO storage
+ISO_MACOS="InstallOS.iso"   # Must be uploaded to ISO storage
 STORAGE="local-lvm"
 
 # Create the VM

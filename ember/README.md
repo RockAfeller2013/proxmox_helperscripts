@@ -30,7 +30,9 @@ sudo rm -f /var/lib/emby/logs/* && df -h && df -i && sudo systemctl restart emby
 ```
 
 ```
-# No — the mount command is not persistent across reboots by default.
+# Test Mount
+sudo mount -t cifs //192.168.1.146/video/Movies /mnt/nas -o guest,vers=2.1
+
 # To make it persistent, add the entry to /etc/fstab inside the LXC.
 
 # Step 1: Open /etc/fstab in a text editor

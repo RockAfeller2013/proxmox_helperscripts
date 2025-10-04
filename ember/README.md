@@ -1,7 +1,7 @@
 ember
 
 - https://community-scripts.github.io/ProxmoxVE/scripts?id=emby
-- Connect to NAS
+- Connect to NAS by adding - http://192.168.1.146/video/Movies and Username as Guest, nothing else needed 
 
 
 ```

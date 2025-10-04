@@ -11,6 +11,7 @@
 - https://dortania.github.io/GPU-Buyers-Guide/buyers-guide/gpu-avoid.html#powercolor
 - OpenCore Documentation https://dortania.github.io/getting-started/
 - Running a MacOS 15 Sequoia VM in Proxmox VE - https://www.youtube.com/watch?v=ApldztEgh8o
+- How to run macOS on Linux (without too much hassle) https://www.youtube.com/watch?v=Qa6y_CiyAMA
 
 ### First, download latest macOS Sonoma from App Store
 

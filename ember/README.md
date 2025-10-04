@@ -1,8 +1,8 @@
 ember
 
 - https://community-scripts.github.io/ProxmoxVE/scripts?id=emby
-- Connect to NAS by adding - http://192.168.1.146/video/Movies and Username as Guest, nothing else needed 
-
+- Connect to NAS by adding and the Setup Wizard - \\192.168.1.146\video\Movies and Username as Guest, nothing else needed 
+- Buy the Ember iPhone and to ChromeCast, works great
 
 ```
 sudo sh -c '(crontab -l 2>/dev/null; echo "0 * * * * /bin/bash /root/space.sh") | crontab -'

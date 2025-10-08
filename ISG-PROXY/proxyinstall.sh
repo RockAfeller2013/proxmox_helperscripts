@@ -57,7 +57,7 @@ qm set "$VMID" \
   --vga serial0
 
 echo "[*] Adding additional 100GB data disks (2 total recommended)..."
-qm set "$VMID" --scsi1 "$STORAGE:100G" --scsi2 "$STORAGE:100G"
+qm set "$VMID" --scsi1 "$STORAGE:100" --scsi2 "$STORAGE:100G"
 
 echo "[*] Enabling cloud-init network (optional)..."
 qm set "$VMID" --ipconfig0 ip=dhcp

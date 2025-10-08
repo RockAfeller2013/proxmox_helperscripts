@@ -15,8 +15,8 @@ qm importdisk 500 /mnt/synology-backups/ISG-Proxy/ProxySG-SWG-KVM-Enterprise/Pro
 qm set 500 --scsi0 local-lvm:vm-500-disk-0,format=raw
 
 # Add data disks (ProxySG requirement)
-qm set 500 --scsi1 local-lvm:100G,format=raw
-qm set 500 --scsi2 local-lvm:100G,format=raw
+qm set 500 --scsi1 local-lvm:100,format=raw
+qm set 500 --scsi2 local-lvm:100,format=raw
 
 
 

@@ -90,6 +90,9 @@ done
 echo "[*] Configuring optional cloud-init for network..."
 qm set "$VMID" --ipconfig0 ip=dhcp
 
+
+
+
 echo "[*] ProxySG VA import completed successfully!"
 echo ""
 echo "=== NEXT STEPS ==="

@@ -10,7 +10,6 @@
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/ISG-PROXY/proxyinstall.sh)" -- \500 /mnt/synology-backups/ISG-Proxy/ProxySG-SWG-KVM-Enterprise/ProxySG_SWG_KVM_303757.qcow2 local-lvm ISG-PROXY 32000 2
 
 
-
 set -e
 
 if [ "$#" -lt 6 ]; then
@@ -37,20 +36,18 @@ qm create "$VMID" \
   --agent 1
 
 echo "[*] Importing QCOW2 image to LVM-Thin storage: $STORAGE..."
-qm importdisk "$VMID" "$QCOW" "$STORAGE" --format qcow2
+IMPORT_OUT=$(qm importdisk "$VMID" "$QCOW" "$STORAGE" --format raw)
+echo "$IMPORT_OUT"
 
-DISK_PATH=$(pvesm path "$STORAGE:$VMID/vm-$VMID-disk-0.raw" 2>/dev/null || true)
-if [ -z "$DISK_PATH" ]; then
-  DISK_PATH=$(pvesm path "$STORAGE:$VMID/vm-$VMID-disk-0" 2>/dev/null || true)
-fi
+IMPORTED_VOL=$(echo "$IMPORT_OUT" | grep -o "${STORAGE}:[^']*" | head -n1)
 
-if [ -z "$DISK_PATH" ]; then
-  echo "[!] Disk path not found. Check storage and import result."
+if [ -z "$IMPORTED_VOL" ]; then
+  echo "[!] Could not detect imported volume. Please check qm importdisk output."
   exit 1
 fi
 
-echo "[*] Attaching disk to VM..."
-qm set "$VMID" --scsi0 "$STORAGE:vm-$VMID-disk-0"
+echo "[*] Attaching imported volume to VM..."
+qm set "$VMID" --scsi0 "$IMPORTED_VOL"
 
 echo "[*] Setting boot order and display options..."
 qm set "$VMID" \
@@ -68,3 +65,4 @@ echo "[*] VM import completed successfully."
 echo "You can now start the VM using:"
 echo "  qm start $VMID"
 ```
+

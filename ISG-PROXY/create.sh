@@ -34,3 +34,7 @@ qm set 500 -scsihw virtio-scsi-pci
 qm set 500 -serial0 socket
 qm set 500 -sockets 1
 qm set 500 -vga serial0
+
+qm terminal 500
+
+https://pve.proxmox.com/wiki/Serial_Terminal

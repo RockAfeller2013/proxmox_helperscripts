@@ -8,6 +8,8 @@
 # he QCOW2 file (ProxySG_SWG_KVM_xxx.qcow2) must be accessible locally to Proxmox.
 # LVM-thin must already exist (e.g., local-lvm).
 # 500 /mnt/synology-backups/ISG-Proxy/ProxySG-SWG-KVM-Enterprise/ProxySG_SWG_KVM_303757.qcow2 local-lvm ISG-PRORXY 32000 2
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/emby.sh)"
+
 
 set -e
 

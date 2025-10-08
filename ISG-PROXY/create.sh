@@ -8,11 +8,11 @@ qm importdisk 500 /mnt/synology-backups/ISG-Proxy/ProxySG-SWG-KVM-Enterprise/Pro
 qm set 500 --scsi0 local-lvm:vm-500-disk-0,format=raw
 
 # Set boot and display options
-qm set 500 --boot order=scsi0 --serial0 socket --vga serial0
+qm set 500 --boot order=scsi0 --serial0 socket --vga vga0
 
 # Add two 100GB data disks (ProxySG requirement)
-qm set 500 --scsi1 local-lvm:100G,format=raw
-qm set 500 --scsi2 local-lvm:100G,format=raw
+qm set 500 --scsi1 local-lvm:100,format=raw
+qm set 500 --scsi2 local-lvm:100,format=raw
 
 # Optional: Configure network via DHCP
 qm set 500 --ipconfig0 ip=dhcp

@@ -57,7 +57,8 @@ qm set "$VMID" \
   --vga serial0
 
 echo "[*] Adding additional 100GB data disks (2 total recommended)..."
-qm set "$VMID" --scsi1 "$STORAGE:100" --scsi2 "$STORAGE:100G"
+qm set "$VMID" --scsi1 "$STORAGE:0,format=raw,size=100G"
+qm set "$VMID" --scsi2 "$STORAGE:0,format=raw,size=100G"
 
 echo "[*] Enabling cloud-init network (optional)..."
 qm set "$VMID" --ipconfig0 ip=dhcp
@@ -65,5 +66,5 @@ qm set "$VMID" --ipconfig0 ip=dhcp
 echo "[*] VM import completed successfully."
 echo "You can now start the VM using:"
 echo "  qm start $VMID"
-```
+
 

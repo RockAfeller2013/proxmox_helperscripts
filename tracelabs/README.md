@@ -30,3 +30,5 @@ chmod +x tlosint-tools.sh
 #Execute the script
 ./tlosint-tools.sh
 ```
+
+https://binary.ninja/free/

@@ -10,3 +10,17 @@ qemu-img info output_image.qcow2
 Install sherlock
 ```
 https://sherlockproject.xyz/
+
+```
+# Inside Kali (or your Debian-based VM)
+cd ~/Desktop # or any folder you prefer
+
+# Fetch the script (Raw URL) 
+wget https://raw.githubusercontent.com/tracelabs/tlosint-vm/main/scripts/tlosint-tools.sh
+
+# Give the script executable permission
+chmod +x tlosint-tools.sh
+
+#Execute the script
+./tlosint-tools.sh
+```

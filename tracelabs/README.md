@@ -12,6 +12,8 @@ Install sherlock
 https://sherlockproject.xyz/
 ```
 sudo apt install sherlock
+sherlock --version
+
 
 ```
 

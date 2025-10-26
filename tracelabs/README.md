@@ -10,6 +10,10 @@ qemu-img info output_image.qcow2
 Install sherlock
 ```
 https://sherlockproject.xyz/
+```
+sudo apt install sherlock
+
+```
 
 ```
 # Inside Kali (or your Debian-based VM)

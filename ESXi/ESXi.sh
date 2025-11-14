@@ -16,3 +16,4 @@ qm set 4000 --cdrom /var/lib/vz/template/iso/VMware-VMvisor-Installer-8.0U3e-246
 qm set 4000 --boot order=sata0
 qm set 4000 --hugepages 2
 qm set 4000 --numa 1
+qm set 4000 --boot order=cdrom,sata0,net0

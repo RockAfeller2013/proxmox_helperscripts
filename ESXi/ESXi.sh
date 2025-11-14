@@ -1,19 +1,36 @@
+
+# Enable nested virtualization on the host (run once)
+echo "options kvm-intel nested=1" > /etc/modprobe.d/kvm-intel.conf
+
+# Create the VM with improved settings
 qm create 4000 \
   --name esxi-test \
-  --memory 32768 \
-  --cores 2 \
+  --memory 16384 \  # Reduced from 32GB to 16GB
+  --cores 4 \       # Increased cores for better performance
   --sockets 1 \
-  --cpu host,+vmx \
+  --cpu host,vmx=1 \
   --machine q35 \
   --bios ovmf \
-  --scsihw sata-ahci \
-  --sata0 local-lvm:100 \
+  --scsihw virtio-scsi-pci \  # Better performance than sata-ahci
+  --scsi0 local-lvm:100 \
   --net0 model=vmxnet3,bridge=vmbr0 \
-  --ostype other \
-  --args "-cpu host,+vmx"
+  --ostype other
 
+# Additional configuration
 qm set 4000 --cdrom /var/lib/vz/template/iso/VMware-VMvisor-Installer-8.0U3e-24677879.x86_64.iso
-qm set 4000 --boot order=sata0
+qm set 4000 --boot order=cdrom,scsi0,net0
 qm set 4000 --hugepages 2
 qm set 4000 --numa 1
-qm set 4000 --boot order=cdrom,sata0,net0
+
+# Critical: Enable hardware virtualization
+qm set 4000 --args "-cpu host,-hypervisor,+vmx"
+
+# Optional: Improve performance
+qm set 4000 --balloon 0        # Disable memory ballooning
+qm set 4000 --agent 1          # Enable QEMU guest agent
+
+# Check if VMX flag is exposed
+qm showcmd 4000 | grep vmx
+
+# Monitor installation through VNC
+qm terminal 4000

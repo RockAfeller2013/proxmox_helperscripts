@@ -11,4 +11,4 @@ qm create 4000 \
   --ostype other \
   --args "-cpu host"
 
-qm set 4000 --cdrom local-lvm:iso/VMware-VMvisor-Installer.iso
+qm set 4000 --cdrom /var/lib/vz/template/iso/VMware-VMvisor-Installer-8.0U3e-24677879.x86_64.iso

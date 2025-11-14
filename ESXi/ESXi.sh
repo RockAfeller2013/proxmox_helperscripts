@@ -7,7 +7,7 @@ qm create 4000 --name esxi-test --memory 16384 --cores 4 --sockets 1 --cpu host 
 
 # Additional configuration
 qm set 4000 --cdrom /var/lib/vz/template/iso/VMware-VMvisor-Installer-8.0U3e-24677879.x86_64.iso
-qm set 4000 --boot order=cdrom,scsi0,net0
+qm set 4000 --boot 'order=ide2;scsi0'
 qm set 4000 --hugepages 2
 qm set 4000 --numa 1
 

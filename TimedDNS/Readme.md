@@ -1,0 +1,3 @@
+- https://chatgpt.com/c/686b489f-9fd8-800e-901c-0292f9c0b1de
+- https://www.reddit.com/r/pihole/comments/hfn543/what_is_a_simple_way_to_do_timebased_pihole/
+- Untable / OpenDNS / PfSense / OPSense

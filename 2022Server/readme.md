@@ -5,6 +5,8 @@
 - Connect using RDP (Don't sellect Restricted Mode.)
 - Install Updates
 - Disable Firewall and Defender
+
+
 - setup License
 - Create template
 ```

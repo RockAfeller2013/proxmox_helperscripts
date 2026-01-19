@@ -1,1 +1,38 @@
 Sophos Firewall Serial Number: V01001DPV4JWVF1
+
+
+Thank you for requesting the Sophos Firewall Home Use Edition.
+Sophos Firewall Serial Number: V01001DPV4JWVF1
+Prerequisites
+Sophos Central account
+I have a Sophos Central account. Make sure you have the email address and password of the account.
+I don't have a Sophos Central account. Create one now. Alternatively, create one during setup.
+ISP internet connection settings
+Note the following settings if they're not automatically provided through DHCP:
+If you don't have an internet connection right now, you can complete the setup offline. You must register the appliance within 30 days.
+WAN IP address and netmask
+Gateway IP address
+DNS server IP address
+How to set up the firewall
+Install the downloaded image on your hardware or virtual environment.
+Note: The installation overwrites the existing operating system and all files.
+Connect the firewall's WAN interface (port 2) to your internet connection.
+Connect an endpoint device to the LAN interface (port 1).
+To access the setup assistant, go to the following IP address from the endpoint device: https://172.16.16.16:4444.
+Note: The assistant may take a few minutes to start.
+Follow the steps in the setup assistant.
+Watch Registration and setup video.
+What next
+For firewall licensing details, see Sophos Central help.
+For the features to consider during your evaluation, see Solution Brief: Sophos Firewall.
+Check our Startup help.
+More help
+Techvids
+Knowledgebase articles
+Sophos Firewall help
+Firewall management in Sophos Central .
+Contact us. A Sophos representative will contact you at the earliest.
+How to buy
+Contact one of the following:
+Sophos partner
+Sophos office

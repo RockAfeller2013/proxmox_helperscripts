@@ -5,7 +5,7 @@ A Proxmox VE helper script for automated deployment of Sophos Firewall VM, based
 ## Download
 
 - Setup Account - https://community.sophos.com/sophos-xg-firewall/b/blog/posts/important-sophos-firewall-licensing-portal-changes
-- 
+- Download - https://www.sophos.com/en-us/support/downloads
 
 ## Overview
 

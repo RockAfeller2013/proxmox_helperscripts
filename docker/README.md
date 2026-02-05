@@ -3,6 +3,7 @@
 - 500 (docer)
 - root/root
 - root/root
+- https://chatgpt.com/c/6982deef-bdc0-8323-90c1-13c23494efe1
 
 ## Setup Docker VM 
 

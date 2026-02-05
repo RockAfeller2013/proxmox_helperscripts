@@ -67,3 +67,23 @@ ansible-playbook /playbooks/site.yml -i /playbooks/inventory
 
 
 ## Install Docker MCP on Linux https://github.com/docker/mcp-gateway
+
+## Commands
+
+```
+USING WEB-BASED LOGIN
+
+i Info → To sign in with credentials on the command line, use 'docker login -u <username>'
+
+
+Your one-time device confirmation code is: SQVR-CRSD
+Press ENTER to open your browser or submit your device code here: https://login.docker.com/activate
+
+Waiting for authentication in the browser…
+
+WARNING! Your credentials are stored unencrypted in '/root/.docker/config.json'.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/go/credential-store/
+
+login with gmail.
+```

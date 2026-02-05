@@ -63,7 +63,7 @@ ansible-playbook /playbooks/site.yml -i /playbooks/inventory
 
 ## Configure DockerHub Key and add to registry Personal access tokens https://docs.docker.com/security/access-tokens/
 
-
+- You are currently using an anonymous account to pull images from DockerHub and will be limited to 100 pulls every 6 hours. You can configure DockerHub authentication in the Registries View. Remaining pulls: 100/100
 
 
 ## Install Docker MCP on Linux https://github.com/docker/mcp-gateway

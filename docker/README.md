@@ -50,8 +50,10 @@ docker compose version || apt install -y docker-compose-plugin
 
 - https://docs.ansible.com/projects/ansible/latest/collections/community/docker/docsite/scenario_guide.html
 - https://hub.docker.com/r/ansible/ansible
-- You can change the connection type of Ansible from SSH to Docker using ansible_connection: docker in your inventory file or --connection docker from the command line. This will allow you to use Docker hostnames as inventory. The documentation can be found here: https://docs.ansible.com/ansible/latest/plugins/connection.html
+- You can change the connection type of Ansible from SSH to Docker using ansible_connection: docker in your inventory file or --connection docker from the command line. This will allow you to use Docker hostnames as inventory. The documentation can be found here: https://docs.ansible.com/ansible/latest/plugins/connection.htm
 - https://akshaybobade777.medium.com/setup-ansible-on-docker-containers-75b0707726bd
+- https://www.youtube.com/watch?v=rZAVKybbL40
+  
 ```
 docker pull ansible/ansible-runner:latest
 

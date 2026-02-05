@@ -168,3 +168,16 @@ login with gmail.
 
 - https://github.com/dark-matter08/dev-ops-tool-on-docker
 
+
+## Comparision
+
+| **Image**                        | **Usable Ansible CLI** | **Maintained**  | **Upstream / Official** | **Base OS**      | **Primary Use Case**        | **Includes ansible-runner** | **Includes Python** | **Collections Pre-Installed** | **Extra Tools (git/ssh/docker)** | **Best Fit**            |
+| -------------------------------- | ---------------------- | --------------- | ----------------------- | ---------------- | --------------------------- | --------------------------- | ------------------- | ----------------------------- | -------------------------------- | ----------------------- |
+| `ansible/ansible`                | ❌ No                   | ❌ No            | ❌ No                    | Ubuntu (legacy)  | Internal testing only       | ❌                           | ⚠️ Partial          | ❌                             | ❌                                | Do not use              |
+| `quay.io/ansible/ansible-runner` | ✅ Yes                  | ✅ Yes           | ✅ **Official**          | UBI / RHEL-based | Execution environments      | ✅                           | ✅                   | ❌ (minimal)                   | ⚠️ Minimal                       | Runner-based automation |
+| `quay.io/ansible/awx-ee`         | ✅ Yes                  | ✅ Yes           | ✅ **Official**          | UBI / RHEL-based | AWX / Automation Controller | ✅                           | ✅                   | ✅                             | ✅ (git, ssh)                     | AWX / Enterprise-style  |
+| `oowy/ansible`                   | ✅ Yes                  | ✅ Yes           | ❌ Community             | Alpine Linux     | Lightweight CLI usage       | ❌                           | ✅                   | ❌                             | ⚠️ Minimal                       | Homelab / scripts       |
+| `gwerlas/ansible`                | ✅ Yes                  | ✅ Yes           | ❌ Community             | Debian/Ubuntu    | Infra automation            | ❌                           | ✅                   | ⚠️ Some                       | ✅ (docker, kubectl, cloud CLIs)  | Ops / multi-tool        |
+| `williamyeh/ansible`             | ✅ Yes                  | ⚠️ Low activity | ❌ Community             | Debian/Ubuntu    | Simple playbook runs        | ❌                           | ✅                   | ❌                             | ⚠️ Minimal                       | Legacy / simple tasks   |
+
+

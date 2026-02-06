@@ -49,6 +49,14 @@ docker compose version || apt install -y docker-compose-plugin
 ```
 ## Install Ansible as a Docker image
 
+**Aspect          Remote Ocestration        Docker Ocestration  **   
+Manages           Remote Linux servers        Local Docker containers
+Connects via      SSH                         Docker socket
+Mounts            SSH keys                    Docker socket
+Use case          Configure VMs/bare metal    Orchestrate containers
+Targethosts:      webservers                  hosts: localhost
+
+
 - https://docs.ansible.com/projects/ansible/latest/collections/community/docker/docsite/scenario_guide.html
 - https://hub.docker.com/r/ansible/ansible
 - You can change the connection type of Ansible from SSH to Docker using ansible_connection: docker in your inventory file or --connection docker from the command line. This will allow you to use Docker hostnames as inventory. The documentation can be found here: https://docs.ansible.com/ansible/latest/plugins/connection.htm

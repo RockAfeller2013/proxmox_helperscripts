@@ -49,12 +49,8 @@ docker compose version || apt install -y docker-compose-plugin
 ```
 ## Install Ansible as a Docker image
 
-**Aspect          Remote Ocestration        Docker Ocestration  **   
-Manages           Remote Linux servers        Local Docker containers
-Connects via      SSH                         Docker socket
-Mounts            SSH keys                    Docker socket
-Use case          Configure VMs/bare metal    Orchestrate containers
-Targethosts:      webservers                  hosts: localhost
+1. Promox VM with Ansible to provision Docker and other VMs inside Promox
+2. Ansible Docker Container inside Docker , just to test provisioning inside a single VM/Docker Host
 
 | Aspect | Your Version | My Version |
 |--------|--------------|------------|

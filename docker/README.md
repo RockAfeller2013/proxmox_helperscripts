@@ -111,6 +111,33 @@ EOF
 
 
 ```
+
+## Semaphore UI
+
+Semaphore will use the mounted /opt/ansible directory (same one used by ansible-runner) to manage playbooks and inventory.
+
+```
+mkdir -p /opt/semaphore/{data,config}
+docker pull semaphoreui/semaphore:latest
+
+docker run -d \
+  --name semaphore \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  -e SEMAPHORE_DB_DIALECT=sqlite \
+  -e SEMAPHORE_ADMIN=admin \
+  -e SEMAPHORE_ADMIN_PASSWORD=admin \
+  -e SEMAPHORE_ADMIN_NAME=admin \
+  -e SEMAPHORE_ADMIN_EMAIL=admin@example.com \
+  -v /opt/semaphore/data:/var/lib/semaphore \
+  -v /opt/ansible-runner:/opt/ansible \
+  -v ~/.ssh:/root/.ssh:ro \
+  semaphoreui/semaphore:latest
+
+docker logs semaphore
+http://HOST-IP:3000
+
+```
 ## Install AWX
 
 ## Configure DockerHub Key and add to registry Personal access tokens https://docs.docker.com/security/access-tokens/

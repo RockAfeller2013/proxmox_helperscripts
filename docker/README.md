@@ -56,6 +56,14 @@ Mounts            SSH keys                    Docker socket
 Use case          Configure VMs/bare metal    Orchestrate containers
 Targethosts:      webservers                  hosts: localhost
 
+| Aspect | Your Version | My Version |
+|--------|--------------|------------|
+| **Manages** | Remote Linux servers | Local Docker containers |
+| **Connects via** | SSH | Docker socket |
+| **Mounts** | SSH keys | Docker socket |
+| **Use case** | Configure VMs/bare metal | Orchestrate containers |
+| **Target** | `hosts: webservers` | `hosts: localhost` |
+
 
 - https://docs.ansible.com/projects/ansible/latest/collections/community/docker/docsite/scenario_guide.html
 - https://hub.docker.com/r/ansible/ansible

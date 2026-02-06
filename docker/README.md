@@ -117,25 +117,35 @@ EOF
 Semaphore will use the mounted /opt/ansible directory (same one used by ansible-runner) to manage playbooks and inventory.
 
 ```
-mkdir -p /opt/semaphore/{data,config}
+
+docker rm -f semaphore
+
 docker pull semaphoreui/semaphore:latest
+
+mkdir -p /opt/semaphore/{data,config}
+mkdir -p /opt/semaphore
+chown -R 1001:1001 /opt/semaphore
 
 docker run -d \
   --name semaphore \
   --restart unless-stopped \
   -p 3000:3000 \
   -e SEMAPHORE_DB_DIALECT=sqlite \
+  -e SEMAPHORE_DB_HOST=/etc/semaphore/semaphore.db \
   -e SEMAPHORE_ADMIN=admin \
   -e SEMAPHORE_ADMIN_PASSWORD=admin \
   -e SEMAPHORE_ADMIN_NAME=admin \
   -e SEMAPHORE_ADMIN_EMAIL=admin@example.com \
-  -v /opt/semaphore/data:/var/lib/semaphore \
+  -v /opt/semaphore:/etc/semaphore \
   -v /opt/ansible-runner:/opt/ansible \
-  -v ~/.ssh:/root/.ssh:ro \
+  -v ~/.ssh:/home/semaphore/.ssh:ro \
   semaphoreui/semaphore:latest
 
+docker ps | grep semaphore
 docker logs semaphore
-http://HOST-IP:3000
+
+
+http://192.168.1.37:3000 admin/admiin
 
 ```
 ## Install AWX

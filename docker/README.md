@@ -4,6 +4,7 @@
 - root/root
 - root/root
 - https://chatgpt.com/c/6982deef-bdc0-8323-90c1-13c23494efe1
+- https://claude.ai/chat/7da8ac7c-c82e-4214-b303-46dfc0f6cca9
 
 ## Setup Docker VM 
 
@@ -55,16 +56,26 @@ docker compose version || apt install -y docker-compose-plugin
 - https://www.youtube.com/watch?v=rZAVKybbL40
   
 ```
-docker pull ansible/ansible-runner:latest
+mkdir -p /opt/ansible-runner/{inventory,playbooks,roles,env}
 
-docker run -it --rm \
-  -v ~/ansible-playbooks:/playbooks \
-  -v ~/.ssh:/root/.ssh \
-  -v /etc/ansible:/etc/ansible \
-  ansible/ansible-runner:latest bash
+docker pull quay.io/ansible/ansible-runner:latest
 
-ansible --version
-ansible-playbook /playbooks/site.yml -i /playbooks/inventory
+docker run -d \
+  --name ansible-runner \
+  --restart unless-stopped \
+  -v /opt/ansible-runner:/runner \
+  -v ~/.ssh:/root/.ssh:ro \
+  -w /runner \
+  quay.io/ansible/ansible-runner:latest \
+  sleep infinity
+
+docker exec -it ansible-runner ansible --version
+
+docker exec -it ansible-runner ansible-runner --version
+
+docker exec -it ansible-runner ansible-playbook -i inventory/hosts playbooks/site.yml
+docker exec -it ansible-runner bash
+
 ```
 ## Install AWX
 

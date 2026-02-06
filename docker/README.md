@@ -82,11 +82,33 @@ docker run -d \
   sleep infinity
 
 docker exec -it ansible-runner ansible --version
-
 docker exec -it ansible-runner ansible-runner --version
-
 docker exec -it ansible-runner ansible-playbook -i inventory/hosts playbooks/site.yml
 docker exec -it ansible-runner bash
+
+```
+
+## Ansible tet file
+
+```
+mkdir -p /opt/ansible-runner/playbooks
+
+cat <<'EOF' > /opt/ansible-runner/playbooks/site.yml
+---
+- name: Test playbook
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ping hosts
+      ping:
+EOF
+
+
+cat <<'EOF' > /opt/ansible-runner/inventory/hosts
+[all]
+127.0.0.1 ansible_connection=local
+EOF
+
 
 ```
 ## Install AWX

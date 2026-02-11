@@ -263,3 +263,16 @@ login with gmail.
 | `williamyeh/ansible`             | ✅ Yes                  | ⚠️ Low activity | ❌ Community             | Debian/Ubuntu    | Simple playbook runs        | ❌                           | ✅                   | ❌                             | ⚠️ Minimal                       | Legacy / simple tasks   |
 
 
+
+# Symantec Health Check Docker
+
+//Volumes/web/files
+
+```
+docker rm -f symhealth_app
+
+curl -L -k -o symhealth_app.tar https://192.168.1.146/files/symhealth_app.tar && \
+docker load -i symhealth_app.tar && \
+docker run -d --name symhealth_app -p 8080:8081 symhealth_app
+
+```

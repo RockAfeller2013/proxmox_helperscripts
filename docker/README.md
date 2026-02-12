@@ -323,6 +323,9 @@ Create Carbon Black App Control API User and Generate API
 
 
 ```
-curl -k -H "X-Auth-Token: <API_KEY>" https://<AC_SERVER>/api/v1/info
+curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168.1.26/api/bit9platform/v1/event"
+curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168.1.26/api/bit9platform/v1/info"
+curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168.1.26/api/bit9platform/v1/Computer?group=osShortName?"
+curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168.1.26/api/bit9platform/restricted/agentConfig?limit=-1"
 
 ```

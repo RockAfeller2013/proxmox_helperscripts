@@ -292,7 +292,7 @@ docker stop symhealth_app
 
 ```
 
-Edit the background , inside the contain console and Insert the following at the end of style.css
+Edit the background , inside the container console, Insert the following at the end of /symhealth/media/style.css and restart
 
 ```
 

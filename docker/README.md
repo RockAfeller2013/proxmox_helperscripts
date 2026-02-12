@@ -276,6 +276,12 @@ docker load -i symhealth_app.tar && \
 docker run -d --name symhealth_app -p 8080:8081 symhealth_app
 
 ```
+
+```
+docker exec -it symhealth_app sh -c "ss -tulnp || netstat -tulnp"
+docker ps | grep semaphore
+docker logs semaphore
+```
 Manual Docker Start
 ```
 docker update --restart=no symhealth_app

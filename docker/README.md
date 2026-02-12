@@ -320,6 +320,10 @@ Create Carbon Black App Control API User and Generate API
 - Carbon Black App Control API - https://techdocs.broadcom.com/us/en/carbon-black/app-control/carbon-black-app-control/8-11-2/app-control-user-guide_tile/GUID-757E4F0C-1A20-4B38-B7D6-B8063C71C02C-en.html
 - Getting Started with App Control APIs & Integrations - https://developer.carbonblack.com/reference/enterprise-protection/
 - App Control REST API Reference - https://developer.carbonblack.com/reference/enterprise-protection/7.2/rest-api/
+- Manage API Users and Tokens - https://knowledge.broadcom.com/external/article/286247/manage-api-users-and-tokens.html
+- Use Postman to Retrieve Data Via API - https://knowledge.broadcom.com/external/article?articleNumber=286470
+
+
 
 
 ```

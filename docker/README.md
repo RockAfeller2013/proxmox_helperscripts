@@ -306,3 +306,4 @@ body {
 }
 
 ```
+On MacOSX and Chrome, CONTROl + SHIFT + R to refresh

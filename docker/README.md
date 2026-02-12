@@ -291,3 +291,17 @@ docker stop symhealth_app
 
 
 ```
+
+Edit the background , inside the contain console and Insert the following at the end of style.css
+
+```
+
+yum install -y nano
+nano /symhealth/media/style.css
+
+body {
+    background-image: none !important;
+    background-color: #000000 !important;
+}
+
+```

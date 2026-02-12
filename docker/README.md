@@ -299,9 +299,10 @@ Edit the background , inside the container console, Insert the following at the 
 yum install -y nano
 nano /symhealth/media/style.css
 
+html,
 body {
-    background-image: none !important;
     background-color: #000000 !important;
+    background-image: none !important;
 }
 
 ```

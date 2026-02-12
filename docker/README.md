@@ -306,4 +306,10 @@ body {
 }
 
 ```
+Download the App Control Script to server and run it
+
+```
+PowerShell -ExecutionPolicy Bypass -File "C:\Users\Administrator\Downloads\App_Control_On-Prem_Script\ac_ta.ps1"
+
+```
 On MacOSX and Chrome, COMMAND + SHIFT + R to refresh

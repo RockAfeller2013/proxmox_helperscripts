@@ -276,3 +276,12 @@ docker load -i symhealth_app.tar && \
 docker run -d --name symhealth_app -p 8080:8081 symhealth_app
 
 ```
+Manual Docker Start
+```
+docker update --restart=no symhealth_app
+docker inspect -f '{{ .HostConfig.RestartPolicy.Name }}' symhealth_app
+docker start symhealth_app
+docker stop symhealth_app
+
+
+```

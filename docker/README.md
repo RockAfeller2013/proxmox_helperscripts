@@ -317,6 +317,10 @@ On MacOSX and Chrome, COMMAND + SHIFT + R to refresh
 Create Carbon Black App Control API User and Generate API
 - API Authentication and Access Control - https://techdocs.broadcom.com/us/en/carbon-black/app-control/carbon-black-app-control/8-11-2/app-control-user-guide_tile/GUID-757E4F0C-1A20-4B38-B7D6-B8063C71C02C-en/GUID-47338240-780C-4B97-9921-285EEEF06F4C-en.html
 - Create an API User and Get its API Token - https://techdocs.broadcom.com/us/en/carbon-black/app-control/carbon-black-app-control/8-11-2/app-control-user-guide_tile/GUID-757E4F0C-1A20-4B38-B7D6-B8063C71C02C-en/GUID-47338240-780C-4B97-9921-285EEEF06F4C-en/GUID-6529F642-7C7D-4AFE-90DD-EB3448F98106-en.html
+- Carbon Black App Control API - https://techdocs.broadcom.com/us/en/carbon-black/app-control/carbon-black-app-control/8-11-2/app-control-user-guide_tile/GUID-757E4F0C-1A20-4B38-B7D6-B8063C71C02C-en.html
+- Getting Started with App Control APIs & Integrations - https://developer.carbonblack.com/reference/enterprise-protection/
+- App Control REST API Reference - https://developer.carbonblack.com/reference/enterprise-protection/7.2/rest-api/
+
 
 ```
 curl -k -H "X-Auth-Token: <API_KEY>" https://<AC_SERVER>/api/v1/info

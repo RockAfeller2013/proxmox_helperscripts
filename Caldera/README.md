@@ -23,19 +23,14 @@ sudo systemctl restart ssh
 sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo reboot
 ```
 
-
-
-
 ### Install Python 3.10+ (with Pip3) GoLang 1.24+ to dynamically compile GoLang-based agents NodeJS (v16+ recommended for v5 VueJS UI)
 
 ```
-sudo apt update && sudo apt install -y software-properties-common && sudo add-apt-repository -y ppa:deadsnakes/ppa && sudo apt update && sudo apt install -y python3.10 python3.10-venv python3.10-distutils python3-pip
+sudo apt install python3-pip -y
+sudo apt install git -y
+sudo apt install python3.13-venv -y
 
-wget https://go.dev/dl/go1.24.linux-amd64.tar.gz -O /tmp/go1.24.tar.gz && sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf /tmp/go1.24.tar.gz && echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile && source ~/.profile
-
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt install -y nodejs
 ```
-
 
 ```
 python3 -m venv .calderavenv
@@ -48,7 +43,6 @@ cd caldera
 pip3 install -r requirements.txt
 python3 server.py --insecure --build
 ```
-
 
 ```
 git submodule add https://github.com/mitre/magma

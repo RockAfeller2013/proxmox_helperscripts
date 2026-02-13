@@ -32,6 +32,28 @@ sudo apt install python3.13-venv -y
 
 ```
 
+### NodeJS
+```
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+## GoLang
+
+```
+sudo apt-get update
+sudo apt-get install -y wget tar
+
+wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
+source ~/.profile
+
+go version
+
+```
 ```
 python3 -m venv .calderavenv
 source .calderavenv/bin/activate

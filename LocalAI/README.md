@@ -12,5 +12,5 @@ Ollama, Openwebui, Llama.cpp, vLLM  , LM Studio OPenChat
 - OpenClaw with Local LLM - https://www.youtube.com/watch?v=Otn-NbpQH1k
 - I tested 17 Uncensored Local LLMs - https://www.youtube.com/watch?v=Yxb-9OWvjkI
 - Local AI Agent with LangGraph + Ollama (Full Tutorial, Qwen3) - https://www.youtube.com/watch?v=LXSfjOCYD40
-
+- https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95
 

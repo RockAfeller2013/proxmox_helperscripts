@@ -15,12 +15,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 ### Enable Root SSH
 ```
 sudo passwd root
-# Set a password for root
-
-sudo nano /etc/ssh/sshd_config
-# Change or add the line:
-PermitRootLogin yes
-
+sudo sed -i '/^PermitRootLogin/c\PermitRootLogin yes' /etc/ssh/sshd_config || echo 'PermitRootLogin yes' | sudo tee -a /etc/ssh/sshd_config
 sudo systemctl restart ssh
 ```
 ### Full Upgrade

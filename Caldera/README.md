@@ -76,7 +76,7 @@ python3 server.py --insecure --build
 git submodule add https://github.com/mitre/magma
 cd plugins/magma && npm install && cd ..
 python3 server.py --uidev localhost
-pm install -g npm@11.10.0
+npm install -g npm@11.10.0
 ```
 
 ### Docker Pull

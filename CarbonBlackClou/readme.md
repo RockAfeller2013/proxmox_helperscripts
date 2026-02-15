@@ -17,6 +17,9 @@ curl -X OPTIONS \
 ```
 
 ## Atomic Red Team
+
+- https://www.atomicredteam.io/atomic-red-team#atomics-table
+- 
 ```
 
 

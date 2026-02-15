@@ -8,3 +8,21 @@ mount c: C:\Users\admin\Desktop\EICAR
 c:
 eicar.com
 ```
+
+```
+curl -X OPTIONS \
+  -H "User-Agent: Recon-Test-Agent" \
+  -H "Accept: */*" \
+  http://example.com/
+```
+
+## Atomic Red Team
+```
+
+
+T1071.001 - Application Layer Protocol: Web Protocols
+
+T1071.004 - Application Layer Protocol: DNS
+
+T1567.002 - Exfiltration Over Web Service: Exfiltration to Cloud Storage
+```

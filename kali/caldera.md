@@ -361,3 +361,12 @@ echo "If you want TLS, replace --insecure in the systemd ExecStart with --tls an
 exit 0
 
 ```
+
+## Install All Cladera Plugsin
+```
+cd ~/caldera5/plugins
+for repo in $(curl -s https://api.github.com/orgs/mitre/repos?per_page=200 | grep '"clone_url":' | grep caldera -v | awk -F'"' '{print $4}' | sed 's#.*/##;s/.git//'); do
+    [ -d "$repo" ] || git clone --recursive https://github.com/mitre/$repo.git
+done
+
+```

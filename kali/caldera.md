@@ -3,16 +3,11 @@
 
 ## Install Caldera
 - The --build flag is required the first time you run the server to bundle the UI dependencies
-
-```
-git clone https://github.com/mitre/caldera.git --recursive
-cd caldera
-pip3 install -r requirements.txt
-python3 server.py --insecure --build
-```
+- python3 server.py --insecure --build
 
 
 ### Start Caldera
+
 ```
 
 source ~/caldera_venv/bin/activate

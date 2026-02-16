@@ -22,11 +22,6 @@ python server.py --insecure --build
 
 ```
 
-source ~/caldera_venv/bin/activate
-cd ~/caldera5
-python3 server.py --insecure --build
-python3 server.py --insecure --api-token
-
 sudo systemctl daemon-reload
 sudo systemctl restart caldera
 sudo systemctl status caldera

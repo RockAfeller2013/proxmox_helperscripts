@@ -11,7 +11,7 @@ red / admin
 
 ```
 
-### Run Caldear
+### Run Caldera
 
 ```
 caldera --insecure --build
@@ -24,6 +24,27 @@ cd ~/caldera5
 source ~/caldera_venv/bin/activate
 python3 server.py --insecure --api-token
 
+```
+
+### Start Caldera
+
+```
+source ~/caldera_venv/bin/activate
+cd ~/caldera5
+python3 server.py --insecure --build
+
+sudo systemctl daemon-reload
+sudo systemctl restart caldera
+sudo systemctl status caldera
+
+
+```
+
+### Clone Atomic Red Team
+
+```
+cd ~/caldera5/plugins
+git clone https://github.com/mitre/atomic.git
 ```
 
 

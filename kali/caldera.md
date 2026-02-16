@@ -2,8 +2,20 @@
 
 
 ## Install Caldera
+
 - The --build flag is required the first time you run the server to bundle the UI dependencies
 - python3 server.py --insecure --build
+
+```
+sudo apt install -y python3-venv
+cd ~/caldera
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+python server.py --insecure --build
+
+```
 
 
 ### Start Caldera

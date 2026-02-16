@@ -21,6 +21,7 @@ python server.py --insecure --build
 ### Start Caldera again
 
 ```
+cd ~/caldera
 python3 -m venv venv
 source venv/bin/activate
 python server.py --insecure 

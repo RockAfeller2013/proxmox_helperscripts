@@ -91,8 +91,7 @@ Get-Process splunkd
 
 ## uninstall Caldera
 
-```
-  GNU nano 8.7                                                     uninstall.sh                                                              
+```                                                     
 #!/usr/bin/env bash
 # MITRE CALDERA Uninstall Script
 # Run as a user with sudo privileges

@@ -18,6 +18,14 @@ caldera --insecure --build
 https://localhost:8888    red / admin
 ```
 
+```
+sudo systemctl stop caldera
+cd ~/caldera5
+source ~/caldera_venv/bin/activate
+python3 server.py --insecure --api-token
+
+```
+
 
 ### Create an agent (Sandcat)
 

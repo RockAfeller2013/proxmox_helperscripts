@@ -131,3 +131,7 @@ echo "Optional: Remove plugins directory if separate (usually inside $CALDERA_HO
 echo "CALDERA has been uninstalled."
 
 ```
+
+## Windows Lateral Movment
+
+- https://caldera.readthedocs.io/en/latest/Lateral-Movement-Guide.html

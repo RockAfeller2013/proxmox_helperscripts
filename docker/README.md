@@ -333,3 +333,8 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168.1.26/api/bit9platform/restricted/agentConfig?limit=-1"
 
 ```
+
+## Memo
+
+- https://github.com/usememos/memos
+- 

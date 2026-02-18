@@ -135,3 +135,58 @@ echo "CALDERA has been uninstalled."
 ## Windows Lateral Movment
 
 - https://caldera.readthedocs.io/en/latest/Lateral-Movement-Guide.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1570/T1570.md
+
+To set up MITRE Caldera for Windows lateral movement, you must satisfy specific "fact" requirements—such as the target host's FQDN—before launching an operation that uses a lateral movement adversary profile. 
+caldera documentation
+caldera documentation
+ +1
+1. Deploy the Initial Agent 
+You need a "foothold" agent on the network with administrative privileges. 
+GitHub
+GitHub
+Navigate to the Agents tab in the Caldera UI.
+Deploy the Sandcat (54ndc47) agent for Windows.
+Copy the provided PowerShell command and run it on your initial Windows target. 
+Sophos Community
+Sophos Community
+ +2
+2. Configure a Fact Source
+Caldera's lateral movement abilities (found in the Stockpile plugin) require target information, such as an IP address or FQDN, to be known as a "fact". 
+caldera documentation
+caldera documentation
+ +1
+Go to Advanced > Sources and create a new source (e.g., "SC Source").
+Add a fact with the name remote.host.fqdn and set the value to the FQDN of the machine you want to move to. 
+caldera documentation
+caldera documentation
+ +2
+3. Select a Lateral Movement Profile 
+You must use an adversary profile that contains lateral movement TTPs. 
+caldera documentation
+caldera documentation
+ +1
+Go to Campaigns > Adversaries and select a profile like Service Creation Lateral Movement.
+This profile typically uses abilities that upload a remote access tool (RAT) and then execute it on the target host. 
+caldera documentation
+caldera documentation
+ +2
+4. Start the Operation
+Go to Campaigns > Operations and click Add.
+Basic Options: Select the group containing your initial agent and the lateral movement adversary profile.
+Autonomous Options: Select Use [Your Source Name] facts to provide the target FQDN to the operation.
+Start the operation. If successful, a new agent will appear in your agent list on the target host. 
+caldera documentation
+caldera documentation
+ +3
+For more detailed technical walkthroughs, refer to the Windows Lateral Movement Guide in the official MITRE Caldera Documentation.
+Would you like to know which specific Windows lateral movement techniques (like Service Creation or WinRM) are most effective for your environment?
+
+To get this running, I'd suggest starting with Service Creation (T1543.003) or WMI (T1047)—they are the most reliable TTPs for testing Windows environments.
+Before you pull the trigger, just double-check that:
+Network connectivity is open between your "foothold" and the "target" (ports 445/135).
+Your Fact Source has a valid domain.user.password if you aren't using a current user context.
+Do you want the specific PowerShell commands to verify your targets are reachable before you start the Caldera operation?
+
+
+

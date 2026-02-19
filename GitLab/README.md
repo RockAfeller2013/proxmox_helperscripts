@@ -56,23 +56,20 @@ pveam available | head
 ```
 
 ```
-# Enable CT templates (vztmpl) on the NFS storage
-
-# 1. Backup config
-cp /etc/pve/storage.cfg /etc/pve/storage.cfg.bak
-
-# 2. Add vztmpl to the content line for synology-backups
-sed -i '/^nfs: synology-backups$/,/^$/ s/^.*content.*/        content backup,vztmpl/' /etc/pve/storage.cfg
-
-# 3. Verify change
+# Verify the change
 grep -A6 '^nfs: synology-backups' /etc/pve/storage.cfg
 
-# 4. Confirm Proxmox recognizes template support
+# Confirm Proxmox sees the updated content types
 pvesm status
 pvesm list synology-backups
 
-# 5. Test downloading a CT template to that storage
+# Update the CT template list
 pveam update
-pveam download synology-backups debian-12-standard_12.*_amd64.tar.zst
+
+# Check available Debian 12 templates
+pveam available | grep debian-12-standard
+
+# Download using the exact name from the command above
+pveam download synology-backups debian-12-standard_12.7_amd64.tar.zst
 
 ```

@@ -347,7 +347,11 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 ```
 docker pull sonarqube
 
-docker run --stop-timeout 3600 sonarqube
 docker run --name sonarqube-custom -p 9000:9000 sonarqube:community
+docker run --stop-timeout 3600 sonarqube
 
+
+Username: admin
+Password: admin
+http://192.168.1.37:9000
 ```

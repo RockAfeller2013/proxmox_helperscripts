@@ -11,6 +11,8 @@ docker run -d --name gitlab \
   -p 8028:80 -p 443:443 -p 2222:22 \
   gitlab/gitlab-ce:nightly
 
+docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+
 ```
 
 ## Turnkey
@@ -106,3 +108,4 @@ pveam download synology-backups debian-12-turnkey-gitlab_18.1-1_amd64.tar.gz
 # Verify it exists on the storage
 pvesm list synology-backups | grep gitlab
 ```
+

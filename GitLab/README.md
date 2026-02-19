@@ -13,6 +13,11 @@ docker run -d --name gitlab \
 
 docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
+ocker stop gitlab
+docker rm gitlab
+docker rmi gitlab/gitlab-ce:nightly
+
+
 ```
 
 ## Turnkey

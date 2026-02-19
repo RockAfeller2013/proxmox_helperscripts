@@ -79,3 +79,18 @@ pveam available | grep debian-12-standard
 pveam download synology-backups debian-12-standard_12.7_amd64.tar.zst
 
 ```
+
+```
+# Refresh template catalog
+pveam update
+
+# Find the exact TurnKey GitLab template name
+pveam available | grep -i gitlab
+
+
+# Download the TurnKey GitLab CT template to your NFS storage
+pveam download synology-backups debian-12-turnkey-gitlab_18.1-1_amd64.tar.gz
+
+# Verify it exists on the storage
+pvesm list synology-backups | grep gitlab
+```

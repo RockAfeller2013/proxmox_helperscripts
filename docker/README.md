@@ -337,4 +337,17 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 ## Memo
 
 - https://github.com/usememos/memos
-- 
+
+## SonarCube
+
+- https://github.com/SonarSource/docker-sonarqube
+- https://hub.docker.com/_/sonarqube/
+- https://github.com/docker-library/docs/tree/master/sonarqube
+
+```
+docker pull sonarqube
+
+docker run --stop-timeout 3600 sonarqube
+docker run --name sonarqube-custom -p 9000:9000 sonarqube:community
+
+```

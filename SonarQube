@@ -1,0 +1,19 @@
+# Setup SonarQube
+
+pygoat - https://devguide.owasp.org/en/07-training-education/01-vulnerable-apps/03-pygoat/
+
+```
+Generate a complete Markdown guide for setting up SonarQube with GitLab CI/CD and Visual Studio Code for a Python project. The guide should include:
+
+1. Running SonarQube in Docker.
+2. Generating a SonarQube token.
+3. Adding the token as a GitLab CI/CD variable.
+4. Example Python project structure (app.py).
+5. `sonar-project.properties` configuration.
+6. `.gitlab-ci.yml` configuration for SonarScanner.
+7. Instructions for VS Code integration with SonarLint.
+8. How to test the setup (push to GitLab, MR, see results in SonarQube).
+9. Optional: Python unit test example for coverage reporting.
+
+Pro
+```

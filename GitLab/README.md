@@ -109,3 +109,9 @@ pveam download synology-backups debian-12-turnkey-gitlab_18.1-1_amd64.tar.gz
 pvesm list synology-backups | grep gitlab
 ```
 
+## Turnkey Gitlab Configuration
+- First login using the password set guring th CT Template setup.
+- Set complete Justletmelogin2026
+```
+```
+

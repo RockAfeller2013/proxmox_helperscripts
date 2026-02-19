@@ -1,4 +1,4 @@
-# Setup Sonar Cuber
+# Setup Sonar Cube
 
 ```
 docker run --stop-timeout 3600 sonarqube

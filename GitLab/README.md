@@ -62,8 +62,16 @@ cp /etc/pve/storage.cfg /etc/pve/storage.cfg.bak
 # Create Cache
 mkdir -p /mnt/pve/synology-backups/template/cache
 
+# Add content backup,vztmpl
+sed -i '/^nfs: synology-backups$/,/^$/ s/content.*/content backup,vztmpl/' /etc/pve/storage.cfg
+
 # Verify the change
+
+sed -n '/^nfs: synology-backups$/,/^$/p' /etc/pve/storage.cfg
 grep -A6 '^nfs: synology-backups' /etc/pve/storage.cfg
+
+# Restart
+systemctl restart pvedaemon pveproxy
 
 # Confirm Proxmox sees the updated content types
 pvesm status

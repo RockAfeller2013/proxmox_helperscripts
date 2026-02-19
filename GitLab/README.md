@@ -11,6 +11,10 @@ docker run -d --name gitlab \
   -p 8028:80 -p 443:443 -p 2222:22 \
   gitlab/gitlab-ce:nightly
 
+
+http://192.168.1.37:8028/
+Username : root
+Password: 
 docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 
 ocker stop gitlab

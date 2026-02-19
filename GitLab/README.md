@@ -56,6 +56,12 @@ pveam available | head
 ```
 
 ```
+# Backup
+cp /etc/pve/storage.cfg /etc/pve/storage.cfg.bak
+
+# Create Cache
+mkdir -p /mnt/pve/synology-backups/template/cache
+
 # Verify the change
 grep -A6 '^nfs: synology-backups' /etc/pve/storage.cfg
 

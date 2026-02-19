@@ -1,5 +1,15 @@
 # Setup Sonar Cuber
 
+```
+docker run --stop-timeout 3600 sonarqube
+docker run --name sonarqube-custom -p 9000:9000 sonarqube:community
+http://192:168.1.37:9000
+
+Username: admin
+Password: admin
+```
+
+
 ## Pygoat
 
 - https://devguide.owasp.org/en/07-training-education/01-vulnerable-apps/03-pygoat/

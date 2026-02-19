@@ -4,8 +4,10 @@ In order to install GitLab on Proxmox, you can use either Docker and/or TurnKey 
 
 ## Docker
 - https://hub.docker.com/r/gitlab/gitlab-ce/?_gl=1*yyf43q*_gcl_au*Nzk5MDYxNjA3LjE3NzAwODkxNzM.*_ga*MTA3MjQ3MzAwLjE3NzAwODkxNzI.*_ga_XJWPQMJYHQ*czE3NzE0OTEzMTgkbzYkZzEkdDE3NzE0OTEzMTgkajYwJGwwJGgw
+- Setu a Gitlab container - https://docs.gitlab.com/omnibus/development/setup/?utm_source=chatgpt.com
 ```
 docker pull gitlab/gitlab-ce:nightly
+docker run -it --publish 443:443 --publish 80:80 --publish 22:22 gitlab/gitlab-ce:nightly ba
 
 ```
 

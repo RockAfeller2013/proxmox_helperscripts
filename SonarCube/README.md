@@ -2,7 +2,7 @@
 
 ```
 docker run --stop-timeout 3600 sonarqube
-docker run --name sonarqube-custom -p 9000:9000 sonarqube:community
+docker run --name sonarqube-custom -p 9001:9000 sonarqube:community
 http://192:168.1.37:9000
 
 Username: admin

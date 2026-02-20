@@ -1,12 +1,21 @@
 # Setup Sonar Cube
 
+- https://github.com/SonarSource/docker-sonarqube
+- https://hub.docker.com/_/sonarqube/
+- https://github.com/docker-library/docs/tree/master/sonarqube
+
 ```
-docker run --stop-timeout 3600 sonarqube
 docker run --name sonarqube-custom -p 9001:9000 sonarqube:community
-http://192:168.1.37:9000
+docker run --stop-timeout 3600 sonarqube
+
+http://192:168.1.37:9001
 
 Username: admin
 Password: admin
+
+```
+
+```
 ```
 
 

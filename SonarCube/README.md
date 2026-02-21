@@ -72,3 +72,18 @@ Create a complete Markdown guide for integrating an existing Docker-based SonarQ
 
 Include all necessary code snippets, configuration files, and step-by-step instructions in a single Markdown file that can be saved as `SonarGitLabSetup.md`. Make it ready-to-use for someone who already has Docker-based SonarQube and GitLab running.
 ```
+
+# Sonar Cube
+
+- SonarCloud SaaS - Free for 50,000 lines of code - https://sonarcloud.io/organizations/rockafeller2013/projects
+- Sonarcube for IDE - Free for Visual Code
+- SonarCube Communituy - free Edition
+- SonarCube MCP Server
+
+
+## Install SonarCube MCP Server
+- https://docs.sonarsource.com/sonarqube-mcp-server/build-and-configure/build#build-locally
+- https://docs.sonarsource.com/sonarqube-mcp-server/quickstart-guide
+``
+
+```

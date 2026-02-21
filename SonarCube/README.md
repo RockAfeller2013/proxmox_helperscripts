@@ -79,7 +79,7 @@ Include all necessary code snippets, configuration files, and step-by-step instr
 - Sonarcube for IDE - Free for Visual Code
 - SonarCube Communituy - free Edition
 - SonarCube MCP Server
-
+-  SonarQube Cloud Terraform Cloud (TFC) Run Task - https://docs.sonarsource.com/sonarqube-cloud/managing-your-projects/administering-your-projects/advanced-administration/setting-up-run-tasks-in-tfc
 
 ## Install SonarCube MCP Server
 - https://docs.sonarsource.com/sonarqube-mcp-server/build-and-configure/build#build-locally

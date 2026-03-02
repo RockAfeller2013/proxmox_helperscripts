@@ -1,7 +1,8 @@
 # Guide to setup Carbon Black Cloud - Demo
 
 - Power up VM 300, 301 and 50003
--
+- Login to Kali VM 5003 and start Caldera as per https://github.com/RockAfeller2013/proxmox_helperscripts/blob/main/kali/caldera.md
+- Install the Caldera Sensor
 
 ## Carbon Black Cloud - Demo
 ```

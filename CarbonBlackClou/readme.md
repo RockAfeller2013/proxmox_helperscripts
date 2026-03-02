@@ -1,7 +1,8 @@
 # Guide to setup Carbon Black Cloud - Demo
 
-- Power up VM 300, 301 and 500
-- 
+- Power up VM 300, 301 and 50003
+-
+
 ## Carbon Black Cloud - Demo
 ```
 choco install dbgl

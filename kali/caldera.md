@@ -132,6 +132,10 @@ echo "CALDERA has been uninstalled."
 
 ```
 
+## Create New Schedule
+
+- Createa  New Schedule and set to run every 10 mins:  */10 * * * * 
+
 ## Windows Lateral Movement
 
 **References:**

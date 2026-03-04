@@ -132,6 +132,15 @@ echo "CALDERA has been uninstalled."
 
 ```
 
+## Kill Caldera process
+
+```
+sudo lsof -i :8888
+sudo kill -9 1362
+pkill -f server.py
+sudo ss -tulpn | grep 8888
+```
+
 ## Create New Schedule
 
 - Createa  New Schedule and set to run every 10 mins:  */10 * * * * 

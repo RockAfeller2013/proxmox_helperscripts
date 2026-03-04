@@ -16,6 +16,8 @@ pip install --upgrade pip
 pip install -r requirements.txt
 python server.py --insecure --build
 
+sudo apt install python3.11 python3.11-venv
+python3.11 -m venv venv
 ```
 
 
@@ -135,9 +137,12 @@ echo "CALDERA has been uninstalled."
 ## Kill Caldera process
 
 ```
+ulimit -n 65535
 sudo lsof -i :8888
 sudo kill -9 1362
 pkill -f server.py
+pkill -f python
+lsof | wc -l
 sudo ss -tulpn | grep 8888
 ```
 

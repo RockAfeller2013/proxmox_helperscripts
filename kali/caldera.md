@@ -9,6 +9,8 @@
 
 ```
 sudo apt install -y python3-venv
+git clone https://github.com/mitre/caldera.git --recursive --branch x.x.x 
+
 cd ~/caldera
 python3 -m venv venv
 source venv/bin/activate

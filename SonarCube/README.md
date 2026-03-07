@@ -22,6 +22,7 @@ Password: admin
 ## Pygoat
 
 - https://devguide.owasp.org/en/07-training-education/01-vulnerable-apps/03-pygoat/
+- https://github.com/OWASP/www-project-pygoat
 ```
 Generate a complete Markdown guide for setting up SonarQube with GitLab CI/CD and Visual Studio Code for a Python project. The guide should include:
 

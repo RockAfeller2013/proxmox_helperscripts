@@ -27,6 +27,16 @@
 
 ## 1. Verify Existing Docker Containers
 
+```
+docker run --name sonarqube-custom -p 9001:9000 sonarqube:community
+docker run --stop-timeout 3600 sonarqube
+
+http://192:168.1.37:9001
+
+Username: admin
+Password: admin
+```
+
 Before starting, confirm your SonarQube and GitLab containers are running.
 
 ```bash

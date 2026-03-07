@@ -30,9 +30,11 @@
 ```
 
 docker run --name sonarqube-custom -p 9234:9000 sonarqube:community
-docker run --stop-timeout 3600 sonarqube
 
-http://192:168.1.37:9234
+docker port sonarqube-custom
+docker logs -f sonarqube-custom
+
+http://192.168.1.37:9234/
 
 Username: admin
 Password: admin

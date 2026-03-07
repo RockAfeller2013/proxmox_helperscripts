@@ -28,10 +28,11 @@
 ## 1. Verify Existing Docker Containers
 
 ```
-docker run --name sonarqube-custom -p 9001:9000 sonarqube:community
+
+docker run --name sonarqube-custom -p 9234:9000 sonarqube:community
 docker run --stop-timeout 3600 sonarqube
 
-http://192:168.1.37:9001
+http://192:168.1.37:9234
 
 Username: admin
 Password: admin

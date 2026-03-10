@@ -39,6 +39,8 @@ http://192.168.1.37:9234/
 
 Username: admin
 Password: admin
+
+docker stop $(docker ps -q) && sudo shutdown -h now
 ```
 
 Before starting, confirm your SonarQube and GitLab containers are running.

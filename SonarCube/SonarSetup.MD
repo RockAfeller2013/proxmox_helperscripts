@@ -30,6 +30,7 @@
 ```
 
 docker run --name sonarqube-custom -p 9234:9000 sonarqube:community
+docker run -d --name sonarqube-custom -p 9234:9000 sonarqube:community
 
 docker port sonarqube-custom
 docker logs -f sonarqube-custom

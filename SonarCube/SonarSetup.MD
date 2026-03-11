@@ -41,6 +41,7 @@ Username: admin
 Password: admin
 
 docker stop $(docker ps -q) && sudo shutdown -h now
+docker stop sonarqube-custom
 ```
 
 Before starting, confirm your SonarQube and GitLab containers are running.

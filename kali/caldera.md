@@ -9,17 +9,21 @@
 
 ```
 sudo apt install -y python3-venv
-git clone https://github.com/mitre/caldera.git --recursive --branch x.x.x 
+pip install --upgrade pip
+sudo apt install python3.11 python3.11-venv
+python3.11 -m venv venv
+
+```
+```
+git clone https://github.com/mitre/caldera.git --recursive
 
 cd ~/caldera
 python3 -m venv venv
 source venv/bin/activate
-pip install --upgrade pip
+
 pip install -r requirements.txt
 python server.py --insecure --build
 
-sudo apt install python3.11 python3.11-venv
-python3.11 -m venv venv
 ```
 
 

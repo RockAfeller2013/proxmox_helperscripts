@@ -7,13 +7,16 @@
 - The --build flag is required the first time you run the server to bundle the UI dependencies
 - python3 server.py --insecure --build
 
+
+### Prequiresets 
 ```
 sudo apt install -y python3-venv
 pip install --upgrade pip
 sudo apt install python3.11 python3.11-venv
-python3.11 -m venv venv
 
 ```
+
+### Install Caldera and Build
 ```
 
 python3 -m venv .calderavenv
@@ -24,34 +27,13 @@ pip3 install -r requirements.txt
 python3 server.py --insecure --build
 
 ```
-
+### Start Caldera again
 ```
 cd caldera
 python3 -m venv .calderavenv
 source .calderavenv/bin/activate
 pip3 install -r requirements.txt
 python3 server.py --insecure
-```
-```
-git clone https://github.com/mitre/caldera.git --recursive
-
-cd ~/caldera
-python3 -m venv venv
-source venv/bin/activate
-
-pip install -r requirements.txt
-python server.py --insecure --build
-
-```
-
-
-### Start Caldera again
-
-```
-cd ~/caldera
-python3 -m venv venv
-source venv/bin/activate
-python server.py --insecure 
 ```
 
 ```

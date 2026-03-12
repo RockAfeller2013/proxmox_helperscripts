@@ -30,7 +30,7 @@ cd caldera
 python3 -m venv .calderavenv
 source .calderavenv/bin/activate
 pip3 install -r requirements.txt
-python3 server.py --insecure --build
+python3 server.py --insecure
 ```
 ```
 git clone https://github.com/mitre/caldera.git --recursive

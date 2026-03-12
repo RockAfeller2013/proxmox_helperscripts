@@ -15,6 +15,24 @@ python3.11 -m venv venv
 
 ```
 ```
+
+python3 -m venv .calderavenv
+source .calderavenv/bin/activate
+git clone https://github.com/mitre/caldera.git --recursive
+cd caldera
+pip3 install -r requirements.txt
+python3 server.py --insecure --build
+
+```
+
+```
+cd caldera
+python3 -m venv .calderavenv
+source .calderavenv/bin/activate
+pip3 install -r requirements.txt
+python3 server.py --insecure --build
+```
+```
 git clone https://github.com/mitre/caldera.git --recursive
 
 cd ~/caldera

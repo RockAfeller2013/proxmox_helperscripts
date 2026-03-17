@@ -142,3 +142,23 @@ pveam download synology-backups debian-12-turnkey-gitlab_18.1-1_amd64.tar.gz
 
 # 6. Confirm template exists
 pvesm list synology-backups | grep gitlab
+
+
+# Open Proxmox shell (host) or CT console, then run:
+
+pct enter <CTID>
+
+# Reset root password
+passwd
+
+# Reset GitLab web admin password (TurnKey GitLab)
+gitlab-rails console -e production <<'EOF'
+user = User.find_by(username: 'root') || User.find_by(username: 'gitlab')
+user.password = 'NewStrongPassword123!'
+user.password_confirmation = 'NewStrongPassword123!'
+user.save!
+puts "Password reset for #{user.username}"
+EOF
+
+# Restart GitLab services
+gitlab-ctl restart

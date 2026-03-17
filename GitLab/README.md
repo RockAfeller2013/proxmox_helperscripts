@@ -123,3 +123,22 @@ pvesm list synology-backups | grep gitlab
 ```
 ```
 
+# Fix NFS storage to support CT templates (vztmpl)
+
+# 1. Update storage config
+sed -i '/^nfs: synology-backups$/,/^$/ s/content.*/content backup,vztmpl/' /etc/pve/storage.cfg
+
+# 2. Verify change
+sed -n '/^nfs: synology-backups$/,/^$/p' /etc/pve/storage.cfg
+
+# 3. Reload Proxmox services (if needed)
+systemctl restart pvedaemon pveproxy
+
+# 4. Update template list
+pveam update
+
+# 5. Download TurnKey GitLab CT template
+pveam download synology-backups debian-12-turnkey-gitlab_18.1-1_amd64.tar.gz
+
+# 6. Confirm template exists
+pvesm list synology-backups | grep gitlab

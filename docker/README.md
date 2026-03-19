@@ -346,6 +346,23 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 ```
 docker run -it --rm --name windows -e "VERSION=11" -p 8006:8006 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "${PWD:-.}/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows
 
+docker run -d --name windows \
+  -e "VERSION=11" \
+  -p 8006:8006 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v "$(df --output=target,size,avail | awk 'NR>1 {print $3,$1}' | sort -nr | head -n1 | awk '{print $2"/windows"}'):/storage" \
+  --stop-timeout 120 \
+  docker.io/dockurr/windows
+
+
+docker logs -f --tail 50 windows
+
+docker rm -f dockurr/windows
+docker volume prune -f
+docker rmi dockurr/windows
+docker system prune -a --volumes -f
 ```
 
 

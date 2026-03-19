@@ -339,3 +339,13 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 - https://github.com/usememos/memos
 
 
+# Windows on Docker 
+
+- https://github.com/dockur/windows
+
+```
+docker run -it --rm --name windows -e "VERSION=11" -p 8006:8006 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "${PWD:-.}/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows
+
+```
+
+

@@ -33,6 +33,46 @@ docker stack rm mystack
 
 ```
 
+## Docker Volumes clean up
+
+```
+# Docker Volumes
+
+Persistent storage managed by Docker that exists outside the container lifecycle.  
+Data persists even after the container is removed.  
+Stored on the host and managed by Docker.  
+Used to share data between containers.  
+Preferred over bind mounts for portability.
+
+# Commands
+
+# Create a volume
+docker volume create myvol
+
+# Mount volume into a container
+docker run -d -v myvol:/data nginx
+
+# List all volumes
+docker volume ls
+
+# Inspect a volume's details
+docker volume inspect myvol
+
+# Remove a volume
+docker volume rm myvol
+
+# Remove Unused or Dangling Volumes
+
+Volumes that are not attached to any container are considered dangling and can be safely removed to free space.
+
+# Remove all dangling (unused) volumes
+docker volume prune
+
+# Remove all unused volumes (dangling and not referenced)
+docker system prune -a --volumes
+
+```
+
 ### Docker remove images
 docker image prune -a
 docker system prune -a

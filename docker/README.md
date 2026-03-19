@@ -344,6 +344,13 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 - https://github.com/dockur/windows
 
 ```
+
+sudo apt install cpu-checker
+sudo kvm-ok
+
+docker run --rm -v "${PWD:-.}/windows:/storage" busybox df -h /storage
+
+
 docker run -it --rm --name windows -e "VERSION=11" -p 8006:8006 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "${PWD:-.}/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows
 
 docker run -d --name windows \

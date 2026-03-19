@@ -470,3 +470,30 @@ docker run -d --name guacamole \
   guacamole/guacamole
 
 ```
+### Setup MySQL
+
+```
+# Run MySQL container (detached)
+docker run -d \
+  --name mysql-server \
+  -e MYSQL_ROOT_PASSWORD=rootpass \
+  -e MYSQL_DATABASE=initial_db \
+  -p 3306:3306 \
+  mysql:8.0
+# Execute SQL commands inside the container
+docker exec -i mysql-server mysql -uroot -prootpass <<EOF
+CREATE DATABASE my_app_db;
+USE my_app_db;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (username) VALUES ('admin');
+EOF
+
+# Verify
+docker exec -it mysql-server mysql -uroot -prootpass -e "SHOW DATABASES;"
+```

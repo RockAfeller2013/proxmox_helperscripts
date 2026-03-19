@@ -435,6 +435,8 @@ No extra environment flags are needed — just the volume mount.
 ## Guacamole
 
 ```
+docker network ls
+docker network inspect <network-name>
 
 # create network
 docker network create guac-net

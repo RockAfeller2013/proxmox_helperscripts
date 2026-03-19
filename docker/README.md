@@ -372,6 +372,19 @@ docker rmi dockurr/windows
 docker system prune -a --volumes -f
 ```
 
+Windows XP
+```
+docker run -d --name windows-xp \
+  -e "VERSION=xp" \
+  -p 8007:8006 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v "$(df --output=target,size,avail | awk 'NR>1 {print $3,$1}' | sort -nr | head -n1 | awk '{print $2"/windows-xp"}'):/storage" \
+  -v "/path/to/your/oem:/oem" \
+  --stop-timeout 120 \
+  docker.io/dockurr/windows
+```
 ### Here’s how to make install.bat run automatically on first boot of your dockur/windows VM based on the repository docs:
 
 

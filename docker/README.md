@@ -431,3 +431,29 @@ At the last step of the installation, the VM executes install.bat automatically.
 No extra environment flags are needed — just the volume mount.
 
 ```
+
+## Guacamole
+
+```
+
+# create network
+docker network create guac-net
+
+# run guacd (backend daemon)
+docker run -d --name guacd \
+  --network guac-net \
+  guacamole/guacd
+
+# run guacamole (web UI)
+docker run -d --name guacamole \
+  --network guac-net \
+  -e GUACD_HOSTNAME=guacd \
+  -p 8080:8080 \
+  guacamole/guacamole
+
+
+
+-e WEBAPP_CONTEXT=ROOT
+
+docker network connect guac-net <existing-container>
+```

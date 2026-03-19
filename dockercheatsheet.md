@@ -3,21 +3,35 @@
 
 ## Docker Stack and Docker Compose
 
-docker swarm init
+```
 # Initialize swarm on single node
+docker swarm init
 
-docker stack deploy -c docker-compose.yml mystack
 # Deploy stack
+docker stack deploy -c docker-compose.yml mystack
 
-docker stack services mystack
 # View services
+docker stack services mystack
 
-docker stack rm mystack
 # Remove stack
+docker stack rm mystack
 
-docker swarm leave --force
 # Disable swarm mode
+docker swarm leave --force
 
+# Deploy stack
+docker stack deploy -c docker-compose.yml mystack
+
+# List stacks
+docker stack ls
+
+# List services in stack
+docker stack services mystack
+
+# Remove stack
+docker stack rm mystack
+
+```
 
 ### Docker remove images
 docker image prune -a
@@ -140,3 +154,6 @@ docker info
 
 docker version
 # Show Docker version
+
+
+

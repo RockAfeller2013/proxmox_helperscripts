@@ -371,6 +371,19 @@ docker volume prune -f
 docker rmi dockurr/windows
 docker system prune -a --volumes -f
 ```
+### Use RDP Instead, as VNC doesn't support clipboard
+```
+docker run -d \
+  --name windows \
+  -e VERSION=11 \
+  -p 8006:8006 \
+  -p 5900:5900 \
+  -p 3389:3389 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  dockurr/windows
+```
 
 Windows XP
 ```

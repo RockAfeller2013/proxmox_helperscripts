@@ -1,5 +1,8 @@
 # Docker Cheat Sheet
 
+### Docker remove images
+docker image prune -a
+docker system prune -a
 ## Images
 docker pull nginx
 # Download image from registry

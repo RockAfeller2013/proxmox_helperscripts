@@ -372,4 +372,49 @@ docker rmi dockurr/windows
 docker system prune -a --volumes -f
 ```
 
+### Here’s how to make install.bat run automatically on first boot of your dockur/windows VM based on the repository docs:
 
+
+```
+1. Create your install folder
+
+On your host, create a folder (e.g., oem) that contains your install.bat and any files it needs (installers, scripts, etc.).
+
+2. Put your script inside
+
+Your directory structure should look like:
+
+oem/
+├── install.bat
+├── program1.exe
+├── other-files …
+3. Bind the folder into the container
+
+Update your docker run command to mount that folder to /oem inside the container.
+
+Example updated command:
+
+docker run -d --name windows-xp \
+  -e "VERSION=xp" \
+  -p 8007:8006 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v "$(df --output=target,size,avail | awk 'NR>1 {print $3,$1}' | sort -nr | head -n1 | awk '{print $2"/windows-xp"}'):/storage" \
+  -v "/path/to/your/oem:/oem" \
+  --stop-timeout 120 \
+  docker.io/dockurr/windows
+
+Replace /path/to/your/oem with the real path where your install.bat folder lives.
+
+4. What happens on first boot
+
+During the automated installation process:
+
+The container copies your host folder into C:\OEM in the Windows VM.
+
+At the last step of the installation, the VM executes install.bat automatically.
+
+No extra environment flags are needed — just the volume mount.
+
+```

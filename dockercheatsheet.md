@@ -1,6 +1,16 @@
 # Docker Cheat Sheet
 
 
+## Clean up
+
+```
+
+docker rm -f dockurr/windows
+docker volume prune -f
+docker rmi dockurr/windows
+docker system prune -a --volumes -f
+```
+
 ## Docker Stack and Docker Compose
 
 ```

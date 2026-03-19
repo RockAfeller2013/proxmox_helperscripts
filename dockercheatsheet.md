@@ -1,5 +1,24 @@
 # Docker Cheat Sheet
 
+
+## Docker Stack and Docker Compose
+
+docker swarm init
+# Initialize swarm on single node
+
+docker stack deploy -c docker-compose.yml mystack
+# Deploy stack
+
+docker stack services mystack
+# View services
+
+docker stack rm mystack
+# Remove stack
+
+docker swarm leave --force
+# Disable swarm mode
+
+
 ### Docker remove images
 docker image prune -a
 docker system prune -a

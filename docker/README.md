@@ -450,6 +450,17 @@ No extra environment flags are needed — just the volume mount.
 - https://github.com/boschkundendienst/guacamole-docker-compose
 
 ```
+
+
+git clone "https://github.com/boschkundendienst/guacamole-docker-compose.git"
+cd guacamole-docker-compose
+./prepare.sh
+docker compose up -d
+
+https://192.168.1.37:8443/#/ guacadmin/guacadmin
+
+```
+```
 docker network ls
 docker network inspect <network-name>
 

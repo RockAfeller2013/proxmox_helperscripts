@@ -447,6 +447,8 @@ No extra environment flags are needed — just the volume mount.
 
 ## Guacamole
 
+- https://github.com/boschkundendienst/guacamole-docker-compose
+
 ```
 docker network ls
 docker network inspect <network-name>

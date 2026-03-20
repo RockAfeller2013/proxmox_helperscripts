@@ -367,6 +367,21 @@ docker run -d --name windows \
 
 ```
 
+### Windows 11 with RDP docker/admin port 3390
+```
+docker run -d --name windows \
+  -e "VERSION=11" \
+  -p 8006:8006 \
+  -p 5901:5900 \
+  -p 3390:3389 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v "$(df --output=target,size,avail | awk 'NR>1 {print $3,$1}' | sort -nr | head -n1 | awk '{print $2"/windows"}'):/storage" \
+  --stop-timeout 120 \
+  docker.io/dockurr/windows
+```
+
 ```
 docker rm -f dockurr/windows
 docker volume prune -f

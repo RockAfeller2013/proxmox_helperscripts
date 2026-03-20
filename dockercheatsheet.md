@@ -11,6 +11,12 @@ docker rmi dockurr/windows
 docker system prune -a --volumes -f
 ```
 
+## Docker Gracefull restart
+
+```
+docker ps -q | xargs -r docker stop && systemctl restart docker
+```
+
 ## Docker Stack and Docker Compose
 
 ```

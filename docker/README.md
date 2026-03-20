@@ -343,6 +343,7 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 
 - https://github.com/dockur/windows
 
+### Windows 11
 ```
 
 sudo apt install cpu-checker
@@ -364,8 +365,9 @@ docker run -d --name windows \
   docker.io/dockurr/windows
 
 
-docker logs -f --tail 50 windows
+```
 
+```
 docker rm -f dockurr/windows
 docker volume prune -f
 docker rmi dockurr/windows
@@ -385,7 +387,8 @@ docker run -d \
   dockurr/windows
 ```
 
-Windows XP
+### Windows XP
+
 ```
 docker run -d --name windows-xp \
   -e "VERSION=xp" \
@@ -397,6 +400,9 @@ docker run -d --name windows-xp \
   -v "/path/to/your/oem:/oem" \
   --stop-timeout 120 \
   docker.io/dockurr/windows
+
+docker logs -f --tail 50 windows-xp
+
 ```
 ### Here’s how to make install.bat run automatically on first boot of your dockur/windows VM based on the repository docs:
 

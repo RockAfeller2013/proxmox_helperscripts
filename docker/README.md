@@ -512,3 +512,37 @@ EOF
 # Verify
 docker exec -it mysql-server mysql -uroot -prootpass -e "SHOW DATABASES;"
 ```
+# Enable Docker Compose
+
+```
+# Check if Docker Compose (v2 plugin) is already installed
+docker compose version
+
+# --- If NOT installed, install Docker Compose plugin (Linux) ---
+
+# Update package index
+sudo apt-get update
+
+# Install Docker Compose plugin
+sudo apt-get install -y docker-compose-plugin
+
+# Verify installation
+docker compose version
+
+# --- Optional: Enable docker command without sudo ---
+sudo usermod -aG docker $USER
+newgrp docker
+
+# --- Test with a sample compose file ---
+cat <<EOF > docker-compose.yml
+services:
+  hello:
+    image: hello-world
+EOF
+
+docker compose up
+
+# --- Clean up ---
+docker compose down
+rm docker-compose.yml
+```

@@ -14,7 +14,7 @@ docker system prune -a --volumes -f
 ## Docker Gracefull restart
 
 ```
-docker ps -q | xargs -r docker stop && sleep 5 && systemctl stop docker && sleep 5 && reboot
+docker ps -q | xargs -r docker stop && sleep 5 && systemctl stop docker && sleep 5 && shutdown
 ```
 
 ## Docker Stack and Docker Compose

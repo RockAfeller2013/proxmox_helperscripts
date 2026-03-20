@@ -458,9 +458,8 @@ cd guacamole-docker-compose
 docker compose up -d
 
 https://192.168.1.37:8443/#/ guacadmin/guacadmin
+To reset everything to the beginning, just run ./reset.sh.
 
-```
-```
 docker network ls
 docker network inspect <network-name>
 
@@ -468,35 +467,10 @@ docker network inspect <network-name>
 docker network create guac-net
 
 docker network connect guac-net <existing-container>
-```
-
-If the default guacadmin / guacadmin does not work, it usually means you are running the Guacamole Docker image without a database, which does not include persistent users. The default credentials only exist in the official MySQL/PostgreSQL extension images, not in the standalone Docker image.
-
-http://192.168.1.37:8080/guacamole/ 
-guacadmin / guacadmin
-
 
 ```
-docker run -d --name guac-mysql \
-  -e MYSQL_ROOT_PASSWORD=root \
-  -e MYSQL_DATABASE=guacamole_db \
-  -e MYSQL_USER=guacamole_user \
-  -e MYSQL_PASSWORD=guacpass \
-  mysql:8
 
-docker run -d --name guacd --network guac-net guacamole/guacd
-
-docker run -d --name guacamole \
-  --network guac-net \
-  -e MYSQL_HOSTNAME=guac-mysql \
-  -e MYSQL_DATABASE=guacamole_db \
-  -e MYSQL_USER=guacamole_user \
-  -e MYSQL_PASSWORD=guacpass \
-  -p 8080:8080 \
-  guacamole/guacamole
-
-```
-### Setup MySQL
+### Setup MySQL (Manual, above works.) 
 
 ```
 # Run MySQL container (detached)

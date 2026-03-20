@@ -403,6 +403,14 @@ docker run -d --name windows-xp \
 
 docker logs -f --tail 50 windows-xp
 
+ocker network inspect guacamole-docker-compose_guacnetwork_compose -f '{{range .Containers}}{{.Name}} {{end}}'
+docker network connect guacamole-docker-compose_guacnetwork_compose windows-xp
+
+## Gucamole Connections that works
+
+Protocol: VNC / Hostname: windows-xp / Port:5900
+
+
 ```
 ### Here’s how to make install.bat run automatically on first boot of your dockur/windows VM based on the repository docs:
 

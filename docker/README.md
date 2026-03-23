@@ -637,8 +637,14 @@ rm docker-compose.yml
 
 - 2 x Windows XP
 - Kali with Caldera
+- Kali Auto exploit script for automation
+- Setups Gucamole with the connections
 - OEM Folder
 -   Link github shutcut on Desktop (To copy and paste commands, etc. )
 -   Exploit code
 -   CBC Sensor
 -   Install.bat - that installs the sensor and setups up the environment.
+-  Docker Compose Stack, that setups everything.
+-  AI Pentester
+-  AI Detector
+-  Helper script / OpenTufu to setup all of the above on a single Debian Docker hosts.

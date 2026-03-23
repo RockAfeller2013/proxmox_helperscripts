@@ -343,6 +343,37 @@ curl -k -H "X-Auth-Token: 5702D0DE-4EB6-4A1D-BD63-4374B12A0816" "https://192.168
 
 - https://github.com/dockur/windows
 
+ ```yaml
+  environment:
+    VERSION: "11"
+  ```
+
+  Select from the values below:
+  
+  | **Value** | **Version**            | **Size** |
+  |---|---|---|
+  | `11`   | Windows 11 Pro            | 7.2 GB   |
+  | `11l`  | Windows 11 LTSC           | 4.7 GB   |
+  | `11e`  | Windows 11 Enterprise     | 6.6 GB   |
+  ||||
+  | `10`   | Windows 10 Pro            | 5.7 GB   |
+  | `10l`  | Windows 10 LTSC           | 4.6 GB   |
+  | `10e`  | Windows 10 Enterprise     | 5.2 GB   |
+  ||||
+  | `8e`   | Windows 8.1 Enterprise    | 3.7 GB   |
+  | `7u`   | Windows 7 Ultimate        | 3.1 GB   |
+  | `vu`   | Windows Vista Ultimate    | 3.0 GB   |
+  | `xp`   | Windows XP Professional   | 0.6 GB   |
+  | `2k`   | Windows 2000 Professional | 0.4 GB   | 
+  ||||  
+  | `2025` | Windows Server 2025       | 6.7 GB   |
+  | `2022` | Windows Server 2022       | 6.0 GB   |
+  | `2019` | Windows Server 2019       | 5.3 GB   |
+  | `2016` | Windows Server 2016       | 6.5 GB   |
+  | `2012` | Windows Server 2012       | 4.3 GB   |
+  | `2008` | Windows Server 2008       | 3.0 GB   |
+  | `2003` | Windows Server 2003       | 0.6 GB   |
+
 ### Windows 11
 ```
 
@@ -382,13 +413,37 @@ docker run -d --name windows \
   docker.io/dockurr/windows
 ```
 
+### Remove Container
 ```
 docker rm -f dockurr/windows
-docker volume prune -f
 docker rmi dockurr/windows
+
+docker volume prune -f
 docker system prune -a --volumes -f
 ```
+
 ### Use RDP Instead, as VNC doesn't support clipboard
+
+- After vigrous testing, RDP only works via direct RDP Client,
+-   RDP doesn't work via Gucamole.
+-   VNC does work with Gucaomle. Need to add it to the Gucamole network, connect to the dns name of the container or hostname/ --name.
+-   VNC direct from externaldoes work to show boot up of the docker.
+  
+```
+docker run -d \
+  --name windows \
+  -e VERSION=11 \
+  -p 8006:8006 \
+  -p 5900:5900 \
+  -p 3389:3389 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  dockurr/windows
+```
+
+### Clean Windows Setup
+
 ```
 docker run -d \
   --name windows \
@@ -498,7 +553,9 @@ docker network create guac-net
 docker network connect guac-net <existing-container>
 
 ```
+
 ## Guacome Remote Access thats works
+
 ```
 
 From Outside - http://192.168.1.37:8006 docker/admin
@@ -574,3 +631,14 @@ docker compose up
 docker compose down
 rm docker-compose.yml
 ```
+
+### Setup a Lab environment
+
+
+- 2 x Windows XP
+- Kali with Caldera
+- OEM Folder
+-   Link github shutcut on Desktop (To copy and paste commands, etc. )
+-   Exploit code
+-   CBC Sensor
+-   Install.bat - that installs the sensor and setups up the environment.

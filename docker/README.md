@@ -498,6 +498,20 @@ docker network create guac-net
 docker network connect guac-net <existing-container>
 
 ```
+## Guacome Remote Access thats works
+```
+
+From Outside - http://192.168.1.37:8006 docker/admin
+From Gucamole;
+
+Protocol: VNC
+Hostname: windows
+Port: 5900
+username: docker
+password: admin
+
+
+```
 
 ### Setup MySQL (Manual, above works.) 
 

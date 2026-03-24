@@ -566,18 +566,24 @@ du -sh /opt/windows7u
 ```
 
 ### Run install.bat
+
+To run your own script after installation, you can create a file called install.bat and place it in a folder together with any additional files it needs (software to be installed for example). The example folder ./example will be copied to C:\OEM and the containing install.bat will be executed during the last step of the automatic installation.
+
 ```
 docker run -d \
   --name windows7 \
   -e "VERSION=7u" \
+
   -p 8007:8006 \
   --device=/dev/kvm \
   --device=/dev/net/tun \
   --cap-add NET_ADMIN \
-  -v /opt/windows7u:/storage \
   -v /root/oem:/oem \
-  --entrypoint cmd.exe \
-  docker.io/dockurr/windows:latest /c "C:\oem\data\install.bat & cmd.exe"
+  docker.io/dockurr/windows:latest
+
+
+wine C:/oem/install.bat
+
 ```
 ```
 docker cp /root/oem/install.bat windows7:C:/oem/install.bat

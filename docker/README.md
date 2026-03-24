@@ -545,6 +545,10 @@ wusa.exe "C:\path\to\windows10.0-kb4474419-x64.msu" /quiet /norestart
 
 mkdir -p /opt/windows7u
 
+docker pull docker.io/dockurr/windows:latest
+
+mkdir -p /opt/windows7u
+
 docker run -d \
   --name windows7 \
   -e "VERSION=7u" \
@@ -554,7 +558,7 @@ docker run -d \
   --cap-add NET_ADMIN \
   -v /opt/windows7u:/storage \
   -v /root/oem:/oem \
-  dockur/windows
+  docker.io/dockurr/windows:latest
 
 du -sh /opt/windows7u
 

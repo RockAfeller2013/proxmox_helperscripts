@@ -49,6 +49,32 @@ docker stack rm mystack
 
 ```
 
+## Expand Docker VM Storage
+```
+```bash
+# 1. Check current disk and filesystem
+lsblk
+df -h
+
+# 2. Install partition tools if missing
+apt update && apt install -y cloud-guest-utils
+
+# 3. Expand the partition to use full disk
+growpart /dev/sda 3
+
+# 4. Resize filesystem to fill partition
+resize2fs /dev/sda3
+
+# 5. Verify expansion
+df -h
+lsblk
+
+# 6. Check Docker storage path and usage
+docker info | grep "Docker Root Dir"
+df -h /var/lib/docker
+docker system df -v
+  ````
+
 ## Docker Volumes clean up
 
 ```

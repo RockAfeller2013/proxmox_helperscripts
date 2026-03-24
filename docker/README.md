@@ -527,6 +527,40 @@ At the last step of the installation, the VM executes install.bat automatically.
 
 No extra environment flags are needed — just the volume mount.
 
+
+
+```
+
+### Carbon Black Cloud, Sensor supports Windows 7 with SP1 and KB4474419
+
+- KB4474419 https://www.catalog.update.microsoft.com/Search.aspx?q=KB4474419
+- Windows 7 SP1 - https://www.catalog.update.microsoft.com/Search.aspx?q=KB976932
+- https://techdocs.broadcom.com/us/en/carbon-black/cloud/carbon-black-cloud-sensors/index/cbc-sensor_oers/cbc-windows-sensor--on-windows-desktop--oer-tile/GUID-D51C23FB-C043-48E3-B01D-66F3573C72ED-en.html
+
+```
+wusa.exe "C:\path\to\windows10.0-kb4474419-x64.msu" /quiet /norestart
+```
+
+```
+
+mkdir -p /opt/windows7u
+
+docker run -d \
+  --name windows7 \
+  -e "VERSION=7u" \
+  -p 8007:8006 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v /opt/windows7u:/storage \
+  -v /root/oem:/oem \
+  dockur/windows
+
+du -sh /opt/windows7u
+
+
+
+
 ```
 
 ## Guacamole

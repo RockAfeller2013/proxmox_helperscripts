@@ -563,8 +563,27 @@ docker run -d \
 du -sh /opt/windows7u
 
 
+```
 
+### Run install.bat
+```
+docker run -d \
+  --name windows7 \
+  -e "VERSION=7u" \
+  -p 8007:8006 \
+  --device=/dev/kvm \
+  --device=/dev/net/tun \
+  --cap-add NET_ADMIN \
+  -v /opt/windows7u:/storage \
+  -v /root/oem:/oem \
+  --entrypoint cmd.exe \
+  docker.io/dockurr/windows:latest /c "C:\oem\install.bat & cmd.exe"
+```
+```
+docker cp /root/oem/install.bat windows7:C:/oem/install.bat
+docker cp /root/oem/data/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c windows7:C:/oem/data/KB4474419
 
+docker cp /root/oem/. windows7:C:/oem/
 ```
 
 ## Guacamole

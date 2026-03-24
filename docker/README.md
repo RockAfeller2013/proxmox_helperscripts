@@ -648,3 +648,4 @@ rm docker-compose.yml
 -  AI Pentester
 -  AI Detector
 -  Helper script / OpenTufu to setup all of the above on a single Debian Docker hosts.
+-  Add a Poplulated AD Control and add the workstations to the domain

@@ -577,7 +577,7 @@ docker run -d \
   -v /opt/windows7u:/storage \
   -v /root/oem:/oem \
   --entrypoint cmd.exe \
-  docker.io/dockurr/windows:latest /c "C:\oem\install.bat & cmd.exe"
+  docker.io/dockurr/windows:latest /c "C:\oem\data\install.bat & cmd.exe"
 ```
 ```
 docker cp /root/oem/install.bat windows7:C:/oem/install.bat

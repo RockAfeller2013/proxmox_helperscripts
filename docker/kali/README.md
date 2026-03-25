@@ -6,6 +6,9 @@
 
 
 ```
+docker run -d --name kali-rolling docker.io/kalilinux/kali-rolling tail -f /dev/null
+docker exec -it kali-rolling /bin/bash
+
 docker pull docker.io/kalilinux/kali-rolling
 docker images -a
 docker run -it -d --name kali kalilinux/kali-rolling /bin/bash

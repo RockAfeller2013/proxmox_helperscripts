@@ -23,5 +23,7 @@ docker attach d36922fa21e8
 DEBIAN_FRONTEND=noninteractive apt update && \
 DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-headless
 
+DEBIAN_FRONTEND=noninteractive apt update && \
+DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-default xfce4 xfce4-goodies tightvncserver
 ```
 ssh into it.

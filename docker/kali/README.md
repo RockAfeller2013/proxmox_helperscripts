@@ -28,6 +28,13 @@ DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-default xfce4 xfce4-goo
 
 
 ```
+
+### Build Kali Container
+
+```
+
+```
+
 VNC into it
 
 ```
@@ -43,4 +50,14 @@ docker run -d --name kali-rolling \
   -p 5901:5901 \
   docker.io/kalilinux/kali-rolling \
   /bin/bash -c "tightvncserver :1 && tail -f /dev/null"
+
+docker run -d --name kali-rolling \
+  -p 5901:5901 \
+  docker.io/kalilinux/kali-rolling \
+  /bin/bash -c "export USER=root && \
+                mkdir -p /root/.vnc && \
+                echo 'yourpassword' | vncpasswd -f > /root/.vnc/passwd && \
+                chmod 600 /root/.vnc/passwd && \
+                tightvncserver :1 -geometry 1920x1080 -depth 24 && \
+                startxfce4 && tail -f /dev/null"
 ```

@@ -35,4 +35,12 @@ docker run -d --name kali-rolling -p 5901:5901 docker.io/kalilinux/kali-rolling 
 
 docker run -d --name kali-rolling -p 5901:5901 docker.io/kalilinux/kali-rolling \
 /bin/bash -c "tightvncserver :1 && tail -f /dev/null"
+
+docker stop kali-rolling
+docker rm kali-rolling
+
+docker run -d --name kali-rolling \
+  -p 5901:5901 \
+  docker.io/kalilinux/kali-rolling \
+  /bin/bash -c "tightvncserver :1 && tail -f /dev/null"
 ```

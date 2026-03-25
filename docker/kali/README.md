@@ -25,5 +25,14 @@ DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-headless
 
 DEBIAN_FRONTEND=noninteractive apt update && \
 DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-default xfce4 xfce4-goodies tightvncserver
+
+
 ```
-ssh into it.
+VNC into it
+
+```
+docker run -d --name kali-rolling -p 5901:5901 docker.io/kalilinux/kali-rolling tail -f /dev/null
+
+docker run -d --name kali-rolling -p 5901:5901 docker.io/kalilinux/kali-rolling \
+/bin/bash -c "tightvncserver :1 && tail -f /dev/null"
+```

@@ -325,7 +325,9 @@ http://192.168.1.37:8888
 
 ```
 ### Docker Network
-![Uploading image.png…]()
+
+![Alt text for the image](dns.png)
+
 
 
 ```

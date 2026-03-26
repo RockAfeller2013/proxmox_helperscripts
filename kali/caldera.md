@@ -354,4 +354,6 @@ docker run -it \
   ping caldera-server
 caldera-server is now resolvable because both containers are on caldera-net.
 On the default bridge network, container names cannot be used as hostnames. Only IP addresses work there.
+
+docker inspect -f '{{.Name}}: {{range $k,$v := .NetworkSettings.Networks}}{{$k}} {{end}}' $(docker ps -aq)
 ```

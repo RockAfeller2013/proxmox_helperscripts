@@ -328,6 +328,13 @@ http://192.168.1.37:8888
 
 ![Alt text for the image](dns.png)
 
+```
+docker network create my-net
+docker run -d --name web --network my-net nginx
+docker run -it --network my-net alpine ping web
+Here, web resolves to its container IP automatically.
+```
+
 
 
 ```

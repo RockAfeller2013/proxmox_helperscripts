@@ -326,7 +326,7 @@ http://192.168.1.37:8888
 ```
 ### Docker Network
 
-![Alt text for the image](dns.png)
+![Alt text for the image](dns.jpg)
 
 ```
 docker network create my-net

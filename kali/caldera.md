@@ -303,9 +303,18 @@ npm install -g npm@11.10.0
 
 git clone https://github.com/mitre/caldera.git --recursive 
 cd caldera
+
 docker build --build-arg WIN_BUILD=true . -t caldera:server
 
-docker run -d -p 7010:7010 -p 7011:7011/udp -p 7012:7012 -p 8888:8888 \ -v /root/caldera:/data \  --name caldera-server  --insecure
+docker run -d \
+  -p 7010:7010 \
+  -p 7011:7011/udp \
+  -p 7012:7012 \
+  -p 8888:8888 \
+  -v /root/caldera:/data \
+  --name caldera-server \
+  caldera:server \
+  --insecure
 
 docker logs -f caldera-server
 

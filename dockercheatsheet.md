@@ -9,6 +9,10 @@ docker rm -f dockurr/windows
 docker volume prune -f
 docker rmi dockurr/windows
 docker system prune -a --volumes -f
+ocker system df
+docker image prune -a
+docker system prune -a
+
 ```
 
 ## Docker Gracefull restart

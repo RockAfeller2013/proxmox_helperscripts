@@ -324,3 +324,13 @@ Password: admin
 http://192.168.1.37:8888
 
 ```
+### Docker Network
+
+
+```
+docker network create caldera-net
+docker run -d --name caldera-server --network caldera-net caldera:server --insecure
+docker run -it --network caldera-net ubuntu ping caldera-server
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' caldera-server
+```

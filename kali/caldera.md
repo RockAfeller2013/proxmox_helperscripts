@@ -301,32 +301,17 @@ npm install -g npm@11.10.0
 ### Docker Pull
 ```
 
-docker run -d \
-  -p 7010:7010 -p 7011:7011 -p 7012:7012 -p 8888:8888 \
-  -v /root/caldera:/data \
-  --name caldera-server \
-  caldera:server
-
-docker run -p 7010:7010 -p 7011:7011 -p 7012:7012 -p 8888:8888 caldera:server
-
-git clone https://github.com/mitre/caldera.git --recursive
+git clone https://github.com/mitre/caldera.git --recursive 
 cd caldera
-docker build --build-arg VARIANT=full -t caldera .
-docker run -p 7010:7010 -p 7011:7011 -p 7012:7012 -p 8888:8888 caldera:server
+docker build --build-arg WIN_BUILD=true . -t caldera:server
 
-```
-
-```
-docker run -d \
-  -p 7010:7010 -p 7011:7011 -p 7012:7012 -p 8888:8888 \
-  -v /root/caldera:/data \
-  --name caldera-server \
-  mitre/caldera:latest
+docker run -d -p 7010:7010 -p 7011:7011/udp -p 7012:7012 -p 8888:8888 \ -v /root/caldera:/data \  --name caldera-server  --insecure
 
 docker logs -f caldera-server
 
 Username: admin
 Password: admin
 
-You can log in at: http://<host-ip>:8888
+http://192.168.1.37:8888
+
 ```

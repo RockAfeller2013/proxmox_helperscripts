@@ -334,3 +334,24 @@ docker run -it --network caldera-net ubuntu ping caldera-server
 
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' caldera-server
 ```
+
+```
+The reason it didn’t work is that the default Docker bridge network does not provide DNS resolution by container name. caldera-server won’t resolve unless both containers are on a user-defined network.
+
+Here’s the correct way:
+
+docker network create caldera-net
+
+docker run -d \
+  --name caldera-server \
+  --network caldera-net \
+  caldera:server \
+  --insecure
+
+docker run -it \
+  --network caldera-net \
+  portainer/portainer-ce:latest \
+  ping caldera-server
+caldera-server is now resolvable because both containers are on caldera-net.
+On the default bridge network, container names cannot be used as hostnames. Only IP addresses work there.
+```

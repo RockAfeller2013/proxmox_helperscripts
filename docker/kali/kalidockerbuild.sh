@@ -2,6 +2,7 @@
 # =============================================================================
 # Kali Linux Docker Setup Script
 # Pulls kali-rolling, installs kali-linux-headless, and makes it persistent
+# bash <(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/docker/kali/kalidockerbuild.sh)
 # =============================================================================
 
 set -euo pipefail

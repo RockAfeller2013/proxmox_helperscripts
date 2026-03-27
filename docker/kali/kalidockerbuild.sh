@@ -12,13 +12,14 @@ CONTAINER_NAME="kali-rolling"
 BASE_IMAGE="docker.io/kalilinux/kali-rolling"
 CUSTOM_IMAGE="kali-rolling-custom"
 VOLUME_NAME="kali-data"
+DOCKER_NETWORK="my-net2"
 
 # --- Colours -----------------------------------------------------------------
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Colour
+NC='\033[0m'
 
 info()    { echo -e "${CYAN}[INFO]${NC}  $*"; }
 success() { echo -e "${GREEN}[OK]${NC}    $*"; }
@@ -35,6 +36,18 @@ check_docker() {
     error "Docker daemon is not running. Start it with: sudo systemctl start docker"
   fi
   success "Docker is available."
+}
+
+# --- Ensure network exists ---------------------------------------------------
+ensure_network() {
+  info "Checking Docker network '${DOCKER_NETWORK}'..."
+  if ! docker network inspect "${DOCKER_NETWORK}" &>/dev/null; then
+    warn "Network '${DOCKER_NETWORK}' not found. Creating it..."
+    docker network create "${DOCKER_NETWORK}"
+    success "Network '${DOCKER_NETWORK}' created."
+  else
+    success "Network '${DOCKER_NETWORK}' already exists."
+  fi
 }
 
 # --- Cleanup any existing container ------------------------------------------
@@ -76,7 +89,6 @@ install_packages() {
 # --- Commit to a new image ---------------------------------------------------
 commit_image() {
   info "Committing container to image '${CUSTOM_IMAGE}'..."
-  # Remove old custom image if it exists
   if docker image inspect "${CUSTOM_IMAGE}" &>/dev/null; then
     warn "Image '${CUSTOM_IMAGE}' already exists. Replacing it..."
     docker rmi -f "${CUSTOM_IMAGE}"
@@ -94,14 +106,15 @@ start_persistent_container() {
   docker volume create "${VOLUME_NAME}" &>/dev/null
   success "Volume '${VOLUME_NAME}' ready."
 
-  info "Starting persistent container with --restart unless-stopped..."
+  info "Starting persistent container on network '${DOCKER_NETWORK}'..."
   docker run -d \
     --name "${CONTAINER_NAME}" \
     --restart unless-stopped \
+    --network "${DOCKER_NETWORK}" \
     -v "${VOLUME_NAME}:/root" \
     "${CUSTOM_IMAGE}" \
     tail -f /dev/null
-  success "Persistent container '${CONTAINER_NAME}' is running."
+  success "Persistent container '${CONTAINER_NAME}' is running on '${DOCKER_NETWORK}'."
 }
 
 # --- Verify ------------------------------------------------------------------
@@ -109,10 +122,14 @@ verify() {
   info "Verifying setup..."
   RESTART_POLICY=$(docker inspect "${CONTAINER_NAME}" --format '{{.HostConfig.RestartPolicy.Name}}')
   STATUS=$(docker inspect "${CONTAINER_NAME}" --format '{{.State.Status}}')
+  NETWORK=$(docker inspect "${CONTAINER_NAME}" --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{end}}')
+  IP=$(docker inspect "${CONTAINER_NAME}" --format "{{.NetworkSettings.Networks.${DOCKER_NETWORK}.IPAddress}}")
   echo ""
   echo -e "  Container name   : ${CYAN}${CONTAINER_NAME}${NC}"
   echo -e "  Status           : ${GREEN}${STATUS}${NC}"
   echo -e "  Restart policy   : ${GREEN}${RESTART_POLICY}${NC}"
+  echo -e "  Network          : ${GREEN}${NETWORK}${NC}"
+  echo -e "  IP on ${DOCKER_NETWORK}   : ${GREEN}${IP}${NC}"
   echo -e "  Persistent volume: ${CYAN}${VOLUME_NAME}${NC} → /root"
   echo -e "  Saved image      : ${CYAN}${CUSTOM_IMAGE}${NC}"
   echo ""
@@ -123,11 +140,12 @@ verify() {
 print_usage() {
   echo ""
   echo -e "${CYAN}Useful commands:${NC}"
-  echo "  Shell into Kali   : docker exec -it ${CONTAINER_NAME} bash"
-  echo "  Stop container    : docker stop ${CONTAINER_NAME}"
-  echo "  Start container   : docker start ${CONTAINER_NAME}"
-  echo "  Remove container  : docker rm -f ${CONTAINER_NAME}"
-  echo "  Rebuild from image: docker run -d --name ${CONTAINER_NAME} --restart unless-stopped -v ${VOLUME_NAME}:/root ${CUSTOM_IMAGE} tail -f /dev/null"
+  echo "  Shell into Kali     : docker exec -it ${CONTAINER_NAME} bash"
+  echo "  Stop container      : docker stop ${CONTAINER_NAME}"
+  echo "  Start container     : docker start ${CONTAINER_NAME}"
+  echo "  Remove container    : docker rm -f ${CONTAINER_NAME}"
+  echo "  Inspect network     : docker network inspect ${DOCKER_NETWORK}"
+  echo "  Rebuild from image  : docker run -d --name ${CONTAINER_NAME} --restart unless-stopped --network ${DOCKER_NETWORK} -v ${VOLUME_NAME}:/root ${CUSTOM_IMAGE} tail -f /dev/null"
   echo ""
 }
 
@@ -140,6 +158,7 @@ main() {
   echo ""
 
   check_docker
+  ensure_network
   cleanup_existing
   pull_image
   start_temp_container

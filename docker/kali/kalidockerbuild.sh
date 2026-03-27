@@ -131,7 +131,7 @@ verify() {
   RESTART_POLICY=$(docker inspect "${CONTAINER_NAME}" --format '{{.HostConfig.RestartPolicy.Name}}')
   STATUS=$(docker inspect "${CONTAINER_NAME}" --format '{{.State.Status}}')
   NETWORK=$(docker inspect "${CONTAINER_NAME}" --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}}{{end}}')
-  IP=$(docker inspect "${CONTAINER_NAME}" --format "{{.NetworkSettings.Networks.${DOCKER_NETWORK}.IPAddress}}")
+  IP=$(docker inspect "${CONTAINER_NAME}" | python3 -c "import sys,json; data=json.load(sys.stdin); print(data[0]['NetworkSettings']['Networks'].get('${DOCKER_NETWORK}',{}).get('IPAddress','N/A'))")
   echo ""
   echo -e "  Container name   : ${CYAN}${CONTAINER_NAME}${NC}"
   echo -e "  Status           : ${GREEN}${STATUS}${NC}"

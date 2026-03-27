@@ -13,6 +13,8 @@ BASE_IMAGE="docker.io/kalilinux/kali-rolling"
 CUSTOM_IMAGE="kali-rolling-custom"
 VOLUME_NAME="kali-data"
 DOCKER_NETWORK="my-net2"
+SSH_HOST_PORT="2222"
+SSH_ROOT_PASSWORD="kali"        # ← Change this before running!
 
 # --- Colours -----------------------------------------------------------------
 RED='\033[0;31m'
@@ -76,14 +78,19 @@ start_temp_container() {
   success "Temporary container started."
 }
 
-# --- Install kali-linux-headless ---------------------------------------------
+# --- Install kali-linux-headless + SSH ---------------------------------------
 install_packages() {
-  info "Installing kali-linux-headless (this may take 5–15 minutes)..."
+  info "Installing kali-linux-headless + openssh-server (this may take 5-15 minutes)..."
   docker exec "${CONTAINER_NAME}" bash -c "
     DEBIAN_FRONTEND=noninteractive apt update -y && \
-    DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-headless
+    DEBIAN_FRONTEND=noninteractive apt install -y kali-linux-headless openssh-server && \
+    mkdir -p /var/run/sshd && \
+    echo 'root:${SSH_ROOT_PASSWORD}' | chpasswd && \
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+    echo 'service ssh start' >> /root/.bashrc
   "
-  success "kali-linux-headless installed."
+  success "Packages installed and SSH configured."
 }
 
 # --- Commit to a new image ---------------------------------------------------
@@ -106,15 +113,16 @@ start_persistent_container() {
   docker volume create "${VOLUME_NAME}" &>/dev/null
   success "Volume '${VOLUME_NAME}' ready."
 
-  info "Starting persistent container on network '${DOCKER_NETWORK}'..."
+  info "Starting persistent container on network '${DOCKER_NETWORK}' with SSH on port ${SSH_HOST_PORT}..."
   docker run -d \
     --name "${CONTAINER_NAME}" \
     --restart unless-stopped \
     --network "${DOCKER_NETWORK}" \
+    -p "${SSH_HOST_PORT}:22" \
     -v "${VOLUME_NAME}:/root" \
     "${CUSTOM_IMAGE}" \
-    tail -f /dev/null
-  success "Persistent container '${CONTAINER_NAME}' is running on '${DOCKER_NETWORK}'."
+    bash -c "/usr/sbin/sshd && tail -f /dev/null"
+  success "Persistent container '${CONTAINER_NAME}' is running."
 }
 
 # --- Verify ------------------------------------------------------------------
@@ -130,7 +138,9 @@ verify() {
   echo -e "  Restart policy   : ${GREEN}${RESTART_POLICY}${NC}"
   echo -e "  Network          : ${GREEN}${NETWORK}${NC}"
   echo -e "  IP on ${DOCKER_NETWORK}   : ${GREEN}${IP}${NC}"
-  echo -e "  Persistent volume: ${CYAN}${VOLUME_NAME}${NC} → /root"
+  echo -e "  SSH port (host)  : ${GREEN}${SSH_HOST_PORT}${NC}"
+  echo -e "  SSH root password: ${YELLOW}${SSH_ROOT_PASSWORD}${NC}  <- Change this!"
+  echo -e "  Persistent volume: ${CYAN}${VOLUME_NAME}${NC} -> /root"
   echo -e "  Saved image      : ${CYAN}${CUSTOM_IMAGE}${NC}"
   echo ""
   success "Setup complete!"
@@ -140,12 +150,17 @@ verify() {
 print_usage() {
   echo ""
   echo -e "${CYAN}Useful commands:${NC}"
+  echo "  SSH into Kali       : ssh root@<host-vm-ip> -p ${SSH_HOST_PORT}"
   echo "  Shell into Kali     : docker exec -it ${CONTAINER_NAME} bash"
   echo "  Stop container      : docker stop ${CONTAINER_NAME}"
   echo "  Start container     : docker start ${CONTAINER_NAME}"
   echo "  Remove container    : docker rm -f ${CONTAINER_NAME}"
   echo "  Inspect network     : docker network inspect ${DOCKER_NETWORK}"
-  echo "  Rebuild from image  : docker run -d --name ${CONTAINER_NAME} --restart unless-stopped --network ${DOCKER_NETWORK} -v ${VOLUME_NAME}:/root ${CUSTOM_IMAGE} tail -f /dev/null"
+  echo "  Change SSH password : docker exec -it ${CONTAINER_NAME} passwd root"
+  echo "  Rebuild from image  : docker run -d --name ${CONTAINER_NAME} --restart unless-stopped --network ${DOCKER_NETWORK} -p ${SSH_HOST_PORT}:22 -v ${VOLUME_NAME}:/root ${CUSTOM_IMAGE} bash -c '/usr/sbin/sshd && tail -f /dev/null'"
+  echo ""
+  echo -e "${YELLOW}Security reminder: Change the root SSH password after first login!${NC}"
+  echo "  docker exec -it ${CONTAINER_NAME} passwd root"
   echo ""
 }
 

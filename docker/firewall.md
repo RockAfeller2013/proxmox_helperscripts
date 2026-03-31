@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
 ## Update script to block all outbound traffic except for Carbon Black Cloud
 
-```
+```python
 #!/usr/bin/env python3
 """
 Outbound firewall rules for Carbon Black Cloud (ProdSYD environment).

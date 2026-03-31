@@ -222,8 +222,8 @@ if __name__ == "__main__":
 
 Two important caveats to be aware of:
 
-Dynamic cloud IPs — defense-prodsyd.conferdeploy.net (console), AWS S3 (UBS/Exports), and storage.googleapis.com (Live Response) all use large, frequently-rotating IP pools. iptables can't match by hostname, so for those you'd need a DNS-aware solution (e.g. nftables with dynamic sets, or a transparent proxy). They're documented in the script comments.
-Rollback — run sudo python3 cbc_firewall.py flush to remove all rules cleanly.
+-Dynamic cloud IPs — defense-prodsyd.conferdeploy.net (console), AWS S3 (UBS/Exports), and storage.googleapis.com (Live Response) all use large, frequently-rotating IP pools. iptables can't match by hostname, so for those you'd need a DNS-aware solution (e.g. nftables with dynamic sets, or a transparent proxy). They're documented in the script comments.
+-Rollback — run sudo python3 cbc_firewall.py flush to remove all rules cleanly.
 ---
 
 ## Usage

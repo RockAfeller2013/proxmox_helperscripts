@@ -21,6 +21,18 @@ docker system prune -a
 docker ps -q | xargs -r docker stop && sleep 5 && systemctl stop docker && sleep 5 && shutdown now
 ```
 
+## Docker Snapshots
+
+```bash
+docker commit <container_name_or_id> my-snapshot:v1
+docker stop <container_name>
+docker rm <container_name>
+docker run --name <container_name> my-snapshot:v1
+docker stop <container_name>
+docker rm <container_name>
+docker rmi my-snapshot:v1
+```
+
 ## Docker Stack and Docker Compose
 
 ```

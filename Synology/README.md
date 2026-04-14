@@ -38,6 +38,40 @@ rsync -aHAXv --numeric-ids --ignore-existing --progress \
 rsync -aHAXv --numeric-ids --delete --progress \
 /volume1/volume2_full_backup/ /volume2/
 ```
+
+```bash
+## Backup (volume2 → volume1)
+sudo -i
+
+EXCLUDES='--exclude=@* --exclude=#recycle --exclude=#snapshot'
+LOG="--log-file=/volume1/rsync_backup_$(date +%F).log"
+
+# DRY RUN
+rsync -aHAXvn --numeric-ids $EXCLUDES --progress \
+  /volume2/ /volume1/volume2_full_backup/
+
+# SAFE COPY (skip files newer in destination)
+rsync -aHAXv --numeric-ids --update --partial $EXCLUDES --progress $LOG \
+  /volume2/ /volume1/volume2_full_backup/
+
+# WARNING: deletes destination files not in source — full mirror
+rsync -aHAXv --numeric-ids --delete $EXCLUDES --progress $LOG \
+  /volume2/ /volume1/volume2_full_backup/
+
+## Restore (volume1 → volume2)
+
+# DRY RUN
+rsync -aHAXvn --numeric-ids $EXCLUDES --progress \
+  /volume1/volume2_full_backup/ /volume2/
+
+# SAFE RESTORE (skip files newer in destination)
+rsync -aHAXv --numeric-ids --update --partial $EXCLUDES --progress $LOG \
+  /volume1/volume2_full_backup/ /volume2/
+
+# WARNING: mirrors backup over volume2, deleting anything not in backup
+rsync -aHAXv --numeric-ids --delete $EXCLUDES --progress $LOG \
+  /volume1/volume2_full_backup/ /volume2/
+```
 ## Reference 
 
 

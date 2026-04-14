@@ -1,5 +1,12 @@
 # Synology Restore
 
+# Process
+
+1. ryn a full rysync to Volume1
+2. Recreate Volum2
+3. restore Volume 2 from HyperBackup
+4. rysync files back to Volume2
+
 
 ## Backup
 

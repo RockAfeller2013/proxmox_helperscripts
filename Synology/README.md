@@ -3,7 +3,7 @@
 
 ## Backup
 
-```
+```bash
 sudo -i
 
 mkdir -p /volume1/volume2_full_backup
@@ -23,7 +23,7 @@ rsync -aHAXv --numeric-ids --delete --exclude='@*' --progress \
 
 ## Restore
 
-```
+```bash
 sudo -i
 
 # DRY RUN (restore back to volume2)

@@ -2,10 +2,14 @@
 
 # Process
 
-1. ryn a full rysync to Volume1
-2. Recreate Volum2
-3. restore Volume 2 from HyperBackup
-4. rysync files back to Volume2
+1. rsync backup from Volume2 to Volume1
+2. Recreate Volume2
+3. Run a Check of Volume2
+4. Restore Volume 2 from HyperBackup
+5. rysync files back to Volume2
+6. Setup Synology Photos
+7. Setup Photostream for wife
+8. Create a PWA app
 
 
 ## Backup

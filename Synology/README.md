@@ -12,6 +12,9 @@
 8. Create a PWA app
 
 
+## Install SynoCli Network Tools to get TMUX
+
+[Link]https://synocommunity.com/package/synocli-net
 ## Backup
 
 ```bash

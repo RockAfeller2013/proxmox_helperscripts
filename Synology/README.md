@@ -2,9 +2,9 @@
 
 # Process
 
-1. rsync backup from Volume2 to Volume1
+1. rsync backup from Volume2 to Volume1 - DONE
 2. Recreate Volume2
-3. Run a Check of Volume2
+3. Run a Check on Volume2
 4. Restore Volume 2 from HyperBackup
 5. rysync files back to Volume2
 6. Setup Synology Photos
@@ -16,6 +16,7 @@
 
 [Link]https://synocommunity.com/package/synocli-net
 ## Backup
+
 
 
 ```

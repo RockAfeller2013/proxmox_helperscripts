@@ -17,6 +17,15 @@
 [Link]https://synocommunity.com/package/synocli-net
 ## Backup
 
+
+```
+rsync --dry-run -ahHAXv --numeric-ids --update --progress --log-file=drybackup.log /volume2/ /volume1/volume2_full_backup/
+
+rsync -ahHAXv --numeric-ids --update --progress --log-file=backup.log /volume2/ /volume1/volume2_full_backup/
+
+rsync -ahHAXv --numeric-ids --update --progress --log-file=restore.log /volume1/volume2_full_backup/ /volume2/
+```
+
 ```bash
 sudo -i
 

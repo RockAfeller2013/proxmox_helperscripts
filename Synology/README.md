@@ -19,6 +19,7 @@
 
 
 ```
+tmux new -s dry_run
 rsync --dry-run -ahHAXv --numeric-ids --update --progress --log-file=drybackup.log /volume2/ /volume1/volume2_full_backup/
 
 rsync -ahHAXv --numeric-ids --update --progress --log-file=backup.log /volume2/ /volume1/volume2_full_backup/

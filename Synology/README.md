@@ -23,10 +23,18 @@
 tmux new -s dry_run
 rsync --dry-run -ahHAXv --numeric-ids --update --progress --log-file=drybackup.log /volume2/ /volume1/volume2_full_backup/
 
-rsync -ahHAXv --numeric-ids --update --progress --log-file=backup.log /volume2/ /volume1/volume2_full_backup/
-rsync -ahHAXv --numeric-ids --update --progress --ignore-errors --partial --log-file=backup.log /volume2/ /volume1/volume2_full_backup/
+rsync -ahHAXv --numeric-ids --update --progress --ignore-errors --log-file=/volume1/volume2_full_backup/backup.log /volume2/ /volume1/volume2_full_backup/
+
 
 rsync -ahHAXv --numeric-ids --update --progress --log-file=restore.log /volume1/volume2_full_backup/ /volume2/
+```
+
+## Corrupt Files
+
+```bash
+find /volume2 -type l -exec ls -l {} \; 2>&1 | grep 'Structure needs cleaning'
+mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/PhotoLibrary/2026/01/IMG_9954.MOV' /volume1/web/cpt/thumbs
+
 ```
 
 ```bash

@@ -21,7 +21,15 @@
 
 ## Backup
 
-
+```
+Volume2
+Disk
+homes
+music
+photo
+PPROXMOX_NFS
+survelliance
+```
 
 ```bash
 tmux new -s dry_run

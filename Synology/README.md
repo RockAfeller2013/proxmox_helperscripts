@@ -3,18 +3,22 @@
 # Process
 
 1. rsync backup from Volume2 to Volume1 - DONE
-2. Recreate Volume2
-3. Run a Check on Volume2
-4. Restore Volume 2 from HyperBackup
-5. rysync files back to Volume2
-6. Setup Synology Photos
-7. Setup Photostream for wife
-8. Create a PWA app
+2. run HyperBackup
+3. run HyperBackup Integrity Check
+4. Delete Recreate Volume2
+6. Unmount Volume 2
+7. Run a Check on Volume2
+8. Restore Volume 2 from HyperBackup
+9. rysync files back to Volume2 (if required)
+10. Setup Synology Photos on iPhones to Shared folders
+11. Setup Photostream for wife and move all Photos to same location
+12. Create a PWA app for Photostream
 
 
 ## Install SynoCli Network Tools to get TMUX
 
 [Link]https://synocommunity.com/package/synocli-net
+
 ## Backup
 
 

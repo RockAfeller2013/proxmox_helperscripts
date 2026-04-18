@@ -41,6 +41,8 @@ nohup fsck.ext4 -yvf -C 0 /dev/mapper/cachedev_0 > fsck.log 2>&1 &
 tail -f fsck.log
 
 synospace --stop-all-spaces
+synobeeper --stop
+
 
 - Go to Control Panel | Hardware and Power | General | Beep Control | Mute
 

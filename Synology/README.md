@@ -37,8 +37,6 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 
 ```bash
 
-nohup fsck.ext4 -yvf -C 0 /dev/mapper/cachedev_0 > fsck.log 2>&1 &
-tail -f fsck.log
 
 synospace --stop-all-spaces
 synobeeper --stop
@@ -48,6 +46,10 @@ synobeeper --stop
 
 umount /volume2
 e2fsck -yvfccNM /dev/vg1/volume_2
+
+nohup e2fsck -yvfccNM /dev/vg1/volume_2
+tail -f fsck.log
+
 
 -y → automatically answer yes to all fixes
 -v → verbose output

@@ -36,6 +36,10 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 ## Fix file system
 
 ```bash
+
+nohup fsck.ext4 -yvf -C 0 /dev/mapper/cachedev_0 > fsck.log 2>&1 &
+tail -f fsck.log
+
 synospace --stop-all-spaces
 
 - Go to Control Panel | Hardware and Power | General | Beep Control | Mute

@@ -38,6 +38,8 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 ```bash
 synospace --stop-all-spaces
 
+- Go to Control Panel | Hardware and Power | General | Beep Control | Mute
+
 umount /volume2
 e2fsck -yvfccNM /dev/vg1/volume_2
 

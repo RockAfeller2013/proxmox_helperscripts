@@ -36,6 +36,8 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 ## Fix file system
 
 ```bash
+synospace --stop-all-spaces
+
 umount /volume2
 e2fsck -yvfccNM /dev/vg1/volume_2
 

@@ -29,6 +29,28 @@ music
 photo
 PPROXMOX_NFS
 survelliance
+
+diff -r /volume2/ /volume1/volume2_full_backup/
+```
+
+## Fix file system
+
+```bash
+umount /volume2
+e2fsck -yvfccNM /dev/vg1/volume_2
+
+-y → automatically answer yes to all fixes
+-v → verbose output
+-f → force check even if filesystem appears clean
+-c → check for bad blocks (non-destructive read test)
+-c → (second time) use non-destructive read-write bad block scan
+-N → show what would be done (no changes made)
+-M → do not check if filesystem is mounted (safety check)
+
+Net effect:
+
+Attempts a full filesystem check with bad block scan
+But -N prevents any actual changes (dry run only)
 ```
 
 ```bash

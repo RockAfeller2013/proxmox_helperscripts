@@ -269,12 +269,16 @@ login with gmail.
 //Volumes/web/files
 
 ```
+sudo apt update && sudo apt install unzip -y
+
 docker rm -f symhealth_app
 
-curl -L -k -o symhealth_app.tar https://192.168.1.146/files/symhealth_app.tar && \
-docker load -i symhealth_app.tar && \
+curl -L -k -o symhealth_app.zip https://192.168.1.146/files/HealthCheck/symhealth_app.zip
+unzip symhealth_app.zip
+docker load -i symhealth_app.tar
 docker run -d --name symhealth_app -p 8080:8081 symhealth_app
 
+PowerShell -ExecutionPolicy Bypass -File "C:\Users\Administrator\Desktop\script\ac_ta.ps1"
 ```
 
 ```

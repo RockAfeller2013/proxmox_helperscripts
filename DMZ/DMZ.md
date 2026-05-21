@@ -2,20 +2,20 @@
 
 ```mermaid
 architecture-beta
-    service inet(internet)[Internet / Optus NBN]
+    service inet(internet)[Internet]
     service nbn(server)[NBN Router]
-    service udm(server)[UniFi Dream Machine]
+    service udm(server)[Dream Machine]
 
-    group v10[VLAN 10 — Home Network · 192.168.10.0/24 · GW 192.168.10.1]
-        service ap(server)[WiFi Access Points] in v10
+    group v10[VLAN 10 - Home Network - 192.168.10.0 /24]
+        service ap(server)[WiFi APs] in v10
         service homedev(server)[Home Devices] in v10
         service nas(disk)[Home NAS] in v10
 
-    group v20[VLAN 20 — DMZ · 192.168.20.0/24 · GW 192.168.20.1]
-        service dms(server)[DMS Server · Public IP] in v20
-        service webmail(server)[Web / Mail Services] in v20
+    group v20[VLAN 20 - DMZ - 192.168.20.0 /24]
+        service dms(server)[DMS Server] in v20
+        service webmail(server)[Web and Mail] in v20
 
-    group v30[VLAN 30 — Management · 192.168.30.0/24 · GW 192.168.30.1]
+    group v30[VLAN 30 - Management - 192.168.30.0 /24]
         service ctrl(server)[UniFi Controller] in v30
         service adminpc(server)[Admin PC] in v30
 
@@ -28,14 +28,14 @@ architecture-beta
 
 ## Firewall Rules
 
-| Direction  | Action | Source  | Destination | Notes                          |
-|------------|--------|---------|-------------|--------------------------------|
-| WAN → DMZ  | Allow  | Any     | VLAN 20     | Ports 80, 443, 22 only         |
-| WAN → Home | Deny   | Any     | VLAN 10     | Block all                      |
-| DMZ → Home | Deny   | VLAN 20 | VLAN 10     | Block all                      |
-| Home → DMZ | Allow  | VLAN 10 | VLAN 20     | Allow required ports only      |
-| Home → WAN | Allow  | VLAN 10 | Any         | Allow all                      |
-| DMZ → WAN  | Allow  | VLAN 20 | Any         | Allow all                      |
+| Direction  | Action | Source  | Destination | Notes                     |
+|------------|--------|---------|-------------|---------------------------|
+| WAN → DMZ  | Allow  | Any     | VLAN 20     | Ports 80, 443, 22 only    |
+| WAN → Home | Deny   | Any     | VLAN 10     | Block all                 |
+| DMZ → Home | Deny   | VLAN 20 | VLAN 10     | Block all                 |
+| Home → DMZ | Allow  | VLAN 10 | VLAN 20     | Required ports only       |
+| Home → WAN | Allow  | VLAN 10 | Any         | Allow all                 |
+| DMZ → WAN  | Allow  | VLAN 20 | Any         | Allow all                 |
 
 ## Port Forwarding (VLAN 20 — DMZ)
 

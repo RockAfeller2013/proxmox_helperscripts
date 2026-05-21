@@ -6,16 +6,16 @@ architecture-beta
     service nbn(server)[NBN Router]
     service udm(server)[Dream Machine]
 
-    group v10[VLAN 10 - Home Network - 192.168.10.0 /24]
+    group v10(cloud)[VLAN 10 - Home Network]
         service ap(server)[WiFi APs] in v10
         service homedev(server)[Home Devices] in v10
         service nas(disk)[Home NAS] in v10
 
-    group v20[VLAN 20 - DMZ - 192.168.20.0 /24]
+    group v20(cloud)[VLAN 20 - DMZ]
         service dms(server)[DMS Server] in v20
         service webmail(server)[Web and Mail] in v20
 
-    group v30[VLAN 30 - Management - 192.168.30.0 /24]
+    group v30(cloud)[VLAN 30 - Management]
         service ctrl(server)[UniFi Controller] in v30
         service adminpc(server)[Admin PC] in v30
 
@@ -25,6 +25,14 @@ architecture-beta
     udm:B -- T:dms
     udm:R -- L:ctrl
 ```
+
+## Subnets
+
+| VLAN | Name       | Subnet           | Gateway      |
+|------|------------|------------------|--------------|
+| 10   | Home       | 192.168.10.0/24  | 192.168.10.1 |
+| 20   | DMZ        | 192.168.20.0/24  | 192.168.20.1 |
+| 30   | Management | 192.168.30.0/24  | 192.168.30.1 |
 
 ## Firewall Rules
 

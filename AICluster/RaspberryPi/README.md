@@ -3,6 +3,26 @@
 ## Configure M.2
 
 ```bash
+boot/firmware/config.txt file and adding following parameter:
+dtparam=pciex1
+dtparam=pciex1_gen=3  # optional
+```
+
+```
+from gpiozero import LED
+import time
+
+
+uid_led = LED(4)
+
+while True:
+    uid_led.on()  # turn on led 
+    time.sleep(5)
+    uid_led.off() # turn off led 
+    time.sleep(5)
+```
+
+```bash
 For Raspbian and RetroPie OS.
 cd ~
 git clone https://github.com/DeskPi-Team/deskpi.git

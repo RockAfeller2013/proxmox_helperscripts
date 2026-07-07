@@ -20,7 +20,9 @@ udo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt
 ```
 
 ```bash
-nano boot/firmware/config.txt file and adding following parameter:
+sudo nano /boot/firmware/config.txt
+
+[all]
 dtparam=pciex1
 dtparam=pciex1_gen=3  # optional
 ```

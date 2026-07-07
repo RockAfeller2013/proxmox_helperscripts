@@ -9,11 +9,13 @@
 sudo rpi-eeprom-update
 sudo rpi-update
 
-raspi-confi
+raspi-config
 Diable IPv6
 Disable Wifi
 Enable SSH
 Enable RpiConnect
+
+udo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo rpi-update &&  && sudo rpi-eeprom-update sudo reboot
 
 ```
 

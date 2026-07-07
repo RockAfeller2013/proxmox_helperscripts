@@ -80,8 +80,9 @@ df -h
 
 ```
 
+## Test LED
 ```bash
-```bash
+
 ###############################################################################
 # Display the UUIDs of all storage devices.
 # Copy the UUID of the NVMe partition (e.g. /dev/nvme0n1p1).
@@ -124,6 +125,187 @@ sudo mount -a
 ###############################################################################
 df -h
 ```
+
+## Update
+
+```bash
+
+###############################################################################
+# Change to the user's home directory.
+# This ensures the DeskPi software is downloaded into the current user's folder.
+###############################################################################
+cd ~
+
+###############################################################################
+# Clone the DeskPi software repository from GitHub.
+# This downloads the installation files required for DeskPi hardware support.
+###############################################################################
+git clone https://github.com/DeskPi-Team/deskpi.git
+
+###############################################################################
+# Navigate into the downloaded DeskPi software directory.
+###############################################################################
+cd ~/deskpi/
+
+###############################################################################
+# Make the installation script executable.
+# This allows the install.sh file to be run as a program.
+###############################################################################
+chmod +x install.sh
+
+###############################################################################
+# Run the DeskPi installation script with administrator privileges.
+# This installs the required drivers, services, and configuration files.
+###############################################################################
+sudo ./install.sh
+
+```
+
+## Install on NVMe
+
+```bash
+###############################################################################
+# Install Raspberry Pi OS onto NVMe and boot Raspberry Pi 5 from NVMe SSD
+###############################################################################
+
+###############################################################################
+# 1. Write Raspberry Pi OS to NVMe
+#
+# Install Raspberry Pi Imager:
+###############################################################################
+
+sudo apt install -y rpi-imager
+
+###############################################################################
+# Launch Raspberry Pi Imager:
+###############################################################################
+
+rpi-imager
+
+###############################################################################
+# In Raspberry Pi Imager select:
+#
+# Operating System:
+#   Raspberry Pi OS (64-bit)
+#
+# Storage:
+#   Select the NVMe drive
+#
+# This will create the required boot and root partitions:
+#
+# NVMe
+# ├── nvme0n1p1  bootfs
+# └── nvme0n1p2  rootfs
+###############################################################################
+
+
+###############################################################################
+# 2. Enable NVMe boot support
+#
+# Check the current Raspberry Pi bootloader configuration:
+###############################################################################
+
+vcgencmd bootloader_config | grep BOOT_ORDER
+
+###############################################################################
+# Example output:
+#
+# BOOT_ORDER=0xf461
+#
+# The boot order determines which devices the Raspberry Pi checks during boot.
+###############################################################################
+
+###############################################################################
+# Update the Raspberry Pi EEPROM bootloader:
+###############################################################################
+
+sudo rpi-eeprom-update -a
+
+###############################################################################
+# Reboot Raspberry Pi:
+###############################################################################
+
+sudo reboot
+
+
+###############################################################################
+# 3. Confirm NVMe is detected and being used
+###############################################################################
+
+lsblk
+
+###############################################################################
+# Expected output after booting from NVMe:
+#
+# nvme0n1
+# ├─nvme0n1p1  /boot/firmware
+# └─nvme0n1p2  /
+###############################################################################
+
+
+###############################################################################
+# 4. Install DeskPi software after booting from NVMe
+#
+# The DeskPi installer installs hardware support software onto the current OS.
+# Make sure the current OS is running from NVMe before running this.
+###############################################################################
+
+cd ~
+
+###############################################################################
+# Download DeskPi software:
+###############################################################################
+
+git clone https://github.com/DeskPi-Team/deskpi.git
+
+###############################################################################
+# Enter DeskPi installation directory:
+###############################################################################
+
+cd ~/deskpi
+
+###############################################################################
+# Make installation script executable:
+###############################################################################
+
+chmod +x install.sh
+
+###############################################################################
+# Run DeskPi installation:
+###############################################################################
+
+sudo ./install.sh
+
+
+###############################################################################
+# After installation:
+#
+# DeskPi software is now installed on the NVMe-based Raspberry Pi OS.
+###############################################################################
+
+
+###############################################################################
+# Current system check:
+#
+# Current setup:
+#
+# USB 1.8TB SSD
+# ├── bootfs
+# └── rootfs  <-- Currently running OS
+#
+# NVMe M.2
+# └── Unknown / not detected yet
+###############################################################################
+
+
+###############################################################################
+# Check if the M.2 NVMe drive is detected before installing anything:
+###############################################################################
+
+lsblk -o NAME,SIZE,MODEL,SERIAL
+```
+
+## Verification
 
 ```
 
@@ -215,16 +397,6 @@ while True:
     uid_led.off() # turn off led 
     time.sleep(5)
 ```
-
-```bash
-For Raspbian and RetroPie OS.
-cd ~
-git clone https://github.com/DeskPi-Team/deskpi.git
-cd ~/deskpi/
-chmod +x install.sh
-sudo ./install.sh
-```
-
 ```bash
 sysbench fileio prepare
 sysbench fileio run

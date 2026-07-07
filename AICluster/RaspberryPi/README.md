@@ -6,6 +6,7 @@
 
 ## Enable PCI
 ```
+udo rpi-eeprom-update 
 raspi-confi
 Diable IPv6
 Disable Wifi

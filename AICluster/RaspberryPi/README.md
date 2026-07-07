@@ -12,6 +12,8 @@ dtparam=pciex1
 dtparam=pciex1_gen=3  # optional
 ```
 
+## Prepare NVMe
+
 ```bash
 ###############################################################################
 # Display all storage devices with model and serial number.
@@ -79,24 +81,53 @@ df -h
 ```
 
 ```bash
-Automatically mount at boot
-
-Find the UUID:
-
+```bash
+###############################################################################
+# Display the UUIDs of all storage devices.
+# Copy the UUID of the NVMe partition (e.g. /dev/nvme0n1p1).
+###############################################################################
 sudo blkid
 
-Edit fstab:
-
+###############################################################################
+# Edit the filesystem table (fstab).
+# This file controls which filesystems are mounted automatically at boot.
+###############################################################################
 sudo nano /etc/fstab
 
-Add:
-
+###############################################################################
+# Add the following line to the end of the file.
+#
+# Replace <uuid> with the UUID obtained from the 'sudo blkid' command.
+#
+# Example:
+# UUID=12345678-90ab-cdef-1234-567890abcdef /mnt/nvme ext4 defaults,noatime 0 2
+#
+# Field descriptions:
+#   UUID=<uuid>   - Unique identifier of the partition
+#   /mnt/nvme     - Mount point
+#   ext4          - Filesystem type
+#   defaults      - Standard mount options
+#   noatime       - Improves performance by disabling access time updates
+#   0             - Disable dump backups
+#   2             - Check filesystem after the root filesystem during boot
+###############################################################################
 UUID=<uuid> /mnt/nvme ext4 defaults,noatime 0 2
 
-Test:
-
+###############################################################################
+# Test the fstab configuration without rebooting.
+# If no errors are displayed, the configuration is valid.
+###############################################################################
 sudo mount -a
+
+###############################################################################
+# Verify that the NVMe drive is mounted successfully.
+###############################################################################
+df -h
 ```
+
+```
+
+## Instal GPIZero
 
 - gpiozero is a high-level Python library that makes it easy to control Raspberry Pi hardware such as:
 - lgpio is the modern GPIO backend used by gpiozero on current Raspberry Pi OS releases.

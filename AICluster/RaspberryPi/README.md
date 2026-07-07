@@ -4,35 +4,76 @@
 
 - https://chatgpt.com/c/6a462f66-ea08-83ec-a608-7b28b2565cbe
 
+## Enable PCI
+
 ```bash
-boot/firmware/config.txt file and adding following parameter:
+nano boot/firmware/config.txt file and adding following parameter:
 dtparam=pciex1
 dtparam=pciex1_gen=3  # optional
 ```
 
 ```bash
+###############################################################################
+# Display all storage devices with model and serial number.
+# Verify that /dev/nvme0n1 is your M.2 NVMe SSD before making any changes.
+###############################################################################
+lsblk -o NAME,SIZE,MODEL,SERIAL
+
+###############################################################################
+# Display block devices, filesystems, UUIDs, labels, and mount points.
+###############################################################################
 lsblk -f
 
+###############################################################################
+# Update the package repository index.
+###############################################################################
 sudo apt update
+
+###############################################################################
+# Install PCI utilities (provides the lspci command).
+###############################################################################
 sudo apt install -y pciutils
 
+###############################################################################
+# List all PCI/PCIe devices.
+# Verify that the NVMe controller is detected by the Raspberry Pi.
+###############################################################################
 lspci
 
+###############################################################################
+# Open the NVMe SSD in the fdisk partition editor.
+# WARNING: The following steps will erase all existing data on the drive.
+###############################################################################
 sudo fdisk /dev/nvme0n1
 
-Inside fdisk:
+# Inside fdisk, enter the following commands:
+#
+# g      -> Create a new GPT partition table (erases existing partitions)
+# n      -> Create a new partition
+# Enter  -> Accept default partition number
+# Enter  -> Accept default first sector
+# Enter  -> Accept default last sector (use entire disk)
+# w      -> Write the partition table and exit
 
-g
-n
-Enter
-Enter
-Enter
-w
-
+###############################################################################
+# Format the new partition as an ext4 filesystem.
+# WARNING: This permanently erases all data on the partition.
+###############################################################################
 sudo mkfs.ext4 /dev/nvme0n1p1
 
+###############################################################################
+# Create a mount point for the NVMe drive.
+###############################################################################
 sudo mkdir -p /mnt/nvme
+
+###############################################################################
+# Mount the NVMe partition.
+###############################################################################
 sudo mount /dev/nvme0n1p1 /mnt/nvme
+
+###############################################################################
+# Verify that the drive is mounted successfully and display disk usage.
+###############################################################################
 df -h
 
 ```
@@ -57,7 +98,11 @@ Test:
 sudo mount -a
 ```
 
+- gpiozero is a high-level Python library that makes it easy to control Raspberry Pi hardware such as:
+- lgpio is the modern GPIO backend used by gpiozero on current Raspberry Pi OS releases.
+
 ```bash
+
 10. Install GPIO Python libraries
 sudo apt update
 sudo apt install -y python3-gpiozero python3-rpi.gpio python3-lgpio
@@ -147,6 +192,19 @@ git clone https://github.com/DeskPi-Team/deskpi.git
 cd ~/deskpi/
 chmod +x install.sh
 sudo ./install.sh
+```
+
+```bash
+sysbench fileio prepare
+sysbench fileio run
+sysbench fileio cleanup
+
+lscpu | grep -i virtualization
+
+egrep -c '(vmx|svm)' /proc/cpuinfo
+lscpu | grep -i virtualization
+sudo apt install -y cpu-checker
+kvm-ok
 ```
 - https://deskpi.com/blogs/learn/getting-start-how-to-install-deskpi-driver
 - https://wiki.52pi.com/index.php?title=EP-0234

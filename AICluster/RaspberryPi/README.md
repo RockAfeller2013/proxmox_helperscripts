@@ -5,6 +5,14 @@
 - https://chatgpt.com/c/6a462f66-ea08-83ec-a608-7b28b2565cbe
 
 ## Enable PCI
+```
+raspi-confi
+Diable IPv6
+Disable Wifi
+Enable SSH
+Enable RpiConnect
+
+```
 
 ```bash
 nano boot/firmware/config.txt file and adding following parameter:

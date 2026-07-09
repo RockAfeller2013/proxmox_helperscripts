@@ -133,3 +133,22 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 
 ```
 
+```bash
+PVE Update Repo
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/update-repo.sh)"
+
+PVE Post Install
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
+
+Wake On LAN
+
+bash -c "$(wget -qLO - https://raw.githubusercontent.com/Aizen-Barbaros/Proxmox-WoL/main/enable_WoL_Proxmox.sh)"
+
+
+48:21:0b:72:fb:e1
+
+apt update && apt full-upgrade -y && apt autoremove -y && apt clean
+```
+

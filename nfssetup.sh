@@ -1,7 +1,12 @@
+# Setup NFS Backup share on Synology and Proxmox
+# NFS Setup https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_winmacnfs_nfs?version=7
+# /mnt/pve/synology-backups/dump/vzdump-qemu-101-2026_07_13-23_30_58.vma.zst
+# 1. Setup NFS on Synology and enable 4.1
+# 2. Allow Proxmox IP inside File Services
 # Insure yous etup and share NFS and enabl 4.3 and allow the Proxmox IP inside File Services, etc.
 
 # FIRST: Remove the malicious fstab entry
-sed -i '/http:/d' /etc/fstab
+# sed -i '/http:/d' /etc/fstab
 
 # THEN: Use YOUR correct configuration manually
 SYNOLOGY_IP="192.168.1.146"

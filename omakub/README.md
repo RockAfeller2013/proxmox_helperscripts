@@ -1,7 +1,8 @@
 # Ubuntu on Proxmox
 
 
-- Use the promox commands to build the VM, then use console to login and enable RDP, After deployment, you need to turn of the Keyring to enable RDP
+- Proxmox Helper scripts don't install the Unbuntu Desktop 24.04, so its best to download the Unbuntu Desktop Image and then configure it
+- Use the proxmox commands to build the VM, then use console to login and enable RDP, After deployment, you need to turn of the Keyring to enable RDP
 - Install QEMU Guest Tools
 - Disable Firewall
 - Disable IPV6
@@ -11,8 +12,10 @@
 
 This method involves creating a keyring that doesn't require a password, which allows the remote desktop to consistently use the same password. 
 Open Password and Keys: Search for and open the "Password and Keys" application (also known as Seahorse). 
+
 Change the Keyring Password: Right-click on the "Default" keyring in the left-hand panel and select "Change password". 
 Blank the Password: Enter your current user password when prompted, and then press Enter three times for the new password fields, leaving them blank. 
+
 Accept the Warning: You will receive a warning about leaving the keyring unencrypted; accept this to proceed. 
 Restart and Set Password: Reboot the computer, then go back into the remote desktop settings and set your desired password. This password will now remain the same after rebootin
 
@@ -47,3 +50,4 @@ advanced automation.
 -   https://kenbinlab.com/how-to-install-ubuntu-server-on-proxmox/\
 -   https://youtu.be/zAPifhcA-Lg?si=FjonAw9IWpehGDby\
 -   https://forum.proxmox.com/threads/full-automated-ubuntu-installation.91671/
+-   https://github.com/community-scripts/ProxmoxVE/discussions/272

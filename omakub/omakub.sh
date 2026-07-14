@@ -1,54 +1,42 @@
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/Omakub.sh)"
-sudo su
+#!/bin/bash
+set -e
 
-sudo apt update
+USERNAME="your_username"
+RDP_PASSWORD="password"
 
-# VirtIO NIC and disk drivers are already included in modern Ubuntu kernels. You don’t need to install extra drivers manually.
+apt update
+apt install -y qemu-guest-agent
+systemctl enable --now qemu-guest-agent
 
-sudo apt install -y qemu-guest-agent
-sudo systemctl enable --now qemu-guest-agent
-<#
+# Enable GNOME Remote Desktop (RDP) for the target user
+sudo -u "$USERNAME" XDG_RUNTIME_DIR="/run/user/$(id -u "$USERNAME")" bash <<EOSU
+export DBUS_SESSION_BUS_ADDRESS="unix:path=\${XDG_RUNTIME_DIR}/bus"
+
 gsettings set org.gnome.desktop.remote-desktop.rdp enable true
 gsettings set org.gnome.desktop.remote-desktop.rdp view-only false
 gsettings set org.gnome.desktop.remote-desktop.rdp auth-method "password"
-gsettings set org.gnome.desktop.remote-desktop.rdp password "$(echo -n 'password' | base64)"
-
-
-# Enable RDP
-gsettings set org.gnome.desktop.remote-desktop.rdp enable true
-gsettings set org.gnome.desktop.remote-desktop.rdp allow-clipping true
-
-# Optional: enable sharing of current session
+gsettings set org.gnome.desktop.remote-desktop.rdp password "\$(echo -n '${RDP_PASSWORD}' | base64)"
 gsettings set org.gnome.desktop.remote-desktop.rdp network-access "any"
-systemctl --user restart gnome-remote-desktop
-#>
-# Allow RDP access
-#gsettings set org.gnome.desktop.remote-desktop.rdp enable true
 
-# Set RDP authentication (replace with your password)
-#secret=$(echo -n "password" | base64)
-#gsettings set org.gnome.desktop.remote-desktop.rdp password "$secret"
+systemctl --user restart gnome-remote-desktop.service
+EOSU
 
-# Allow screen sharing promptless
-#gsettings set org.gnome.desktop.remote-desktop.rdp view-only false
+# Disable firewalls
+systemctl stop ufw 2>/dev/null || true
+systemctl disable ufw 2>/dev/null || true
+ufw disable 2>/dev/null || true
 
-# Enable required services
-#systemctl --user enable --now gnome-remote-desktop.service
+systemctl stop firewalld 2>/dev/null || true
+systemctl disable firewalld 2>/dev/null || true
 
-sudo systemctl stop ufw
-sudo systemctl disable ufw
-sudo ufw disable
-
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-
-sudo tee /etc/sysctl.d/10-disable-ipv6.conf > /dev/null <<EOF
+# Disable IPv6
+tee /etc/sysctl.d/10-disable-ipv6.conf > /dev/null <<EOF
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 EOF
+sysctl --system
 
-sudo sysctl --system
-
-
-wget -qO- https://omakub.org/install | bash
+# Install Omakub
+sudo -u "$USERNAME" bash -c 'wget -qO- https://omakub.org/install | bash'

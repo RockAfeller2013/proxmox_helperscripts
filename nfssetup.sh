@@ -13,6 +13,7 @@
 #
 # NFS Setup:
 # https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_winmacnfs_nfs?version=7
+# https://kb.synology.com/en-nz/DSM/tutorial/I_cannot_mount_shared_folders_via_NFS_what_should_I_do
 
 SYNOLOGY_IP="192.168.1.146"
 SYNOLOGY_SHARE="/volume2/PROXMOX_NFS"
@@ -33,6 +34,12 @@ pvesm add nfs "$STORAGE_NAME" \
 # Verify
 pvesm status
 df -h | grep "/mnt/pve/$STORAGE_NAME"
+
+# Restore
+
+# qmrestore /mnt/pve/synology-backups/dump/vzdump-qemu-101-2026_07_13-23_30_58.vma.zst 101 --storage local-lvm
+# qmrestore /mnt/pve/synology-backups/dump/vzdump-qemu-101-2026_07_13-23_30_58.vma.zst 105 --storage local-lvm
+# qm config 101
 
 
 # Setup NFS Backup share on Synology and Proxmox

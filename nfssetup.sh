@@ -5,7 +5,8 @@
 # Synology:
 #   1. Enable NFS and NFSv4.1.
 #   2. Create the shared folder.
-#   3. Grant the Proxmox host IP access to the NFS export.
+#   3. Grant the Proxmox host IP access to the NFS export. 
+#   Control Panel | Shared Folder | PROXMOX_NFS | EDIT | NFS Permissions | Add IP Address
 #   4. Test with  showmount -e 192.168.1.146
 #
 # NFS Setup:

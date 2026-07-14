@@ -35,46 +35,31 @@ echo
 echo "Updating packages..."
 apt update
 
-echo "Installing QEMU Guest Agent..."
-apt install -y qemu-guest-agent
+echo "Installing packages..."
+apt install -y \
+    qemu-guest-agent \
+    xrdp \
+    xfce4 \
+    xfce4-goodies \
+    dbus-x11
+
+echo "Starting QEMU Guest Agent..."
 systemctl start qemu-guest-agent
 
-echo "Configuring GNOME Remote Desktop..."
+echo "Configuring XRDP..."
 
-USER_UID=$(id -u "$USERNAME")
+echo "xfce4-session" > "/home/$USERNAME/.xsession"
 
-sudo -u "$USERNAME" \
-    XDG_RUNTIME_DIR="/run/user/$USER_UID" \
-    DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
-    bash <<EOF
-gsettings set org.gnome.desktop.remote-desktop.rdp enable true
-gsettings set org.gnome.desktop.remote-desktop.rdp view-only false
-gsettings set org.gnome.desktop.remote-desktop.rdp screen-share-mode false
-gsettings set org.gnome.desktop.remote-desktop.rdp negotiate-port true
-gsettings set org.gnome.desktop.remote-desktop.rdp port 3389
-EOF
+chown "$USERNAME:$USERNAME" "/home/$USERNAME/.xsession"
 
-echo "Configuring RDP credentials using grdctl..."
+echo "$USERNAME:$RDP_PASSWORD" | chpasswd
 
-if command -v grdctl >/dev/null 2>&1; then
-    sudo -u "$USERNAME" \
-        XDG_RUNTIME_DIR="/run/user/$USER_UID" \
-        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
-        bash <<EOF
-grdctl rdp enable
-grdctl rdp set-credentials "$USERNAME" "$RDP_PASSWORD"
-EOF
-else
-    echo "Warning: grdctl not installed. Installing GNOME Remote Desktop..."
-    apt install -y gnome-remote-desktop
-fi
+systemctl enable xrdp
+systemctl restart xrdp
 
-echo "Restarting GNOME Remote Desktop..."
+echo "Adding XRDP certificate permissions..."
 
-sudo -u "$USERNAME" \
-    XDG_RUNTIME_DIR="/run/user/$USER_UID" \
-    DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
-    systemctl --user restart gnome-remote-desktop.service || true
+adduser xrdp ssl-cert >/dev/null 2>&1 || true
 
 echo "Disabling firewalls..."
 
@@ -102,4 +87,9 @@ sudo -u "$USERNAME" bash -c 'wget -qO- https://omakub.org/install | bash'
 echo
 echo "========================================"
 echo "Installation complete."
+echo
+echo "RDP connection:"
+echo "  Host: $(hostname -I | awk "{print \$1}")"
+echo "  Port: 3389"
+echo "  User: $USERNAME"
 echo "========================================"

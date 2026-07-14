@@ -1,5 +1,3 @@
-# sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/omakub.sh)"
-
 #!/bin/bash
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/Omakub.sh)"
 
@@ -22,6 +20,7 @@ if ! id "$USERNAME" >/dev/null 2>&1; then
     exit 1
 fi
 
+echo
 read -rsp "RDP password: " RDP_PASSWORD
 echo
 read -rsp "Confirm RDP password: " RDP_PASSWORD_CONFIRM
@@ -38,7 +37,7 @@ apt update
 
 echo "Installing QEMU Guest Agent..."
 apt install -y qemu-guest-agent
-systemctl enable --now qemu-guest-agent
+systemctl start qemu-guest-agent
 
 echo "Configuring GNOME Remote Desktop..."
 
@@ -50,12 +49,32 @@ sudo -u "$USERNAME" \
     bash <<EOF
 gsettings set org.gnome.desktop.remote-desktop.rdp enable true
 gsettings set org.gnome.desktop.remote-desktop.rdp view-only false
-gsettings set org.gnome.desktop.remote-desktop.rdp auth-method "password"
-gsettings set org.gnome.desktop.remote-desktop.rdp password "\$(echo -n "$RDP_PASSWORD" | base64)"
-gsettings set org.gnome.desktop.remote-desktop.rdp network-access "any"
-
-systemctl --user restart gnome-remote-desktop.service || true
+gsettings set org.gnome.desktop.remote-desktop.rdp screen-share-mode false
+gsettings set org.gnome.desktop.remote-desktop.rdp negotiate-port true
+gsettings set org.gnome.desktop.remote-desktop.rdp port 3389
 EOF
+
+echo "Configuring RDP credentials using grdctl..."
+
+if command -v grdctl >/dev/null 2>&1; then
+    sudo -u "$USERNAME" \
+        XDG_RUNTIME_DIR="/run/user/$USER_UID" \
+        DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
+        bash <<EOF
+grdctl rdp enable
+grdctl rdp set-credentials "$USERNAME" "$RDP_PASSWORD"
+EOF
+else
+    echo "Warning: grdctl not installed. Installing GNOME Remote Desktop..."
+    apt install -y gnome-remote-desktop
+fi
+
+echo "Restarting GNOME Remote Desktop..."
+
+sudo -u "$USERNAME" \
+    XDG_RUNTIME_DIR="/run/user/$USER_UID" \
+    DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus" \
+    systemctl --user restart gnome-remote-desktop.service || true
 
 echo "Disabling firewalls..."
 

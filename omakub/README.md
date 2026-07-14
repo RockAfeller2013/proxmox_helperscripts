@@ -4,11 +4,13 @@
 - Proxmox Helper scripts don't install the Unbuntu Desktop 24.04, so its best to download the Unbuntu Desktop ISO and then configure it
 - Use the proxmox commands to build the VM, then use console to login and enable SSH, RDP, After deployment, you need to turn of the Keyring to enable RDP
 - Enable SSH
-***bash
+  
+```bash
 sudo apt update
 sudo apt install ssh
 sudo ufw allow 22      # if you have ufw running, but it doesn't hurt to run.
-***
+```
+
 - Install QEMU Guest Tools
 - Disable Firewall
 - Disable IPV6

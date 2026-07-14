@@ -9,6 +9,7 @@
 sudo apt update
 sudo apt install ssh
 sudo ufw allow 22      # if you have ufw running, but it doesn't hurt to run.
+sudo apt install curl
 ```
 
 - Install QEMU Guest Tools

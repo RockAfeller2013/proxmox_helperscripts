@@ -5,7 +5,7 @@
 # Synology:
 #   1. Enable NFS and NFSv4.1.
 #   2. Create the shared folder.
-#   3. Grant the Proxmox host IP access to the NFS export. 
+#   3. Grant the Proxmox host IP access to the NFS export.  Or use * all all IPs
 #   Control Panel | Shared Folder | PROXMOX_NFS | EDIT | NFS Permissions | Add IP Address 
 #   'Squash', choose 'No mapping' (this preserves root permissions from Proxmox, which backups typically need).
 #   Leave 'Asynchronous' and 'Allow connections from non-privileged ports' as defaults unless you have a specific reason to change them.

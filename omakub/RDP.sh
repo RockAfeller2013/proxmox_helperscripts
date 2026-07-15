@@ -8,6 +8,7 @@
 # Only use this on trusted/isolated machines (labs, internal VMs, etc.)
 #
 # Usage: sudo ./enable-rdp-autologin.sh
+# sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/RDP.sh)"
 
 set -euo pipefail
 

@@ -1,21 +1,18 @@
 # Ubuntu on Proxmox
 
 
-- Proxmox Helper scripts don't install the Unbuntu Desktop 24.04, so its best to download the Unbuntu Desktop ISO and then configure it
-- Use the proxmox commands to build the VM, then use console to login and enable SSH, RDP, After deployment, you need to turn of the Keyring to enable RDP
-- Enable SSH
+- Use ubuntu-desktop.sh to install Unbuntu Desktop. FYI, Proxmox Helper scripts dont have a Desktop version. 
+- Enable RDP via the GUI, the command lines don't work and I just don't care, just build a template and use that. I don't need to solve this problem right now.
+- Enable SSH, Install QEMU Guest Tools, Disable Firewall
   
 ```bash
 sudo ufw disable
 sudo apt update
 sudo apt install ssh
-sudo ufw allow 22      # if you have ufw running, but it doesn't hurt to run.
 sudo apt install curl
 sudo apt install net-tools
+sudo apt install emu-guest-agent 
 ```
-
-- Install QEMU Guest Tools
-- Disable Firewall
 - Disable IPV6
 
 ```bash
@@ -27,7 +24,11 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 EOF
 ```
-  
+```
+wget -qO- https://omakub.org/install | bash
+
+```
+- Convert to a Template
 ## Unlocking the Keyring
 
 

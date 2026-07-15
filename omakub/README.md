@@ -62,3 +62,4 @@ advanced automation.
 -   https://youtu.be/zAPifhcA-Lg?si=FjonAw9IWpehGDby\
 -   https://forum.proxmox.com/threads/full-automated-ubuntu-installation.91671/
 -   https://github.com/community-scripts/ProxmoxVE/discussions/272
+-   https://www.reddit.com/r/Ubuntu/comments/1sgk3ax/how_to_enable_rdp_remote_login_headless_mode_with/

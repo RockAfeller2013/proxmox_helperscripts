@@ -73,3 +73,5 @@ advanced automation.
 -   https://forum.proxmox.com/threads/full-automated-ubuntu-installation.91671/
 -   https://github.com/community-scripts/ProxmoxVE/discussions/272
 -   https://www.reddit.com/r/Ubuntu/comments/1sgk3ax/how_to_enable_rdp_remote_login_headless_mode_with/
+-   https://claude.ai/chat/9494653e-01e7-46ee-80fc-998eec015148
+-   https://aioue.net/2026/01/21/gnome-remote-desktop-rdp-ubuntu-24.04/

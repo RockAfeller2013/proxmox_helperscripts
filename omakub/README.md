@@ -11,7 +11,7 @@ sudo apt update
 sudo apt install ssh
 sudo apt install curl
 sudo apt install net-tools
-sudo apt install emu-guest-agent 
+sudo apt install qemu-guest-agent 
 ```
 - Disable IPV6
 

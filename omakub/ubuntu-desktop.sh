@@ -159,7 +159,7 @@ echo "========================================"
 
 ####
 
-: '
+: <<'EOF'
 
 cd /var/lib/vz/template/iso/
 wget -O ubuntu-25.04-desktop-amd64.iso \

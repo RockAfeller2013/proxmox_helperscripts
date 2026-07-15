@@ -1,5 +1,6 @@
 #!/bin/bash
 # bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/ubuntu-desktop.sh)"
+echo "Version 1"
 
 set -euo pipefail
 

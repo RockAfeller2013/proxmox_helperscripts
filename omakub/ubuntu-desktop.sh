@@ -13,11 +13,8 @@ select_option() {
     shift
     local options=("$@")
     local choice
-
-    echo "$prompt"
-
+    echo "$prompt" >&2
     PS3="Select option: "
-
     select choice in "${options[@]}"; do
         if [[ -n "$choice" ]]; then
             echo "$choice"
@@ -36,49 +33,49 @@ VM_ID=${VM_ID:-5001}
 
 read -rp "VM Name [ubuntu-desktop]: " VM_NAME
 VM_NAME=${VM_NAME:-ubuntu-desktop}
-
 echo
+
 CPU_TYPE=$(select_option \
     "CPU Type:" \
     "host" \
     "kvm64" \
     "x86-64-v2-AES")
-
 echo
+
 MEMORY=$(select_option \
     "Memory:" \
     "4096" \
     "8192" \
     "16384" \
     "32768")
-
 echo
+
 CORES=$(select_option \
     "CPU Cores:" \
     "2" \
     "4" \
     "8" \
     "16")
-
 echo
+
 DISK_SIZE=$(select_option \
     "Disk Size (GB):" \
     "64" \
     "128" \
     "256" \
     "512")
-
 echo
+
 STORAGE=$(select_option \
     "Storage:" \
     $(pvesm status | awk 'NR>1 {print $1}'))
-
 echo
+
 BRIDGE=$(select_option \
     "Network Bridge:" \
     $(grep -oP '^iface \Kvmbr[0-9]+' /etc/network/interfaces 2>/dev/null || echo vmbr0))
-
 echo
+
 ISO_NAME=$(select_option \
     "Ubuntu ISO:" \
     $(ls /var/lib/vz/template/iso/*.iso 2>/dev/null | xargs -n1 basename))
@@ -86,15 +83,11 @@ ISO_NAME=$(select_option \
 if [[ -z "$ISO_NAME" ]]; then
     echo
     echo "No ISO found."
-
-    read -rp "Download Ubuntu 25.04 Desktop ISO? [Y/n]: " DOWNLOAD
-
+    read -rp "Download Ubuntu 24.04 Desktop ISO? [Y/n]: " DOWNLOAD
     if [[ ! "$DOWNLOAD" =~ ^[Nn]$ ]]; then
-        ISO_NAME="ubuntu-25.04-desktop-amd64.iso"
-        ISO_URL="https://releases.ubuntu.com/25.04/ubuntu-25.04-desktop-amd64.iso"
-
+        ISO_NAME="ubuntu-24.04-desktop-amd64.iso"
+        ISO_URL="https://releases.ubuntu.com/24.04/ubuntu-24.04-desktop-amd64.iso"
         mkdir -p /var/lib/vz/template/iso
-
         wget -O "/var/lib/vz/template/iso/$ISO_NAME" "$ISO_URL"
     else
         exit 1
@@ -119,7 +112,6 @@ echo "ISO:        $ISO_NAME"
 echo "========================================"
 
 read -rp "Create VM? [y/N]: " CONFIRM
-
 if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
     echo "Cancelled."
     exit 0

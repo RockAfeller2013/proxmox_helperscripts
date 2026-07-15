@@ -21,7 +21,7 @@ sudo apt install net-tools
 ```bash
 echo "Disabling IPv6..."
 
-cat >/etc/sysctl.d/10-disable-ipv6.conf <<EOF
+sudo tee /etc/sysctl.d/10-disable-ipv6.conf > /dev/null <<EOF
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1

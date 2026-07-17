@@ -8,11 +8,10 @@
 ```bash
 sudo ufw disable
 sudo apt update
-sudo apt install ssh
-sudo apt install curl
-sudo apt install net-tools
-sudo apt install qemu-guest-agent
-sudo apt update
+sudo apt install ssh -y 
+sudo apt install curl -y 
+sudo apt install net-tools -y 
+sudo apt install qemu-guest-agent -y 
 sudo apt install -y ansible
 
 

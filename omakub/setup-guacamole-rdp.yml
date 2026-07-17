@@ -1,0 +1,105 @@
+# Configure Ubuntu desktop for Guacamole RDP access
+# This role sets up a secure RDP connection via GNOME Remote Desktop service
+# for seamless integration with Apache Guacamole HTML5 remote desktop gateway.
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ package_name }}"
+    autoremove: true
+    state: present
+  loop:
+    - winpr-utils # Required for TLS certificate generation
+    - gnome-remote-desktop # Provides the remote desktop service
+    # Packages for hardware-accelerated graphics with virtio-gpu
+    - mesa-utils
+    - mesa-vulkan-drivers
+    - libgl1-mesa-dri
+  loop_control:
+    loop_var: package_name
+  notify:
+    - Reboot if needed
+
+- name: Allow client to pass locale environment variables and timezone
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?AcceptEnv'
+    line: 'AcceptEnv LANG LC_* TZ'
+    state: present
+    create: false
+  notify: restart SSH
+
+- name: Enable PasswordAuthentication for SSH
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+    state: present
+    create: false
+  notify: restart SSH
+
+- name: Enable linger for admin user to maintain graphical session after reboot
+  become: true
+  command: loginctl enable-linger {{ guacamole_guest_admin_user }}
+  changed_when: false
+
+- name: Set graphical target as default boot target
+  become: true
+  systemd:
+    name: graphical.target
+    enabled: true
+
+- name: Remove nomodeset from GRUB to enable graphics driver detection
+  become: true
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet text"'
+    backrefs: true
+
+- name: Update GRUB configuration to apply boot parameter changes
+  become: true
+  command: update-grub
+  notify:
+    - Reboot if needed
+
+- name: Apply immediate reboot if required by configuration changes
+  meta: flush_handlers
+
+# TLS certificate generation for secure RDP connections
+# https://gitlab.gnome.org/GNOME/gnome-remote-desktop#tls-key-and-certificate-generation
+- name: Generate TLS certificate and key for GNOME Remote Desktop
+  become: true
+  command: sudo -u gnome-remote-desktop sh -c 'winpr-makecert -silent -rdp -path ~/.local/share/gnome-remote-desktop tls'
+
+# Configure GNOME Remote Desktop for headless multi-user remote login
+# https://gitlab.gnome.org/GNOME/gnome-remote-desktop#headless-multi-user-remote-login
+- name: Configure TLS key for RDP connections
+  become: true
+  command: sudo grdctl --system rdp set-tls-key ~gnome-remote-desktop/.local/share/gnome-remote-desktop/tls.key
+
+- name: Configure TLS certificate for RDP connections
+  become: true
+  command: sudo grdctl --system rdp set-tls-cert ~gnome-remote-desktop/.local/share/gnome-remote-desktop/tls.crt
+
+- name: Set RDP access credentials
+  become: true
+  command: sudo grdctl --system rdp set-credentials rdpuser rdppass
+
+- name: Enable interactive input control for RDP sessions
+  become: true
+  command: sudo grdctl --system rdp disable-view-only
+
+- name: Enable RDP protocol support in GNOME Remote Desktop
+  become: true
+  command: sudo grdctl --system rdp enable
+
+- name: Enable GNOME Remote Desktop service to start at boot
+  become: true
+  command: sudo systemctl enable --now gnome-remote-desktop.service
+
+- name: Restart GNOME Remote Desktop service to apply all configurations
+  become: true
+  command: sudo systemctl restart --now gnome-remote-desktop.service

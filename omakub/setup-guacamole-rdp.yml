@@ -1,5 +1,5 @@
 ---
-- name: Configure Ubuntu GNOME Remote Desktop for Guacamole RDP
+- name: Configure Ubuntu GNOME Remote Desktop for Guacamole RDP version 1
   hosts: localhost
   connection: local
   become: true

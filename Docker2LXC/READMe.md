@@ -1,0 +1,7 @@
+- https://forum.proxmox.com/threads/docker-to-pve-lxc-conversion-steps-tool.143193/
+- https://www.reddit.com/r/Proxmox/comments/zjumsr/advice_needed_looking_to_migrate_my_docker/
+- https://gist.github.com/flaki/9a6c58447e50219a9b77a7cd15433896
+- https://medium.com/@u.mair/how-to-run-docker-images-as-lxc-containers-in-proxmox-ve-37016c2156ab
+- https://www.facebook.com/groups/proxmox/posts/8224694584225868/
+- https://raymii.org/s/tutorials/Finally_run_Docker_containers_natively_in_Proxmox_9.1.html
+- https://blog.gurucomputing.com.au/Running%20Docker%20in%20a%20Proxmox%20Container/

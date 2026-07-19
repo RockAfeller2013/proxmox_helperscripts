@@ -5,3 +5,4 @@
 - https://www.facebook.com/groups/proxmox/posts/8224694584225868/
 - https://raymii.org/s/tutorials/Finally_run_Docker_containers_natively_in_Proxmox_9.1.html
 - https://blog.gurucomputing.com.au/Running%20Docker%20in%20a%20Proxmox%20Container/
+- Ansible Proxmox - https://joshrnoll.com/deploying-proxmox-vms-with-ansible/

@@ -27,4 +27,4 @@ Features:
 Run on the Proxmox host:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/<repo>/ubuntu2604-desktop-vm.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/Ubuntu26.04LTS/ubuntu2604-desktop-vm.sh)"

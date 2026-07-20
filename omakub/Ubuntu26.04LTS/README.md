@@ -32,6 +32,27 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_
 
 # Cloud-Init & SSH Setup
 
+# 1. Create VM
+qm create $VMID ...
+
+# 2. Import Ubuntu cloud image
+qm importdisk $VMID ubuntu-26.04-server-cloudimg-amd64.img $STORAGE
+
+# 3. Attach OS disk + Cloud-Init disk
+qm set $VMID \
+  -scsi0 ${DISK1_REF} \
+  -ide2 ${STORAGE}:cloudinit
+
+# 4. Create user-data.yaml automatically
+/var/lib/vz/snippets/ubuntu2604-desktop-user-data.yaml
+
+# 5. Attach custom Cloud-Init configuration automatically
+qm set $VMID \
+  --cicustom "user=<snippet-storage>:snippets/ubuntu2604-desktop-user-data.yaml"
+
+# 6. Start VM
+qm start $VMID
+
 ## How to fix, in the Proxmox web UI
 
 1. Select the VM → **Cloud-Init** tab.

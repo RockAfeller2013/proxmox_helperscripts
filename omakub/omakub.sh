@@ -31,6 +31,8 @@ if [[ "$RDP_PASSWORD" != "$RDP_PASSWORD_CONFIRM" ]]; then
     exit 1
 fi
 
+sudo ufw disable
+
 echo
 echo "Updating packages..."
 apt update
@@ -41,7 +43,12 @@ apt install -y \
     xrdp \
     xfce4 \
     xfce4-goodies \
-    dbus-x11
+    dbus-x11 \
+    ssh \
+    curl \ 
+    ansible \
+    ubuntu-desktop
+
 
 echo "Starting QEMU Guest Agent..."
 systemctl start qemu-guest-agent

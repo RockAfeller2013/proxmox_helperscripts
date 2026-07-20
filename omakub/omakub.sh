@@ -40,14 +40,15 @@ apt update
 echo "Installing packages..."
 apt install -y \
     qemu-guest-agent \
+    ubuntu-desktop \
     xrdp \
     xfce4 \
     xfce4-goodies \
     dbus-x11 \
     ssh \
     curl \ 
-    ansible \
-    ubuntu-desktop
+    ansible
+    
 
 
 echo "Starting QEMU Guest Agent..."

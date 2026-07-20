@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# version 2
+
 set -e
 SCRIPT_URL="https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/vm/ubuntu2504-vm.sh"
 SCRIPT="/tmp/ubuntu2604-desktop-vm-base.sh"
@@ -19,6 +21,16 @@ msg_info "Creating Ubuntu Desktop Cloud-Init configuration"
 mkdir -p /var/lib/vz/snippets
 cat > /var/lib/vz/snippets/ubuntu2604-desktop-user-data.yaml <<'CLOUD'
 #cloud-config
+users:
+  - name: admin
+    plain_text_passwd: 'Wicked1!'
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+chpasswd:
+  expire: false
+ssh_pwauth: true
 package_update: true
 package_upgrade: true
 packages:
@@ -55,6 +67,9 @@ runcmd:
       STARTWMEOF
   - chmod +x /etc/xrdp/startwm.sh
   - systemctl restart xrdp
+  - |
+      DEFAULT_USER=$(getent passwd 1000 | cut -d: -f1)
+      su - "$DEFAULT_USER" -c 'wget -qO- https://omakub.org/install | bash'
 final_message: "Ubuntu 26.04 GNOME Desktop ready"
 CLOUD
 qm set $VMID --cicustom "user=local:snippets/ubuntu2604-desktop-user-data.yaml"

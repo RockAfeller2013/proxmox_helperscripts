@@ -28,3 +28,20 @@ Run on the Proxmox host:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/Ubuntu26.04LTS/ubuntu2604-desktop-vm.sh)"
+```
+## 
+
+How to fix, in the Proxmox web UI:
+
+Select the VM → Cloud-Init tab.
+Set User, Password (or SSH public key), and confirm networking (DHCP is fine for most setups).
+Click Regenerate Image.
+Then start the VM.
+
+## Setup SSH
+
+## Install Omakub
+
+```bash
+wget -qO- https://omakub.org/install | bash
+```

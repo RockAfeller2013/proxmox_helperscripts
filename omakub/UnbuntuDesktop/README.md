@@ -91,4 +91,8 @@ https://charlichair.com.au/
 
 # Tools 
 
-HERD, etc. 
+```bash
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/UnbuntuDesktop/install_dev_tools.sh)"
+
+```

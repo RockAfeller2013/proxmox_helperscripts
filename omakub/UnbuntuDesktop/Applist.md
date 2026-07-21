@@ -63,3 +63,4 @@
 
 
 - https://www.davidondrej.com/files/kun-chen-podcast/firstmate-herdr-pi-setup.md?token=eyJ0eXBlIjoiZGVsaXZlcmFibGUiLCJzbHVnIjoia3VuLWNoZW4tcG9kY2FzdCIsImVtYWlsIjoicm9zaGFucl8yMDA0QGhvdG1haWwuY29tIiwidiI6MSwiZXhwIjoxNzg1ODQ1MzE3MjE5fQ.coqL1tRsMJYRm-0dBIHyU_cQXujxnkoxwdtLp-G_87s
+- https://github.com/kunchenguid/firstmate

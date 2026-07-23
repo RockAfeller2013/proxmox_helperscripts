@@ -20,6 +20,11 @@
 - Fix the Snloogy, Login gmail - https://account.synology.com/en-uk/support/3973352/detail / https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
 - Enable Remote Support Access and Diagnostic Upload
 
+## TMUX
+
+- Use TMUX to insure the session don't get interputed and you can rejoin the sessions.
+
+
 ## Install SynoCli Network Tools to get TMUX
 
 [Link]https://synocommunity.com/package/synocli-net

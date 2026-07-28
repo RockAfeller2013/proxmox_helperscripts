@@ -69,6 +69,12 @@ startxfce4
 EOF
 ```
 
+### Disable Autologin to Console
+
+```bash
+sudo sed -i 's/^AutomaticLoginEnable=true/AutomaticLoginEnable=false/; s/^AutomaticLogin=rockadmin/#AutomaticLogin=rockadmin/' /etc/gdm3/custom.conf && sudo systemctl restart gdm3
+```
+
 ```bash
 chmod +x ~/.xsession
 

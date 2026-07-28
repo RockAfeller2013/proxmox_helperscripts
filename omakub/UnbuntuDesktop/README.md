@@ -88,6 +88,12 @@ sudo systemctl restart xrdp
 sudo systemctl status xrdp
 ```
 
+### Setup GRUB
+
+```bash
+sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=3/; s/^GRUB_DEFAULT=.*/GRUB_DEFAULT=0/' /etc/default/grub && sudo update-grub
+```
+
 ## Setup SSH
 
 Enable passwordless SSH to Proxmox.

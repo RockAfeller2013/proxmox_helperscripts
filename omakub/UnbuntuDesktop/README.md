@@ -82,6 +82,29 @@ sudo systemctl restart xrdp
 sudo systemctl status xrdp
 ```
 
+## Setup SSH
+
+Enable passwordless SSH to Proxmox.
+
+Generate a key:
+
+```
+ssh-keygen -t ed25519
+```
+
+Copy it to the Proxmox host:
+
+```
+ssh-copy-id root@<proxmox-ip>
+```
+
+Test it:
+
+```
+ssh root@<proxmox-ip>
+```
+
+
 ## Test RDP Login
 
 

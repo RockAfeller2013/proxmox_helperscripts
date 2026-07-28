@@ -84,10 +84,6 @@ sudo systemctl status xrdp
 
 ## Test RDP Login
 
-## Omakub Install
-
-https://omakub.org/
-https://charlichair.com.au/
 
 # Tools 
 

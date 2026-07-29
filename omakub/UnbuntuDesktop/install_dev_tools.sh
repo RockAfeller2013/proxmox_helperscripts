@@ -149,7 +149,7 @@ curl -fsSL https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/script
 # --------------------------------------------------------------------------
 # Add HERDR to SSH Add this to the end of your ~/.bashrc (or ~/.zshrc if you use zsh):
 # --------------------------------------------------------------------------
-grep -qxF 'if [[ -n "$SSH_CONNECTION" && $- == *i* ]]; then exec HERDR; fi' ~/.bashrc || echo 'if [[ -n "$SSH_CONNECTION" && $- == *i* ]]; then exec HERDR; fi' >> ~/.bashrc
+# grep -qxF 'if [[ -n "$SSH_CONNECTION" && $- == *i* ]]; then exec HERDR; fi' ~/.bashrc || echo 'if [[ -n "$SSH_CONNECTION" && $- == *i* ]]; then exec HERDR; fi' >> ~/.bashrc
 
 echo "Install complete"
 

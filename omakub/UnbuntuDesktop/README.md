@@ -127,3 +127,23 @@ ssh root@<proxmox-ip>
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/UnbuntuDesktop/install_dev_tools.sh)"
 
 ```
+
+# Ubuntu VM Template Preparation / Cloud-Init Guides
+
+## Ubuntu Cloud-Init Documentation
+https://help.ubuntu.com/community/CloudInit
+
+## Ubuntu Server - Introduction to Cloud-Init
+https://documentation.ubuntu.com/server/explanation/intro-to-cloud-init/
+
+## Cloud-Init CLI Reference (`cloud-init clean`)
+https://docs.cloud-init.io/en/latest/reference/cli.html
+
+## Cloud-Init Documentation Home
+https://docs.cloud-init.io/
+
+## Proxmox Cloud-Init Documentation
+https://pve.proxmox.com/wiki/Cloud-Init_Support
+
+## Proxmox Forum - Ubuntu Cloud-Init / Templates Discussion
+https://forum.proxmox.com/threads/cloud-init-on-ubuntu-not-using-ubuntu-cloud-images.45107/

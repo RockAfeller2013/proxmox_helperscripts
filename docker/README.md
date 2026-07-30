@@ -36,7 +36,13 @@ docker run -d \
   -v portainer_data:/data \
   portainer/portainer-ce:latest
 
+
+docker ps -q
+docker logs
+# Look for the setu-token
+
 https://192.168.1.37:9443/#!/init/admin
+
 ```
 - https://docs.portainer.io/start/install-ce/server/docker/linux 
 - curl -L https://downloads.portainer.io/ce-lts/portainer-compose.yaml docker compose -f portainer-compose.yaml up -d 

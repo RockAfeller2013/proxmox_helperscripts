@@ -2,6 +2,9 @@
 
 ## Create a image usng ISO 
 
+| Might be better to use https://ubuntu.com/desktop/flavors
+| https://xubuntu.org/
+
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/omakub/ubuntu-desktop.sh)"
 ```

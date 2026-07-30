@@ -25,6 +25,9 @@ sudo passwd root
 
 ## Setup Protainer inside Docker VM
 ```
+
+docker rm -f 0e3378ee6d9c && docker volume rm portainer_data
+
 docker volume create portainer_data
 
 docker run -d \
@@ -34,8 +37,8 @@ docker run -d \
   -p 9443:9443 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data \
-  portainer/portainer-ce:latest
-
+  portainer/portainer-ce:latest \
+  --no-setup-token
 
 docker ps -q
 docker logs
@@ -45,8 +48,6 @@ https://192.168.1.37:9443/#!/init/admin
 
 ```
 - https://docs.portainer.io/start/install-ce/server/docker/linux 
-- curl -L https://downloads.portainer.io/ce-lts/portainer-compose.yaml docker compose -f portainer-compose.yaml up -d 
-
 - https://192.168.1.37:9443/#!/init/admin admin/Wi{S0REjCE6%
 
 ## Install Docker Compose plugin

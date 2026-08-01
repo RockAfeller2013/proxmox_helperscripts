@@ -139,6 +139,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 ```bash
 # Proxmox will display every template available from the configured repositories (Debian, Ubuntu, Alpine, Devuan, TurnKey Linux, etc.). Select the ones you want and click Download.
 
+# Edit and stroage.cfg and add - content backup,import,vztmpl,iso,images, you will see all the templates in the UI, then follow the Link to create the Template - https://pve.proxmox.com/wiki/Linux_Container
+
 cat /etc/pve/storage.cfg
 pveam update
 pveam available

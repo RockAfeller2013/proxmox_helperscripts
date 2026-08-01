@@ -20,4 +20,9 @@ sudo -u postgres psql -c "\du"
 sudo -u postgres psql -c "\l"
 
 
+http://172.16.0.228/adminer
+localhost
+postgress
+password
+
 ```

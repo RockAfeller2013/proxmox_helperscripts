@@ -121,18 +121,29 @@ crontab -e
 
 =cProxmox VE LXC Monitor: https://community-scripts.github.io/ProxmoxVE/scripts?id=monitor-all
 
--cLXC Container Install Scripts (Home Assistant)
+-LXC Container Install Scripts (Home Assistant)
 
 -cUpdating LXC vs Updating Docker Containers
 
--Turnkey Linux Containers
-```
 
+
+```
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/host-backup.sh)"
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/kernel-clean.sh)"
 
 ```
+## Enable CT Turnkey Templates
 
+- https://pve.proxmox.com/wiki/Linux_Container
+
+```bash
+# Proxmox will display every template available from the configured repositories (Debian, Ubuntu, Alpine, Devuan, TurnKey Linux, etc.). Select the ones you want and click Download.
+
+cat /etc/pve/storage.cfg
+pveam update
+pveam available
+
+```
 ```bash
 PVE Update Repo
 

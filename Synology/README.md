@@ -25,6 +25,17 @@
 ```text
 Control Panel > Synology Account). Select Enable Diagnosis Service and then click Apply
 ```
+```text
+To enable remote access to your device, please follow the steps below:
+Enable the SSH service at Control Panel > Terminal & SNMP.
+Obtain a support identification key at Support Center > Support Services. Tick Enable remote access and click Apply.
+Remote
+Create a new administrator account with a strong password.
+Temporarily adjust the following settings for uninterrupted access:
+Disable 2-factor authentication for the administrator account you provide.
+Disable power schedules to ensure your device stays on during the support session.
+* We strongly recommend setting a strong account password to improve security. Passwords must contain at least one number and one letter, and avoid common passwords.
+```
 - Chat
 -     https://chatgpt.com/c/69e211b7-cc30-8322-b79b-3779a40c0f24
 -     https://chatgpt.com/c/69e0096b-b574-8322-8c48-ecd257d9acfc

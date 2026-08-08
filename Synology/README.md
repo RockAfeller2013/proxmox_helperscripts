@@ -106,15 +106,7 @@ Attempts a full filesystem check with bad block scan
 But -N prevents any actual changes (dry run only)
 ```
 
-```bash
-tmux new -s dry_run
-rsync --dry-run -ahHAXv --numeric-ids --update --progress --log-file=drybackup.log /volume2/ /volume1/volume2_full_backup/
 
-rsync -ahHAXv --numeric-ids --update --progress --ignore-errors --log-file=/volume1/volume2_full_backup/backup.log /volume2/ /volume1/volume2_full_backup/
-
-
-rsync -ahHAXv --numeric-ids --update --progress --log-file=restore.log /volume1/volume2_full_backup/ /volume2/
-```
 
 ## Corrupt Files
 
@@ -124,6 +116,18 @@ mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/Pho
 
 ```
 
+
+## RSYNC
+
+```bash
+tmux new -s dry_run
+rsync --dry-run -ahHAXv --numeric-ids --update --progress --log-file=drybackup.log /volume2/ /volume1/volume2_full_backup/
+
+rsync -ahHAXv --numeric-ids --update --progress --ignore-errors --log-file=/volume1/volume2_full_backup/backup.log /volume2/ /volume1/volume2_full_backup/
+
+
+rsync -ahHAXv --numeric-ids --update --progress --log-file=restore.log /volume1/volume2_full_backup/ /volume2/
+```
 ```bash
 sudo -i
 

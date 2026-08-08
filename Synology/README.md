@@ -22,6 +22,9 @@
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
 - Enable Remote Support Access and Diagnostic Upload
 -     https://kb.synology.com/en-ca/DSM/help/DSM/SupportCenter/support_services?version=7
+```text
+Control Panel > Synology Account). Select Enable Diagnosis Service and then click Apply
+```
 - Chat
 -     https://chatgpt.com/c/69e211b7-cc30-8322-b79b-3779a40c0f24
 -     https://chatgpt.com/c/69e0096b-b574-8322-8c48-ecd257d9acfc

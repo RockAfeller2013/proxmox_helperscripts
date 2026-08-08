@@ -29,6 +29,9 @@ tmus attach
 
 - https://www.detectx.com.au/tmux-rules/
 ```
+
+- Disable Schedule Task and Hyper Backup Control Panel | Task Scheduler
+  
 - Enable Remote Support Access and Diagnostic Upload
 -     https://kb.synology.com/en-ca/DSM/help/DSM/SupportCenter/support_services?version=7
 ```text

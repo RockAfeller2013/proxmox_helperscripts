@@ -20,6 +20,15 @@
 - Fix the Snloogy, Login gmail
 -     https://account.synology.com/en-uk/support/3973352/detail
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
+
+```bash
+# Enable Telnet /SSH- Contro Panel | Terminal & SNMP
+
+tmus ls
+tmus attach
+
+- https://www.detectx.com.au/tmux-rules/
+```
 - Enable Remote Support Access and Diagnostic Upload
 -     https://kb.synology.com/en-ca/DSM/help/DSM/SupportCenter/support_services?version=7
 ```text

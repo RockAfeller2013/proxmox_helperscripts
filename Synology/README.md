@@ -123,13 +123,11 @@ mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/Pho
 ## RSYNC [this works]
 
 ```bash
-
 # SSH
 
 tmus ls
 tmus attach
 tmux new -s dry_run
-
 
 # Backup
 # -n  DRY RUN - preview only (no changes)
@@ -137,11 +135,11 @@ tmux new -s dry_run
 sudo -i
 mkdir -p /volume1/volume2_full_backup 
 
-rsync -ahHAXv --numeric-ids --update --partial --checksum --log-file="$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume2/ /volume1/volume2_full_backup/
+rsync -ahHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/backup_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume2/ /volume1/volume2_full_backup/
 # Restore
-sudo -i
-rsync -aHAXv --numeric-ids --update --partial --checksum --log-file="$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume1/volume2_full_backup/ /volume2/
 
+sudo -i
+rsync -aHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/restore_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume1/volume2_full_backup/ /volume2/
 
 ```
 

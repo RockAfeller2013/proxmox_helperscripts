@@ -77,7 +77,7 @@ survelliance
 diff -r /volume2/ /volume1/volume2_full_backup/
 ```
 
-## Fix file system]
+## Fix file system
 
 ```bash
 
@@ -120,7 +120,7 @@ mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/Pho
 ```
 
 
-## RSYNC [this works
+## RSYNC [this works]
 
 ```bash
 

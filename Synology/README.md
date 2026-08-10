@@ -17,15 +17,20 @@
 
 ## Synology Support
 
-- Fix the Snloogy, Login gmail
+- Log a Support Case using gmail and Support App
+
 -     https://account.synology.com/en-uk/support/3973352/detail
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
+
+### Enable SSH/Telnet
 
 ```bash
 # Enable Telnet /SSH- Contro Panel | Terminal & SNMP
 
 tmus ls
 tmus attach
+tmux new -s dry_run
+tmux detach
 
 - https://www.detectx.com.au/tmux-rules/
 ```
@@ -33,10 +38,13 @@ tmus attach
 - Disable Schedule Task and Hyper Backup Control Panel | Task Scheduler
   
 - Enable Remote Support Access and Diagnostic Upload
+  
 -     https://kb.synology.com/en-ca/DSM/help/DSM/SupportCenter/support_services?version=7
+
 ```text
 Control Panel > Synology Account). Select Enable Diagnosis Service and then click Apply
 ```
+
 ```text
 To enable remote access to your device, please follow the steps below:
 Enable the SSH service at Control Panel > Terminal & SNMP.
@@ -48,24 +56,27 @@ Disable 2-factor authentication for the administrator account you provide.
 Disable power schedules to ensure your device stays on during the support session.
 * We strongly recommend setting a strong account password to improve security. Passwords must contain at least one number and one letter, and avoid common passwords.
 ```
+
 - Chat
 -     https://chatgpt.com/c/69e211b7-cc30-8322-b79b-3779a40c0f24
 -     https://chatgpt.com/c/69e0096b-b574-8322-8c48-ecd257d9acfc
 -     https://chatgpt.com/c/69deaf4a-e57c-8321-80ab-411caacb8893
 -     https://chatgpt.com/c/69fbcb43-21a0-8323-9ccc-4a85c2d1965a
 
-## TMUX
+## Install SynoCli Network Tools to get TMUX
 
 - Use TMUX to insure the session don't get interputed and you can rejoin the sessions.
-
-
-## Install SynoCli Network Tools to get TMUX
 
 [Link]https://synocommunity.com/package/synocli-net
 
 ## Backup
 
 ```
+
+ls -lah /volume2/
+find /volume2/ -maxdepth 1 -mindepth 1 -type d -print
+synoshare --get
+
 Volume2
 Disk
 homes
@@ -77,6 +88,15 @@ survelliance
 diff -r /volume2/ /volume1/volume2_full_backup/
 ```
 
+
+### Clean the Backup Volume
+
+```bash
+rm -rf /volume1/volume2_full_backup/
+rm -rf /volume2/PROXMOX_NFS/MSDN/Google/
+rm -rf -- /volume2/PROXMOX_NFS/MSDN/Google
+```
+
 ## Fix file system
 
 ```bash
@@ -84,12 +104,15 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 
 synospace --stop-all-spaces
 synobeeper --stop
-
+synoshare --get
+synostorage
+synospace
 
 - Go to Control Panel | Hardware and Power | General | Beep Control | Mute
 
 umount /volume2
 e2fsck -yvfccNM /dev/vg1/volume_2
+# e2fsck -f -v /dev/mapper/vg1-volume_2
 
 nohup e2fsck -yvfccNM /dev/vg1/volume_2
 tail -f fsck.log
@@ -125,21 +148,32 @@ mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/Pho
 ```bash
 # SSH
 
-tmus ls
-tmus attach
-tmux new -s dry_run
-
 # Backup
 # -n  DRY RUN - preview only (no changes)
 
 sudo -i
 mkdir -p /volume1/volume2_full_backup 
 
+
+EXCLUDES='--exclude=@* --exclude=#recycle --exclude=#snapshot'
+LOG="--log-file=/volume1/rsync_backup_$(date +%F).log"
+
+
+sudo -i  H5xv6j@M6eI9&$yb21Hc^FE6o&TGCLRwUZX1ZAKDyZp3985r^0
+mkdir -p /volume1/volume2_full_backup 
+
+# Backup
 rsync -ahHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/backup_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume2/ /volume1/volume2_full_backup/
+
 # Restore
 
 sudo -i
 rsync -aHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/restore_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume1/volume2_full_backup/ /volume2/
+
+# Verify copy 
+
+rsync -ahHAXvn --numeric-ids --checksum --delete --exclude='@*' --exclude='#recycle' --exclude='#snapshot' /volume2/ /volume1/volume2_full_backup/ | tail -20
+
 
 ```
 
@@ -147,6 +181,43 @@ rsync -aHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/vo
 
 # The rest is just research
 
+```bash
+# Tail errors
+
+grep -iE 'error|failed|denied|vanished|cannot|no such|permission' /volume1/volume2_full_backup/backup_2026-08-09.log
+grep -iE 'error|failed|denied|vanished|cannot|no such|permission' /volume1/volume2_full_backup/backup_2026-08-09.log
+grep -iE 'error|failed|denied|vanished|cannot|no such|permission|not transferred|failed to' /volume1/volume2_full_backup/backup_2026-08-09.log
+grep -E 'rsync:|rsync error|IO error|Permission denied|Input/output error|No such file' /volume1/volume2_full_backup/*.log
+
+
+# File System Clean
+
+sudo btrfs scrub status /volume2
+sudo btrfs scrub start -Bd /volume2
+sudo btrfs scrub status /volume2
+
+- What should I do if file system errors occur? - https://kb.synology.com/en-uk/DSM/tutorial/What_should_I_do_if_a_file_system_error_occurs
+- Data Scrubbing - https://kb.synology.com/en-uk/DSM/help/DSM/StorageManager/storage_pool_data_scrubbing?version=7
+
+Structure needs cleaning
+
+df -T /volume2
+dmesg | grep -Ei 'btrfs|corrupt|I/O error|structure needs cleaning' | tail -100
+ls -lah /volume2/PROXMOX_NFS/MSDN/Google/Chrome/Default/WebStorage/
+lvdisplay /dev/vg1/volume_2
+mount | grep ' /volume2 '
+dmesg | grep -Ei 'EXT4|ext4|I/O error|buffer error|journal|corrupt|error' | tail -200
+ls -l /dev/mapper/
+lsblk -o NAME,TYPE,FSTYPE,SIZE,MOUNTPOINTS
+mount | grep '/volume2'
+cat /proc/mdstat
+synopkg list | grep -i storage
+lsblk -o NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS,MODEL,SERIAL
+lvdisplay /dev/vg1/volume_2
+ls -l /dev/mapper/vg1-volume_2
+vgdisplay vg1
+
+```
 
 
 ```bash

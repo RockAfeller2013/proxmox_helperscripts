@@ -40,4 +40,6 @@ mount -t cifs //192.168.1.146/photo /mnt/immich/photo \
 ls -lah /mnt/immich/home
 ls -lah /mnt/immich/homes
 ls -lah /mnt/immich/photo
+
+df -h | grep /mnt/immich
 ```

@@ -18,9 +18,10 @@ mkdir -p /mnt/immich/homes
 mkdir -p /mnt/immich/photo
 
 # 4. Create SMB credentials file
+
 cat > /root/.smbcredentials <<'EOF'
 username=photostream
-password='m/1,03)Xp2j-'
+password=m/1,03)Xp2j-
 EOF
 
 chmod 600 /root/.smbcredentials
@@ -28,13 +29,14 @@ chmod 600 /root/.smbcredentials
 # 5. Test each SMB share
 
 mount -t cifs //192.168.1.146/home /mnt/immich/home \
-  -o credentials=/root/.smbcredentials,vers=3.0,ro
+  -o credentials=/root/.smbcredentials,vers=2.0,ro
+
 
 mount -t cifs //192.168.1.146/homes /mnt/immich/homes \
-  -o credentials=/root/.smbcredentials,vers=3.0,ro
+  -o credentials=/root/.smbcredentials,vers=2.0,ro
 
 mount -t cifs //192.168.1.146/photo /mnt/immich/photo \
-  -o credentials=/root/.smbcredentials,vers=3.0,ro
+  -o credentials=/root/.smbcredentials,vers=2.0,ro
 
 # 6. Verify
 ls -lah /mnt/immich/home

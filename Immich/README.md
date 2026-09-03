@@ -45,3 +45,16 @@ ls -lah /mnt/immich/photo
 
 df -h | grep /mnt/immich
 ```
+
+```bash
+- http://192.168.1.52:2283/photos
+
+Select your Profile / Administration
+Select on the Left / External Drives
+Add
+ls -lah /mnt/immich/photo
+ls -lah /mnt/immich/home
+ls -lah /mnt/immich/homes
+
+Then Scan
+```

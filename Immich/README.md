@@ -56,5 +56,8 @@ ls -lah /mnt/immich/photo
 ls -lah /mnt/immich/home
 ls -lah /mnt/immich/homes
 
+
 Then Scan
+
+Administration > Jobs > Generate Thumbnails > Missing worked
 ```

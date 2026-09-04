@@ -8,6 +8,10 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 # 1. Enter the privileged Immich LXC
 pct enter <LXC_ID>
 
+# Increase Disk size for Thumbnails, etc
+
+pct resize 102 rootfs +30G
+
 # 2. Install SMB/CIFS support
 apt update
 apt install -y cifs-utils

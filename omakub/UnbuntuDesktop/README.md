@@ -1,5 +1,9 @@
 # Unbuntu Desktop Template
 
+### RDP
+
+- RDP - https://github.com/omacom/omarchy/discussions/3350
+
 ## Create a image usng ISO 
 
 | Might be better to use https://ubuntu.com/desktop/flavors

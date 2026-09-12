@@ -3,6 +3,8 @@
 ### RDP
 
 - RDP - https://github.com/omacom/omarchy/discussions/3350
+- Unattended Installs - https://omarchy.org/manual/unattended-installs/
+
 
 ## Create a image usng ISO 
 

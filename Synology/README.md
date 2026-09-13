@@ -19,7 +19,7 @@
 
 - Log a Support Case using gmail and Support App
 
--     https://account.synology.com/en-uk/support/3973352/detail
+-     https://account.synology.com/en-uk/support/3973352/detail [login with gmail]
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
 
 ### Enable SSH/Telnet

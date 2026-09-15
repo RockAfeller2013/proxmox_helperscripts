@@ -124,6 +124,30 @@ require_root() {
 }
 
 
+require_tty() {
+    # This script prompts for a password (and possibly an SSH key path
+    # or Tailscale auth key). If it's run as "curl ... | bash", stdin is
+    # the piped script itself, not your keyboard - every `read` below
+    # would silently get an empty string instead of erroring, and you'd
+    # end up with a VM whose password hash is just openssl passwd -6 ""
+    # with no warning at all. Reading from /dev/tty instead means a
+    # missing terminal fails loudly here rather than corrupting input
+    # silently later.
+    if [[ ! -r /dev/tty ]]; then
+        echo "ERROR: No interactive terminal (/dev/tty) is available."
+        echo
+        echo "This script needs to prompt you for a password, so it"
+        echo "can't be run as 'curl ... | bash'. Download it first,"
+        echo "then run it directly:"
+        echo
+        echo "  curl -fsSL <raw-url> -o create-omarchy-vm.sh"
+        echo "  chmod +x create-omarchy-vm.sh"
+        echo "  sudo ./create-omarchy-vm.sh"
+        exit 1
+    fi
+}
+
+
 require_commands() {
     local commands=(
         curl
@@ -151,15 +175,15 @@ prompt_configuration() {
     echo
 
     if [[ -z "$USERNAME" ]]; then
-        read -r -p "Omarchy username: " USERNAME
+        read -r -p "Omarchy username: " USERNAME < /dev/tty
     fi
 
     if [[ -z "$FULL_NAME" ]]; then
-        read -r -p "Full name: " FULL_NAME
+        read -r -p "Full name: " FULL_NAME < /dev/tty
     fi
 
     if [[ -z "$GIT_EMAIL" ]]; then
-        read -r -p "Git email: " GIT_EMAIL
+        read -r -p "Git email: " GIT_EMAIL < /dev/tty
     fi
 
     echo
@@ -210,6 +234,18 @@ download_iso() {
             --continue-at - \
             --output "$OMARCHY_ISO" \
             "$ISO_URL"
+    fi
+
+    if [[ ! -s "$OMARCHY_ISO" ]]; then
+        echo
+        echo "ERROR: Omarchy ISO is missing or empty after download:"
+        echo "  $OMARCHY_ISO"
+        echo
+        echo "Check free space on the volume backing WORK_DIR ($WORK_DIR)"
+        echo "and that this host can reach $OMARCHY_BASE_URL, e.g.:"
+        echo "  df -h $WORK_DIR"
+        echo "  curl -Iv $ISO_URL"
+        exit 1
     fi
 
     echo
@@ -363,8 +399,13 @@ EOF
     local password
     local password_hash
 
-    read -r -s -p "Omarchy user password: " password
+    read -r -s -p "Omarchy user password: " password < /dev/tty
     echo
+
+    if [[ -z "$password" ]]; then
+        echo "ERROR: No password entered."
+        exit 1
+    fi
 
     password_hash="$(openssl passwd -6 "$password")"
 
@@ -395,7 +436,7 @@ EOF
             echo "SSH public key not found:"
             echo "  $SSH_PUBLIC_KEY_FILE"
             echo
-            read -r -p "SSH public key path: " SSH_PUBLIC_KEY_FILE
+            read -r -p "SSH public key path: " SSH_PUBLIC_KEY_FILE < /dev/tty
         fi
 
         if [[ ! -f "$SSH_PUBLIC_KEY_FILE" ]]; then
@@ -409,7 +450,7 @@ EOF
 
     if [[ "$ENABLE_TAILSCALE" == "true" ]]; then
         if [[ -z "$TAILSCALE_AUTHKEY" ]]; then
-            read -r -s -p "Tailscale auth key: " TAILSCALE_AUTHKEY
+            read -r -s -p "Tailscale auth key: " TAILSCALE_AUTHKEY < /dev/tty
             echo
         fi
 
@@ -649,6 +690,7 @@ print_connection_details() {
 
 require_root
 require_commands
+require_tty
 prompt_configuration
 prepare_directories
 check_vmid
@@ -661,7 +703,7 @@ copy_isos_to_proxmox_storage
 create_vm
 
 echo
-read -r -p "Start VM $VMID now? [Y/n] " START_VM
+read -r -p "Start VM $VMID now? [Y/n] " START_VM < /dev/tty
 
 if [[ ! "$START_VM" =~ ^[Nn]$ ]]; then
     start_vm

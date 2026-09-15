@@ -11,6 +11,7 @@ curl -fsSL 'https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscri
 - Omarchy https://marketplace.digitalocean.com/apps/omarchy
 - RDP - omacom/omarchy#3350
 - Unattended Installs - https://omarchy.org/manual/unattended-installs/
+- https://discord.com/channels/1390012484194275541/1549294603155275807
 
 
 ```

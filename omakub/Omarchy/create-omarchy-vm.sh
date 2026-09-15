@@ -497,50 +497,38 @@ copy_isos_to_proxmox_storage() {
     echo
     echo "==> Copying ISOs to Proxmox ISO storage"
 
-    local iso_path
-    local cidata_path
+    # "pvesm upload" does not exist - uploading ISOs is a web UI / API
+    # operation, not a pvesm subcommand (run "pvesm help" and it's not
+    # in the list). For directory-backed storage (dir, nfs, cifs, ...),
+    # the actual CLI equivalent is copying the file straight into the
+    # path pvesm itself resolves for that volume ID. "pvesm path" is a
+    # pure computation based on the storage's config - it returns a
+    # path whether or not a file is there yet, so existence must be
+    # checked on the filesystem, not by whether pvesm path printed
+    # something.
+    local omarchy_target
+    local cidata_target
 
-    # NOTE: the "2>/dev/null || true" must stay on the same line as the
-    # command it applies to. Previously it sat on its own line, which
-    # meant it silently attached to a no-op instead of the pvesm call
-    # (harmless, but it let real pvesm errors print unsuppressed).
-    iso_path="$(pvesm path "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME" 2>/dev/null || true)"
+    omarchy_target="$(pvesm path "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME")"
 
-    if [[ -z "$iso_path" ]]; then
-        echo "Uploading Omarchy ISO to $ISO_STORAGE"
-
-        pvesm upload \
-            "$ISO_STORAGE" \
-            "$OMARCHY_ISO" \
-            --content iso
-
-        iso_path="$(
-            pvesm path "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME"
-        )"
+    if [[ -f "$omarchy_target" ]]; then
+        echo "Omarchy ISO already exists in Proxmox storage:"
+        echo "  $omarchy_target"
     else
-        echo "Omarchy ISO already exists in Proxmox storage."
+        echo "Copying Omarchy ISO to Proxmox storage:"
+        echo "  $omarchy_target"
+
+        mkdir -p "$(dirname "$omarchy_target")"
+        cp "$OMARCHY_ISO" "$omarchy_target"
     fi
 
-    cidata_path="$(pvesm path "$ISO_STORAGE:iso/$CIDATA_ISO_NAME" 2>/dev/null || true)"
+    cidata_target="$(pvesm path "$ISO_STORAGE:iso/$CIDATA_ISO_NAME")"
 
-    if [[ -z "$cidata_path" ]]; then
-        echo "Uploading $CIDATA_ISO_NAME to $ISO_STORAGE"
+    echo "Copying $CIDATA_ISO_NAME to Proxmox storage:"
+    echo "  $cidata_target"
 
-        pvesm upload \
-            "$ISO_STORAGE" \
-            "$CIDATA_ISO" \
-            --content iso
-    else
-        echo "Removing previous $CIDATA_ISO_NAME"
-
-        pvesm free \
-            "$ISO_STORAGE:iso/$CIDATA_ISO_NAME"
-
-        pvesm upload \
-            "$ISO_STORAGE" \
-            "$CIDATA_ISO" \
-            --content iso
-    fi
+    mkdir -p "$(dirname "$cidata_target")"
+    cp -f "$CIDATA_ISO" "$cidata_target"
 }
 
 

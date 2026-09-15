@@ -23,3 +23,20 @@ With ENABLE_SSH=false, the script skips the whole authorized_keys block entirely
 
 One thing worth knowing: Omarchy ships with sshd disabled and the firewall port closed by default, and the unattended-install flow only opens SSH access when it finds an authorized_keys file. So without one, you won't be able to SSH into this VM at all — you'll only have the Proxmox console (noVNC/serial) to log in. For a throwaway dev box that's often fine; just flagging it so it's not a surprise later. If you want SSH back at some point, you can always drop a key in and re-enable sshd from inside the VM afterward, or re-run with a key next time.
 ```
+
+
+Run this on the Proxmox host, as root — that matches the default SSH_PUBLIC_KEY_FILE="${SSH_PUBLIC_KEY_FILE:-$HOME/.ssh/id_ed25519.pub}", which resolved to /root/.ssh/id_ed25519.pub in your earlier error:
+
+bash
+mkdir -p /root/.ssh
+chmod 700 /root/.ssh
+ssh-keygen -t ed25519 -f /root/.ssh/id_ed25519 -N "" -C "omarchy-vm"
+-N "" sets an empty passphrase so it's non-interactive (drop it if you want a passphrase — it'll prompt you instead)
+ssh-keygen won't silently overwrite an existing key at that path; it'll ask first
+
+Verify it's there:
+
+bash
+cat /root/.ssh/id_ed25519.pub
+
+With that in place, just run the script normally (leave ENABLE_SSH unset or true) — it'll find the key at the default path, skip the prompt entirely, and install it as the VM user's authorized_keys, opening sshd and the firewall for it on first boot.

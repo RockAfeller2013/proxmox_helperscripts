@@ -50,7 +50,12 @@ VM_NAME="${VM_NAME:-omarchy}"
 STORAGE="${STORAGE:-local-lvm}"
 ISO_STORAGE="${ISO_STORAGE:-local}"
 
-DISK_SIZE="${DISK_SIZE:-80G}"
+# Proxmox's disk-allocation syntax for --scsiN/--virtioN is
+# "<storage>:<size_in_GiB>" as a BARE INTEGER (e.g. "80"), not "80G".
+# Strip a trailing G/g in case someone sets DISK_SIZE=80G anyway.
+DISK_SIZE="${DISK_SIZE:-80}"
+DISK_SIZE="${DISK_SIZE%%[Gg]}"
+
 MEMORY="${MEMORY:-16384}"
 CORES="${CORES:-8}"
 
@@ -79,7 +84,10 @@ OUTPUT_DIR="$WORK_DIR/output"
 OMARCHY_ISO="$ISO_DIR/$OMARCHY_ISO_NAME"
 OMARCHY_SIG="$OMARCHY_ISO.sig"
 
-CIDATA_ISO="$OUTPUT_DIR/cidata.iso"
+# Per-VM filename so concurrent/repeated runs for different VMs don't
+# clobber a shared "cidata.iso" in Proxmox storage.
+CIDATA_ISO_NAME="cidata-$VMID.iso"
+CIDATA_ISO="$OUTPUT_DIR/$CIDATA_ISO_NAME"
 
 ISO_URL="$OMARCHY_BASE_URL/$OMARCHY_ISO_NAME"
 SIG_URL="$ISO_URL.sig"
@@ -160,7 +168,7 @@ prompt_configuration() {
     echo "  Name:          $VM_NAME"
     echo "  Storage:       $STORAGE"
     echo "  ISO storage:   $ISO_STORAGE"
-    echo "  Disk:          $DISK_SIZE"
+    echo "  Disk:          ${DISK_SIZE}G"
     echo "  Memory:        ${MEMORY} MB"
     echo "  CPUs:          $CORES"
     echo "  Network:       $BRIDGE"
@@ -334,6 +342,12 @@ create_cidata() {
     rm -rf "$CIDATA_DIR"
     mkdir -p "$CIDATA_DIR"
 
+    # NOTE: Omarchy's manual documents the *purpose* of each cidata file
+    # (disk/hostname/timezone/keyboard, username/password hash, etc.)
+    # but not the literal on-disk key names. Before relying on this for
+    # a real unattended install, run one interactive install in a
+    # scratch VM and diff what its own wizard writes to /root against
+    # the JSON generated below.
     cat > "$CIDATA_DIR/user_configuration.json" <<EOF
 {
   "disk": "$INSTALL_DISK",
@@ -420,7 +434,7 @@ EOF
 
 create_cidata_iso() {
     echo
-    echo "==> Creating cidata.iso"
+    echo "==> Creating $CIDATA_ISO_NAME"
 
     rm -f "$CIDATA_ISO"
 
@@ -445,10 +459,11 @@ copy_isos_to_proxmox_storage() {
     local iso_path
     local cidata_path
 
-    iso_path="$(
-        pvesm path "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME"
-        2>/dev/null || true
-    )"
+    # NOTE: the "2>/dev/null || true" must stay on the same line as the
+    # command it applies to. Previously it sat on its own line, which
+    # meant it silently attached to a no-op instead of the pvesm call
+    # (harmless, but it let real pvesm errors print unsuppressed).
+    iso_path="$(pvesm path "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME" 2>/dev/null || true)"
 
     if [[ -z "$iso_path" ]]; then
         echo "Uploading Omarchy ISO to $ISO_STORAGE"
@@ -465,23 +480,20 @@ copy_isos_to_proxmox_storage() {
         echo "Omarchy ISO already exists in Proxmox storage."
     fi
 
-    cidata_path="$(
-        pvesm path "$ISO_STORAGE:iso/cidata.iso"
-        2>/dev/null || true
-    )"
+    cidata_path="$(pvesm path "$ISO_STORAGE:iso/$CIDATA_ISO_NAME" 2>/dev/null || true)"
 
     if [[ -z "$cidata_path" ]]; then
-        echo "Uploading cidata.iso to $ISO_STORAGE"
+        echo "Uploading $CIDATA_ISO_NAME to $ISO_STORAGE"
 
         pvesm upload \
             "$ISO_STORAGE" \
             "$CIDATA_ISO" \
             --content iso
     else
-        echo "Removing previous cidata.iso"
+        echo "Removing previous $CIDATA_ISO_NAME"
 
         pvesm free \
-            "$ISO_STORAGE:iso/cidata.iso"
+            "$ISO_STORAGE:iso/$CIDATA_ISO_NAME"
 
         pvesm upload \
             "$ISO_STORAGE" \
@@ -523,7 +535,7 @@ create_vm() {
         --vga virtio \
         --serial0 socket \
         --ide2 "$ISO_STORAGE:iso/$OMARCHY_ISO_NAME,media=cdrom" \
-        --ide3 "$ISO_STORAGE:iso/cidata.iso,media=cdrom" \
+        --ide3 "$ISO_STORAGE:iso/$CIDATA_ISO_NAME,media=cdrom" \
         --boot "order=scsi0;ide2" \
         --agent enabled=1
 
@@ -612,6 +624,21 @@ print_connection_details() {
     echo
     echo "The VM should install unattended and reboot"
     echo "from its virtual disk automatically."
+    echo
+    echo "=========================================="
+    echo " IMPORTANT: cidata ISO contains secrets"
+    echo "=========================================="
+    echo
+    echo "The cidata image carries your password hash"
+    if [[ "$ENABLE_TAILSCALE" == "true" ]]; then
+        echo "and your Tailscale auth key IN PLAINTEXT."
+    fi
+    echo "Once the unattended install has finished and"
+    echo "the VM has rebooted into the desktop, remove"
+    echo "it from Proxmox storage and detach the drive:"
+    echo
+    echo "  pvesm free \"$ISO_STORAGE:iso/$CIDATA_ISO_NAME\""
+    echo "  qm set $VMID --delete ide3"
     echo
 }
 

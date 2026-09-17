@@ -22,6 +22,14 @@
 -     https://account.synology.com/en-uk/support/3973352/detail [login with gmail]
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
 
+## We need access to your device for further diagnosis
+```
+o enable remote access to your device, please follow the steps below:
+Enable the SSH service at Control Panel > Terminal & SNMP.
+Obtain a support identification key at Support Center > Support Services. Tick Enable remote access and click Apply.
+Remote
+Disable power schedules to ensure your device stays on during the support session.
+```
 ### Enable SSH/Telnet
 
 ```bash

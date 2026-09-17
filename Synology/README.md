@@ -24,7 +24,7 @@
 
 ## We need access to your device for further diagnosis
 ```
-o enable remote access to your device, please follow the steps below:
+To enable remote access to your device, please follow the steps below:
 Enable the SSH service at Control Panel > Terminal & SNMP.
 Obtain a support identification key at Support Center > Support Services. Tick Enable remote access and click Apply.
 Remote

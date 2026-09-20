@@ -443,6 +443,72 @@ rsync -aHAXv --numeric-ids --exclude='@*' /volume2/ /volume1/backup/
 # RESTORE
 rsync -aHAXv --numeric-ids /volume1/backup/ /volume2/
 ```
+
+# Support Response
+
+```text
+We will explain the reasons behind our reply after consulting with a senior engineer:
+
+1. Investigation Findings
+Based on your device logs and debug data, /volume2 (/dev/vg1/volume_2) has EXT4 file system metadata corruption:
+
+tune2fs reports FS Error count = 3371, status "clean with errors".
+Kernel logs show repeated bad extra_isize errors on inodes (42402xxx, 70189xxx), triggered by img_backup, SYNO.Core.Recyc, rm, find, and du.
+Block bitmap and group descriptor inconsistency confirmed (block bitmap and bg descriptor inconsistent).
+Offline fsck explicitly states: UNEXPECTED INCONSISTENCY; RUN fsck MANUALLY.
+All RAID arrays are healthy ([UU]), so the issue is at the file system layer, not the disk hardware.
+Conclusion: The affected inodes have corrupted metadata, so the kernel cannot resolve or unlink them. Standard rm will fail with bad extra_isize errors.
+
+2. Our Recommended Approach
+Back up first — While the volume is still readable, copy (not move) all accessible data to external storage (USB, PC, or another NAS).
+Offline repair — We will remotely unmount the volume and run e2fsck to repair the file system metadata.
+Delete files — After the repair, the corrupted files should become deletable.
+⚠️ The force-repair requires the volume to be unmounted, so we recommend we perform it remotely to minimize risk.
+
+3. If You Want to Run It Yourself
+Commands
+# Step 1: Check and keep user preferences
+ll /usr/syno/etc | grep preference
+* If the preference points to volume 1, skip to Step 2
+* If the prefernce points to volume 2, run this command to move it to volume 1:
+/usr/lib/systemd/scripts/user-preference-fn.sh /volume1
+
+# Step 2: Set the command to not mount the volume on bootup
+synosetkeyvalue /etc/synoinfo.conf disable_volumes volume2
+
+# Step 3: Reboot the NAS, the volume should be unmounted
+
+# Step 4: Run forced repair
+e2fsck -yvf /dev/vg1/volume_2
+
+# Step 5: Remount the volume by rebooting the NAS again
+Disclaimer
+⚠️ e2fsck -yvf forcibly overwrites corrupted metadata structures.
+
+The process must not be interrupted (power loss or forced reboot can worsen the corruption).
+After repair, some files may still be inaccessible (inodes marked bad).
+Complete a full backup while the volume is still mounted before unmounting and running the repair.
+This operation writes to the disk. Your device has historical SMART anomalies on sdb (Reported_Uncorrect = 6, Command_Timeout = 2), so repair writes could accelerate disk wear.
+4. If You Insist on Deleting the Files First
+Consequences
+The kernel has already reported bad extra_isize — the unlink path is broken at the metadata level.
+Force-deleting these files can trigger additional EXT4-fs errors, potentially expanding the corruption to currently healthy files in the same block groups.
+Deletion is irreversible. If the metadata is corrupted, the block bitmap update during unlink may also fail, causing space not to be freed or bitmap inconsistency to worsen.
+In the worst case, normal files sharing the same corrupted metadata structures become inaccessible.
+Suggestion: Generate a Deletion Script with AI
+Take your full find output (the list of files showing "Structure needs cleaning") and ask an AI to generate a bash script. Prompt example:
+
+"Here is the full output of find /volume2 -type l -exec ls -l {} \; 2>&1 | grep 'Structure needs cleaning'. Please generate a bash script that attempts rm on each listed path, logs failures, and prints a success/failure summary at the end."
+
+This gives you an auditable, re-runnable script instead of manually deleting files one by one.
+
+Hope the information helps. We appreciate your cooperation and patience.
+
+Best regards,
+
+Synology Technical Support
+Kaze Wu
+```
 ## Reference 
 
 

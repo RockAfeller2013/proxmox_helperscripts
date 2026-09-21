@@ -179,7 +179,6 @@ rsync -aHAXv \
     --checksum \
     --update \
     --partial \
-    --
     $EXCLUDES \
     $LOG \
     /volume2/ \
@@ -439,6 +438,14 @@ rsync -av -e ssh /src/ user@host:/dst/
 rsync -av --rsync-path="sudo rsync" /src/ user@host:/dst/
 
 # COMMON SYNology USE CASES
+
+--numeric-ids           don't map uid/gid values by user/group name
+--progress              show progress during transfer
+--update                skip files that are newer on the receiver
+--partial               keep partially transferred files
+--ignore-existing       skip updating files that exist on receiver
+--checksum        means compare the actual file contents using a checksum, rather than deciding whether a file has changed based on its modification time and size.
+--append-verify is specifically designed for files that are expected to grow/continue from an existing partial copy. For a general-purpose backup where files might change during the backup, --partial without --append-verify is the more conservative choice.
 
 # FULL BACKUP (preserve everything)
 rsync -aHAXv --numeric-ids --progress /volume2/ /volume1/backup/

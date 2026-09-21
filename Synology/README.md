@@ -170,8 +170,20 @@ LOG="--log-file=/volume1/rsync_backup_$(date +%F).log"
 sudo -i  H5xv6j@M6eI9&$yb21Hc^FE6o&TGCLRwUZX1ZAKDyZp3985r^0
 mkdir -p /volume1/volume2_full_backup 
 
-# Backup
-rsync -ahHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/backup_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume2/ /volume1/volume2_full_backup/
+# Backup - THIS WORKS
+
+rsync -aHAXv \
+    --dry-run  \
+    --numeric-ids \
+    --progress \
+    --checksum \
+    --update \
+    --partial \
+    --
+    $EXCLUDES \
+    $LOG \
+    /volume2/ \
+    /volume1/volume2_full_backup/
 
 # Restore
 

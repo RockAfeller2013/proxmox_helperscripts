@@ -38,8 +38,10 @@ Disable power schedules to ensure your device stays on during the support sessio
 tmus ls
 tmus attach
 tmux new -s dry_run
+tmux attach-session -t dry_run
 tmux detach
 tmux attach-session -t 0
+
 
 - https://www.detectx.com.au/tmux-rules/
 ```

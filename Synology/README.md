@@ -151,6 +151,12 @@ But -N prevents any actual changes (dry run only)
 find /volume2 -type l -exec ls -l {} \; 2>&1 | grep 'Structure needs cleaning'
 mv '/volume2/homes/caKErfiClaNDRectRAStFURsEnbLEADHoNWORSontaRIvERsoM/Photos/PhotoLibrary/2026/01/IMG_9954.MOV' /volume1/web/cpt/thumbs
 
+sed -e 's/\r$//' -e 's/^`//' -e "s/': Structure needs cleaning\$//" files.csv > clean.txt
+head -3 clean.txt   # should be plain paths like /volume2/photo/.../IMG_1961.HEIC
+
+while IFS= read -r file; do if [ -f "$file" ]; then mv -n -- "$file" /volume1/corrupt/; else echo "skipped: $file"; fi; done < clean.txt
+
+
 ```
 
 

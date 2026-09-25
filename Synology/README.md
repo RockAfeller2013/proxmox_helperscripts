@@ -553,8 +553,9 @@ Kaze Wu
 # Step 1: Check and keep user preferences
 
 ll /usr/syno/etc | grep preference
+sed -n '1,200p' /usr/lib/systemd/scripts/user-preference-fn.sh
 /usr/lib/systemd/scripts/user-preference-fn.sh /volume1
-
+echo $?
 
 # Step 2: Set the command to not mount the volume on bootup
 synosetkeyvalue /etc/synoinfo.conf disable_volumes volume2

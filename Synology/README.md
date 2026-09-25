@@ -561,6 +561,7 @@ echo $?
 synosetkeyvalue /etc/synoinfo.conf disable_volumes volume2
 
 # Step 3: Reboot the NAS, the volume should be unmounted
+sudo synopoweroff -r
 
 # Step 4: Run forced repair
 e2fsck -yvf /dev/vg1/volume_2

@@ -545,6 +545,31 @@ Best regards,
 Synology Technical Support
 Kaze Wu
 ```
+
+# Fix Synology
+
+```bash
+
+# Step 1: Check and keep user preferences
+
+ll /usr/syno/etc | grep preference
+/usr/lib/systemd/scripts/user-preference-fn.sh /volume1
+
+
+# Step 2: Set the command to not mount the volume on bootup
+synosetkeyvalue /etc/synoinfo.conf disable_volumes volume2
+
+# Step 3: Reboot the NAS, the volume should be unmounted
+
+# Step 4: Run forced repair
+e2fsck -yvf /dev/vg1/volume_2
+⚠️ e2fsck -yvf forcibly overwrites corrupted metadata structures.
+
+
+# Step 5: Remount the volume by rebooting the NAS again
+Disclaimer
+
+```
 ## Reference 
 
 

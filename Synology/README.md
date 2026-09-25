@@ -572,6 +572,43 @@ e2fsck -yvf /dev/vg1/volume_2
 Disclaimer
 
 ```
+
+```bash
+e2fsck -yvf /dev/vg1/volume_2
+e2fsck 1.44.1 (24-Mar-2018)
+Pass 1: Checking inodes, blocks, and sizes
+Inode 34865161 extent tree (at level 2) could be narrower.  Fix? yes
+
+Pass 1E: Optimizing extent trees
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+/lost+found not found.  Create? yes
+
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+
+1.44.1-86009: ***** FILE SYSTEM WAS MODIFIED *****
+
+      318509 inodes used (0.17%, out of 182779904)
+        4136 non-contiguous files (1.3%)
+         145 non-contiguous directories (0.0%)
+             # of inodes with ind/dind/tind blocks: 0/0/0
+             Extent depth histogram: 317150/875/2
+   360583214 blocks used (24.66%, out of 1462239232)
+           0 bad blocks
+         155 large files
+
+      269974 regular files
+       48052 directories
+           0 character device files
+           0 block device files
+           0 fifos
+           0 links
+         473 symbolic links (473 fast symbolic links)
+           0 sockets
+------------
+      318499 files
+```
 ## Reference 
 
 

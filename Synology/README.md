@@ -609,6 +609,12 @@ Pass 5: Checking group summary information
 ------------
       318499 files
 ```
+
+```bash
+/volume2/lost+found
+ls -lah /volume2/lost+found
+find /volume2/lost+found -type f
+```
 ## Reference 
 
 

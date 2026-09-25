@@ -188,6 +188,17 @@ rsync -aHAXv \
     /volume2/ \
     /volume1/volume2_full_backup/
 
+rsync -aHAXv \
+    --numeric-ids \
+    --progress \
+    --checksum \
+    --update \
+    --partial \
+    $EXCLUDES \
+    $LOG \
+    /volume2/ \
+    /volume1/volume2_full_backup/
+
 diff -rq /volume2/ /volume1/volume2_full_backup/
 
 # Restore

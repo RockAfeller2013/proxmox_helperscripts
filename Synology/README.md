@@ -566,7 +566,7 @@ sudo synopoweroff -r
 # Step 4: Run forced repair
 e2fsck -yvf /dev/vg1/volume_2
 ⚠️ e2fsck -yvf forcibly overwrites corrupted metadata structures.
-
+## Run this three times
 
 # Step 5: Remount the volume by rebooting the NAS again
 Disclaimer

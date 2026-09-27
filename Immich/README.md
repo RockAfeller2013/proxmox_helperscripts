@@ -28,6 +28,15 @@ username=photostream
 password=m/1,03)Xp2j-
 EOF
 
+#Synology Photo Permisions must be enabled
+
+Your /photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
+1. Open Synology Photos.
+2. Go to Settings → Shared Space.
+3. Permissions | Set Access Permissions
+4. Allow all users and guests to view photos and videos in the roof folder of Shared Space
+
+
 chmod 600 /root/.smbcredentials
 
 # 5. Test each SMB share

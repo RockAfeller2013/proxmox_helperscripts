@@ -48,3 +48,15 @@ mount -a
 ls /mnt/nas
 
 ```
+
+# Add storage to LXC
+```bash
+
+pct list
+pct config 102
+pct shutdown 102
+pct start 102
+pct resize 102 rootfs +50G
+pct exec 102 -- df -h
+
+```

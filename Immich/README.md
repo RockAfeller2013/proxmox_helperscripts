@@ -58,6 +58,14 @@ ls -lah /mnt/immich/photo
 
 df -h | grep /mnt/immich
 ```
+```bash
+cat >> /etc/fstab <<'EOF'
+//192.168.1.146/home /mnt/immich/home cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
+//192.168.1.146/homes /mnt/immich/homes cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
+//192.168.1.146/photo /mnt/immich/photo cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
+EOF
+mount -a && df -h | grep /mnt/immich
+```
 
 ```bash
 - http://192.168.1.52:2283/photos

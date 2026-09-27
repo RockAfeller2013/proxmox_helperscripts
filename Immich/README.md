@@ -64,7 +64,10 @@ cat >> /etc/fstab <<'EOF'
 //192.168.1.146/homes /mnt/immich/homes cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
 //192.168.1.146/photo /mnt/immich/photo cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
 EOF
-mount -a && df -h | grep /mnt/immich
+
+systemctl daemon-reload
+mount -a
+df -h | grep /mnt/immich
 ```
 
 ```bash

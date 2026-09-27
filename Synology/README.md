@@ -188,7 +188,7 @@ rsync -aHAXv \
     /volume2/ \
     /volume1/volume2_full_backup/
 
-rsync -aHAXv \
+/bin/rsync -aHAXv \
     --numeric-ids \
     --progress \
     --checksum \

@@ -65,3 +65,6 @@ Then Scan
 
 Administration > Jobs > Generate Thumbnails > Missing worked
 ```
+
+## Error loading image
+- Going into Administration > Jobs > Generate Thumbnails > Missing worked for me.

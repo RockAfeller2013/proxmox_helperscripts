@@ -163,6 +163,7 @@ head -3 clean.txt   # should be plain paths like /volume2/photo/.../IMG_1961.HEI
 
 while IFS= read -r file; do if [ -f "$file" ]; then mv -n -- "$file" /volume1/corrupt/; else echo "skipped: $file"; fi; done < clean.txt
 
+grep 'Structure needs cleaning' rsync.log > structure_needs_cleaning.log
 
 ```
 

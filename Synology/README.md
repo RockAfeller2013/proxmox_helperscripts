@@ -104,6 +104,13 @@ diff -r /volume2/ /volume1/volume2_full_backup/
 
 ```bash
 rm -rf /volume1/volume2_full_backup/
+
+rm -rf /volume1/volume2_full_backup/*
+rm -rf /volume1/volume2_full_backup/.[!.]*
+rm -rf /volume1/volume2_full_backup/..?*
+
+find /volume1/volume2_full_backup -mindepth 1 -delete
+
 rm -rf /volume2/PROXMOX_NFS/MSDN/Google/
 rm -rf -- /volume2/PROXMOX_NFS/MSDN/Google
 ```

@@ -25,6 +25,15 @@
 -     [Synology Support](https://account.synology.com/en-uk/support) https://account.synology.com/en-uk/support/3973352/detail [login with gmail]
 -     https://kb.synology.com/tr-tr/DSM/help/DSM/StorageManager/storage_pool_expand_replace_disk?version=6
 
+### Synology rsync
+
+- https://kb.synology.com/en-global/DSM/help/DSM/AdminCenter/file_rsync?version=7
+
+```bash
+rsync -avxz /path/to/local/folder/ username@nas-ip-or-host:/volume1/share-name/ -e "ssh -p 22"
+rsync -av /path/to/local/folder/ username@nas-ip-or-host::NetBackup/share-name/
+
+```
 ## We need access to your device for further diagnosis
 ```
 To enable remote access to your device, please follow the steps below:

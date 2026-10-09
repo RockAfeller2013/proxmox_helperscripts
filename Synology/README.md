@@ -221,22 +221,13 @@ rsync -aHAXv \
 
 diff -rq /volume2/ /volume1/volume2_full_backup/
 
-# Restore
-
-sudo -i
-rsync -aHAXv --numeric-ids --update --partial --checksum --log-file="/volume1/volume2_full_backup/restore_$(date +%F).log" --ignore-errors --exclude='@*' --exclude='#recycle' --exclude='#snapshot' --progress /volume1/volume2_full_backup/ /volume2/
-
-# Verify copy 
-
-rsync -ahHAXvn --numeric-ids --checksum --delete --exclude='@*' --exclude='#recycle' --exclude='#snapshot' /volume2/ /volume1/volume2_full_backup/ | tail -20
-
 
 ```
 
 #### Restore
 ```bash
+rsync -aHAXv --dry-run --numeric-ids --progress --update --partial --ignore-errors --log-file="/volume2/PROXMOX_NFS/restore_$(date +%F).log"  --exclude='@*' --exclude='#recycle' --exclude='#snapshot' /volume1/volume2_full_backup/ /volume2/
 
-EXCLUDES='--exclude=@* --exclude=\#recycle --exclude=\#snapshot' && LOG="/volume1/rsync_restore_$(date +%F).log" && rsync -aHAXv --numeric-ids --progress --update --partial $EXCLUDES --log-file="$LOG" /volume1/volume2_full_backup/ /volume2/
 ```
 
 

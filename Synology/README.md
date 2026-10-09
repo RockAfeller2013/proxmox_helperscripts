@@ -233,6 +233,12 @@ rsync -ahHAXvn --numeric-ids --checksum --delete --exclude='@*' --exclude='#recy
 
 ```
 
+#### Restore
+```bash
+
+EXCLUDES='--exclude=@* --exclude=\#recycle --exclude=\#snapshot' && LOG="/volume1/rsync_restore_$(date +%F).log" && rsync -aHAXv --numeric-ids --progress --update --partial $EXCLUDES --log-file="$LOG" /volume1/volume2_full_backup/ /volume2/
+```
+
 
 
 # The rest is just research

@@ -33,7 +33,7 @@ EOF
 Your /photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
 1. Open Synology Photos.
 2. Go to Settings → Shared Space.
-3. Permissions | Set Access Permissions
+3. Permissions | Set Access Permissions | Add Photostream | Full Access
 4. Allow all users and guests to view photos and videos in the roof folder of Shared Space
 
 

@@ -2,10 +2,13 @@
 
 ### upgrade
 ```bash
+cd /opt/immich/source/docker
 docker compose pull && docker compose up -d
 docker image prune
-- https://docs.immich.app/install/upgrading/
+docker compose ps
 
+- https://docs.immich.app/install/upgrading/
+find / -name docker-compose.yml -o -name compose.yml 2>/dev/null
 ```
 
 ```

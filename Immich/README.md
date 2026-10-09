@@ -1,5 +1,13 @@
 # Immich
 
+### upgrade
+```bash
+docker compose pull && docker compose up -d
+docker image prune
+- https://docs.immich.app/install/upgrading/
+
+```
+
 ```
 Privlidge
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/immich.sh)"

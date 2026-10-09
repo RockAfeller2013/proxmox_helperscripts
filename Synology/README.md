@@ -19,6 +19,7 @@
 
 - Log a Support Case using gmail and Support App
 
+[Synology Support](https://account.synology.com/en-uk/support)
 
 
 -     [Synology Support](https://account.synology.com/en-uk/support) https://account.synology.com/en-uk/support/3973352/detail [login with gmail]

@@ -33,10 +33,18 @@ username=photostream
 password=m/1,03)Xp2j-
 EOF
 
+# Testing
+mount /mnt/immich/photo 2>/dev/null
+smbclient -L //192.168.1.146 -U admin
+smbclient //192.168.1.146/photo -A /root/.smbcredentials -c 'ls'
+
+chmod 600 /root/.smbcredentials
+
+```
+
 # Synology Photo Permisions must be enabled
 
-```text
-Fix on the Synology NAS
+```test
 1. Log in to DSM at http://192.168.1.146:5000.
 2. Open Control Panel → Shared Folder.
 3. Select photo → Edit → Permissions.
@@ -45,6 +53,9 @@ Fix on the Synology NAS
 6. Repeat for music as a comparison. Do not change its permissions permanently unless needed.
 ```
 
+# Fix on the Synology NAS
+```text
+
 Your /photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
 1. Open Synology Photos.
 2. Go to Settings → Shared Space.
@@ -52,7 +63,7 @@ Your /photo folder is managed by Synology Photos. Its Shared Space has separate 
 4. Allow all users and guests to view photos and videos in the roof folder of Shared Space
 
 
-chmod 600 /root/.smbcredentials
+
 
 # 5. Test each SMB share
 

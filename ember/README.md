@@ -29,6 +29,13 @@ sudo rm -f /var/lib/emby/logs/* && df -h && df -i && sudo systemctl restart emby
 
 ```
 
+# Add music Folder
+```
+- Make sure inside Synology Folder Share, admin has Read&Write
+- Inside Emby | Settings | Dashboard | Libary
+- Create a new Music Folder - \\192.168.1.146\music and use admin
+
+```
 ```
 # Test Mount
 sudo mount -t cifs //192.168.1.146/video/Movies /mnt/nas -o guest,vers=2.1

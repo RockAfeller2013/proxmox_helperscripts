@@ -49,6 +49,20 @@ ls /mnt/nas
 
 ```
 
+```bash
+
+# Add Music Libary
+
+1. Open Emby Dashboard
+2. Select Libary
+3. Add Music Folder
+4. smb://192.168.1.146/music CLICK refresh to test
+5. Ensure Guess has Shared folder access as per below 
+
+smb://192.168.1.146/music
+
+```
+
 # Add storage to LXC
 ```bash
 

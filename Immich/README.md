@@ -33,7 +33,17 @@ username=photostream
 password=m/1,03)Xp2j-
 EOF
 
-#Synology Photo Permisions must be enabled
+# Synology Photo Permisions must be enabled
+
+```text
+Fix on the Synology NAS
+1. Log in to DSM at http://192.168.1.146:5000.
+2. Open Control Panel → Shared Folder.
+3. Select photo → Edit → Permissions.
+4. Check the admin account has Read/Write access temporarily for diagnosis.
+5. Check for any explicit No access entry and correct it.
+6. Repeat for music as a comparison. Do not change its permissions permanently unless needed.
+```
 
 Your /photo folder is managed by Synology Photos. Its Shared Space has separate permissions from File Station permissions. Synology explicitly documents that Synology Photos folder permissions are managed in Photos settings, not through File Station. 
 1. Open Synology Photos.

@@ -191,7 +191,7 @@ grep 'Structure needs cleaning' rsync.log > structure_needs_cleaning.log
 EXCLUDES='--exclude=@* --exclude=#recycle --exclude=#snapshot'
 LOG="--log-file=/volume1/rsync_backup_$(date +%F).log"
 
-sudo -i  H5xv6j@M6eI9&$yb21Hc^FE6o&TGCLRwUZX1ZAKDyZp3985r^0
+sudo -i 
 mkdir -p /volume1/volume2_full_backup 
 
 # Backup - THIS WORKS

@@ -116,5 +116,29 @@ Then Scan
 Administration > Jobs > Generate Thumbnails > Missing worked
 ```
 
+```bash
+
+# mkdir -p /mnt/immich/{home,homes,photo}
+
+# Test access to each share
+
+smbclient //192.168.1.146/homes -A /root/.smbcredentials -c 'ls'
+smbclient //192.168.1.146/photo -A /root/.smbcredentials -c 'ls'
+
+umount -l /mnt/immich/photo
+umount -l /mnt/immich/homes
+
+systemctl daemon-reload && mount -av
+systemctl list-units --type=automount | grep mnt-immich
+
+findmnt --verify --verbose
+
+ls -ld /mnt/immich/homes /mnt/immich/photo
+
+mkdir -p /mnt/immich/{home,homes,photo} && systemctl daemon-reload && mount -av
+printf '%s\n' '//192.168.1.146/homes /mnt/immich/homes cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,nofail 0 0' '//192.168.1.146/photo /mnt/immich/photo cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,nofail 0 0' > /etc/fstab
+
+```
+
 ## Error loading image
 - Going into Administration > Jobs > Generate Thumbnails > Missing worked for me.

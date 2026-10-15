@@ -43,6 +43,8 @@
 ```bash
 pct enter
 cat /etc/gitlab/initial_root_password
+
+Login to UI and setup, then change password - http://172.16.0.190/-/user_settings/password/edit
 ```
  
 - Change the password immediately.

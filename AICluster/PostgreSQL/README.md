@@ -3,8 +3,11 @@
 ```bash
 - https://community-scripts.org/categories?category=databases&preview=postgresql
 - 172.16.0.228:5432
-```
+
+echo "ALTER USER postgres with encrypted password 'password';" | sudo -u postgres psql
 /usr/local/community-scripts/defaults/postgresql.vars
+
+```
 
 
 1. Login after install to root

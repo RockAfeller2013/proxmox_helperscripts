@@ -22,6 +22,7 @@ echo "deb [signed-by=/etc/apt/keyrings/packages-pgadmin-org.gpg] https://ftp.pos
 sudo apt update
 
 sudo apt install -y pgadmin4-web
+export PGADMIN_PLATFORM_TYPE=debian
 sudo /usr/pgadmin4/bin/setup-web.sh
 
 echo

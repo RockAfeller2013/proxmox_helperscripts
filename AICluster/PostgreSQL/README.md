@@ -34,3 +34,7 @@ password
 ```bash
 curl -fSL --retry 3 -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/AICluster/PostgreSQL/install-pgadmin.sh?nocache=$(date +%s)" | bash
 ```
+https://172.16.0.228/pgadmin4
+
+Starting pgAdmin web configuration...
+Invalid value for the PGADMIN_PLATFORM_TYPE environment variable. Please set it to one of 'redhat' or 'debian' and try again.

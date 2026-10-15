@@ -2,12 +2,6 @@
 
 # LXC Setup
 
-```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/gitlab.sh)"
-
-
-
-Code · MD
 # GitLab Omnibus (LXC Container) – Quick Steps
  
 ## 1. Check resources
@@ -44,6 +38,7 @@ gitlab-backup create
 package['modify_kernel_parameters'] = false
 ```
  
+
 ```
 
 

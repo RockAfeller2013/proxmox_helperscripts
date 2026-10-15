@@ -2,32 +2,27 @@
 #!/usr/bin/env bash
 # https://www.pgadmin.org/download/pgadmin-4-apt/
 
-#
-# Setup the repository
-#
+# Remove the invalid repository entry
+sudo rm -f /etc/apt/sources.list.d/pgadmin4.list
 
-# Install the public key for the repository (if not done previously):
-curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /etc/apt/keyrings/packages-pgadmin-org.gpg
+# Install prerequisites
+sudo apt update
+sudo apt install -y curl ca-certificates gnupg
 
-# Create the repository configuration file:
-sudo sh -c 'echo "deb [signed-by=/etc/apt/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+# Add the official pgAdmin signing key
+sudo mkdir -p /etc/apt/keyrings
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub \
+  | sudo gpg --dearmor --yes -o /etc/apt/keyrings/packages-pgadmin-org.gpg
 
-#
-# Install pgAdmin
-#
+# Add the Debian 13 (Trixie) repository explicitly
+echo "deb [signed-by=/etc/apt/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/trixie pgadmin4 main" \
+  | sudo tee /etc/apt/sources.list.d/pgadmin4.list
 
-# Install for both desktop and web modes:
-sudo apt install pgadmin4
+# Update package lists
+sudo apt update
 
-# Install for desktop mode only:
-sudo apt install pgadmin4-desktop
-
-# Install for web mode only: 
-sudo apt install pgadmin4-web 
-
-# Configure the webserver, if you installed pgadmin4-web:
+sudo apt install -y pgadmin4-web
 sudo /usr/pgadmin4/bin/setup-web.sh
-
 
 echo
 echo "pgAdmin installation and configuration completed."

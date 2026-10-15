@@ -1,8 +1,12 @@
 # PostegreSQL
 
+```bash
 - https://community-scripts.org/categories?category=databases&preview=postgresql
 - 172.16.0.228:5432
+```
 /usr/local/community-scripts/defaults/postgresql.vars
+
+
 1. Login after install to root
 2. pct list
 3. pct enter 103
@@ -25,4 +29,8 @@ localhost
 postgress
 password
 
+```
+8. Install phAdmin
+```bash
+curl -fSL --retry 3 -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/RockAfeller2013/proxmox_helperscripts/refs/heads/main/AICluster/PostgreSQL/install-pgadmin.sh?nocache=$(date +%s)" | bash
 ```

@@ -1,9 +1,57 @@
 # Install Gitlab
 
+# LXC Setup
+
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/gitlab.sh)"
+
+
+
+Code · MD
+# GitLab Omnibus (LXC Container) – Quick Steps
+ 
+## 1. Check resources
+- Recommended: **8 GB RAM + 4 cores** (official minimum: 4 GB RAM + swap, but slow).
+- First `gitlab-ctl reconfigure` takes several minutes.
+## 2. Log in
+- Open `http://<container-ip>` and sign in as `root`.
+- Get the initial password (auto-deleted after **24 hours**):
+```bash
+cat /etc/gitlab/initial_root_password
+```
+ 
+- Change the password immediately.
+## 3. Change the URL (only if using a domain or reverse proxy)
+`external_url` defaults to the container IP.
+ 
+```bash
+nano /etc/gitlab/gitlab.rb
+# external_url 'http://your-domain.com'
+gitlab-ctl reconfigure
+```
+ 
+## 4. Back up
+ 
+```bash
+gitlab-backup create
+```
+ 
+- Repositories live in `/var/opt/gitlab`. Do **not** copy the directories manually.
+## Rules
+- Omnibus bundles PostgreSQL, Redis and NGINX. **Do not install them separately.**
+- Keep this line in `/etc/gitlab/gitlab.rb`. **Do not remove it** (unprivileged LXC can't write most kernel keys, so `sysctl` would fail):
+```ruby
+package['modify_kernel_parameters'] = false
+```
+ 
+```
+
+
 In order to install GitLab on Proxmox, you can use either Docker and/or TurnKey via GUI / CT Templates 
 ## Docker
 - https://hub.docker.com/r/gitlab/gitlab-ce/?_gl=1*yyf43q*_gcl_au*Nzk5MDYxNjA3LjE3NzAwODkxNzM.*_ga*MTA3MjQ3MzAwLjE3NzAwODkxNzI.*_ga_XJWPQMJYHQ*czE3NzE0OTEzMTgkbzYkZzEkdDE3NzE0OTEzMTgkajYwJGwwJGgw
 - Setu a Gitlab container - https://docs.gitlab.com/omnibus/development/setup/?utm_source=chatgpt.com
+- There is a existing TURNKEY Template for GItLab use that https://github.com/hiall-fyi/pve-secure-gitlab-lxc
 ```
 docker pull gitlab/gitlab-ce:nightly
 docker run -d --name gitlab \

@@ -28,3 +28,4 @@ PGADMIN_PLATFORM_TYPE=debian /usr/pgadmin4/bin/setup-web.sh
 echo
 echo "pgAdmin installation and configuration completed."
 echo "URL: http://<POSTGRESQL_LXC_IP>/pgadmin4"
+echo http://172.16.0.78/pgadmin4

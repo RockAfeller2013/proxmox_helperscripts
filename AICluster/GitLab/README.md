@@ -11,6 +11,7 @@
 - Open `http://<container-ip>` and sign in as `root`.
 - Get the initial password (auto-deleted after **24 hours**):
 ```bash
+pct enter
 cat /etc/gitlab/initial_root_password
 ```
  
@@ -37,7 +38,11 @@ gitlab-backup create
 ```ruby
 package['modify_kernel_parameters'] = false
 ```
- 
+
+
+***
+
+# This is just research
 
 ```
 

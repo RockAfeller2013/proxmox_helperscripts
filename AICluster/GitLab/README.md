@@ -2,7 +2,37 @@
 
 # LXC Setup
 
-# GitLab Omnibus (LXC Container) – Quick Steps
+# GitLab Omnibus (LXC Container) – Quick Step
+
+     │ Container Type: Privileged                                 │ 
+     │ Container ID: 106                                          │ 
+     │ Hostname: gitlab                                           │ 
+     │                                                            │ 
+     │ Resources:                                                 │ 
+     │   Disk: 40 GB                                              │ 
+     │   CPU: 4 cores                                             │ 
+     │   RAM: 8192 MiB                                            │ 
+     │                                                            │ 
+     │ Network:                                                   │ 
+     │   Bridge: vmbr0                                            │ 
+     │   SDN vnet: (none)                                         │ 
+     │   IPv4: dhcp                                               │ 
+     │   IPv6: none                                               │ 
+     │                                                            │ 
+     │ Features:                                                  │ 
+     │   FUSE: no | TUN: no                                       │ 
+     │   Nesting: Enabled | Keyctl: Disabled                      │ 
+     │   Mknod: Disabled | Mount FS: (none)                       │ 
+     │   GPU: no | Protection: No                                 │ 
+     │                                                            │ 
+     │ Advanced:                                                  │ 
+     │   Timezone: Australia/Brisbane                             │ 
+     │   APT Cacher: no                                           │ 
+     │   HTTP Proxy: (none)                                       │ 
+     │   Inherit Host CAs: no                                     │ 
+     │                        
+
+     
  
 ## 1. Check resources
 - Recommended: **8 GB RAM + 4 cores** (official minimum: 4 GB RAM + swap, but slow).

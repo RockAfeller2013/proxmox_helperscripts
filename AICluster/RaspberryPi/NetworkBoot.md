@@ -1,0 +1,2 @@
+- https://forums.raspberrypi.com/viewtopic.php?t=151302
+- https://warmestrobot.com/blog/2024/06/27/raspberry-pi-network-boot-guide-2/

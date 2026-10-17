@@ -11,3 +11,10 @@ After installation, edit /opt/immichframe/Config/Settings.yml and set ImmichServ
 
 NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU
 http://192.168.1.52:2283/photos
+
+```bash
+Accounts:
+  - ImmichServerUrl: "http://192.168.1.52:2283"
+    # Exactly one of ApiKey or ApiKeyFile must be set.
+    ApiKey: "NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU"
+```

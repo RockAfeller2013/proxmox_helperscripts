@@ -43,6 +43,13 @@ curl -i http://192.168.1.52:2283/api/server/ping
 curl -i \
   -H 'x-api-key: NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU' \
   http://192.168.1.52:2283/api/users/me
+
+read -rsp "Immich API key: " IMMICH_API_KEY
+echo
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+  -H "x-api-key: ${IMMICH_API_KEY}" \
+  http://192.168.1.52:2283/api/users/me
+unset IMMICH_API_KEY
 ```
 
 ```bash

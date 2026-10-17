@@ -8,8 +8,9 @@ After installation, edit /opt/immichframe/Config/Settings.yml and set ImmichServ
 ## Setup API Key
 - http://192.168.1.52:2283/user-settings?isOpen=sharing+api-keys
 - Profile | Account Settings | API Keys | Select All
+- http://192.168.1.48:8080/admin
+- http://192.168.1.52:2283
 
-NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU
 http://192.168.1.52:2283/photos
 
 

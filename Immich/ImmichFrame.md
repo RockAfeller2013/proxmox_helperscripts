@@ -3,18 +3,19 @@
 
 ```
 
-After installation, edit /opt/immichframe/Config/Settings.yml and set ImmichServerUrl and ApiKey. Then restart the service with systemctl restart immichframe.
 
 ## Setup API Key
-- http://192.168.1.52:2283/user-settings?isOpen=sharing+api-keys
+
+- After installation, edit /opt/immichframe/Config/Settings.yml and set ImmichServerUrl and ApiKey. Then restart the service with systemctl restart immichframe.
+- Get API Key - http://192.168.1.52:2283/user-settings?isOpen=sharing+api-keys
 - Profile | Account Settings | API Keys | Select All
 - http://192.168.1.48:8080/admin
 - http://192.168.1.52:2283
+- nano  /opt/immichframe/Config/Settings.yml
+- Enter the  exactly below
+- Get the Admin password and set the same again, Save then test connection. this seems to work, you need to insert the password in the .xml and the UI as well. 
 
-http://192.168.1.52:2283/photos
 
-
-systemctl cat immichframe
 
 ```bash
 Accounts:
@@ -38,6 +39,7 @@ Accounts:
 ```
 
 ```bash
+systemctl cat immichframe
 curl -i http://192.168.1.52:2283/api/server/ping
 
 curl -i \

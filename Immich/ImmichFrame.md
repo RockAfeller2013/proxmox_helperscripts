@@ -18,20 +18,23 @@ systemctl cat immichframe
 
 ```bash
 Accounts:
-  - ImmichServerUrl: "http://192.168.1.52:2283"
-    piKey: "NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU"
+  - ImmichServerUrl: 'http://192.168.1.52:2283'
+    # Exactly one of ApiKey or ApiKeyFile must be set.
+    ApiKey: 'jFCmDVikbmtsmTg8i9PuiP04yLCRpGVBQPAduanDko'
+    # ApiKeyFile: "/path/to/api.key"
+
     ImagesFromDate: null
-    ImagesUntilDate: null
-    ImagesFromDays: null
     ShowMemories: false
     ShowFavorites: false
     ShowArchived: false
-    ShowVideos: true
+    ShowVideos: false
+    ImagesFromDays: null
+    ImagesUntilDate: null
     Rating: null
-    Albums: []
-    ExcludedAlbums: []
-    People: []
-    Tags: []
+    Albums:
+    ExcludedAlbums:
+    People:
+    Tags:
 ```
 
 ```bash

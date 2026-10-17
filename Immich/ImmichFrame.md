@@ -44,3 +44,14 @@ curl -i \
   -H 'x-api-key: NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU' \
   http://192.168.1.52:2283/api/users/me
 ```
+
+```bash
+
+systemctl edit immichframe
+
+[Service]
+Environment="IMMICHFRAME_ADMIN_PASSWORD=ReplaceWithYourNewStrongPassword"
+
+systemctl daemon-reload
+systemctl restart immichframe
+```

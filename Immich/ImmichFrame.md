@@ -12,7 +12,7 @@
 - http://192.168.1.48:8080/admin
 - http://192.168.1.52:2283
 - nano  /opt/immichframe/Config/Settings.yml
-- Enter the  exactly below
+- Enter the exactly below
 - Get the Admin password and set the same again, Save then test connection. this seems to work, you need to insert the password in the .xml and the UI as well. 
 
 
@@ -55,7 +55,6 @@ unset IMMICH_API_KEY
 ```
 
 ```bash
-
 systemctl edit immichframe
 
 [Service]

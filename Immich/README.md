@@ -91,6 +91,9 @@ cat >> /etc/fstab <<'EOF'
 //192.168.1.146/photo /mnt/immich/photo cifs credentials=/root/.smbcredentials,vers=2.0,ro,iocharset=utf8,_netdev,x-systemd.automount,nofail 0 0
 EOF
 ```
+
+# If the Photos are not showing, do the following.
+
 ```bash
 systemctl daemon-reload
 mount -a
@@ -98,6 +101,8 @@ df -h | grep /mnt/immich
 ls /mnt/immich/home
 ls /mnt/immich/homes
 ls /mnt/immich/photo
+cat /etc/fstab
+Then Go to Immich, click Profile, Select Administration, Left External Libraries, and rescan. Or just reboot the machine while NAS is on. 
 ```
 
 ```bash

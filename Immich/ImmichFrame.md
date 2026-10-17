@@ -10,3 +10,4 @@ After installation, edit /opt/immichframe/Config/Settings.yml and set ImmichServ
 - Profile | Account Settings | API Keys | Select All
 
 NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU
+http://192.168.1.52:2283/photos

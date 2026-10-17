@@ -15,6 +15,25 @@ http://192.168.1.52:2283/photos
 ```bash
 Accounts:
   - ImmichServerUrl: "http://192.168.1.52:2283"
-    # Exactly one of ApiKey or ApiKeyFile must be set.
-    ApiKey: "NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU"
+    piKey: "NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU"
+    ImagesFromDate: null
+    ImagesUntilDate: null
+    ImagesFromDays: null
+    ShowMemories: false
+    ShowFavorites: false
+    ShowArchived: false
+    ShowVideos: true
+    Rating: null
+    Albums: []
+    ExcludedAlbums: []
+    People: []
+    Tags: []
+```
+
+```bash
+curl -i http://192.168.1.52:2283/api/server/ping
+
+curl -i \
+  -H 'x-api-key: NtRgbBwd3KAKLN1RW68L569akrjgcuG05t6nPBsU' \
+  http://192.168.1.52:2283/api/users/me
 ```

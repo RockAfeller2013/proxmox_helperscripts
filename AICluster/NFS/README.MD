@@ -1,3 +1,10 @@
+```bash
+/volume2/PROXMOX_NFS
+synology-backups
+192.168.1.146
+NFS Version: 4.1
+```
+
 # Extend PostgreSQL VM Storage Using Synology NAS
 
 ## Architecture

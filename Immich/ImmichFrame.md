@@ -62,4 +62,6 @@ Environment="IMMICHFRAME_ADMIN_PASSWORD=ReplaceWithYourNewStrongPassword"
 
 systemctl daemon-reload
 systemctl restart immichframe
+
+60400a1f89eedd64fd7131d2818c0930
 ```

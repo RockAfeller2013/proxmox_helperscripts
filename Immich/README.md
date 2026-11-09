@@ -104,6 +104,85 @@ ls /mnt/immich/photo
 cat /etc/fstab
 Then Go to Immich, click Profile, Select Administration, Left External Libraries, and rescan. Or just reboot the machine while NAS is on. 
 ```
+# Immich – Trigger External Library Rescan via Command Line
+
+Trigger an Immich External Library rescan using the Immich API without accessing the web interface or rebooting the server.
+
+## Prerequisites
+
+- Immich server running.
+- External Library already configured.
+- NAS storage mounted and accessible.
+- Immich API key with `library.update` permission.
+- `curl` installed.
+
+## 1. Configure API Access
+
+In Immich:
+
+1. Open **Account Settings**.
+2. Select **API Keys**.
+3. Create a new API key.
+4. Grant the required `library.update` permission.
+
+Set your connection details:
+
+```bash
+IMMICH_URL="http://192.168.1.52:2283"
+IMMICH_API_KEY="YOUR_API_KEY"
+```
+
+Replace the IP address and API key with your own values.
+
+## 2. Retrieve External Library ID
+
+Run:
+
+```bash
+curl -s \
+  -H "x-api-key: $IMMICH_API_KEY" \
+  "$IMMICH_URL/api/libraries"
+```
+
+Identify the External Library ID from the returned JSON.
+
+## 3. Trigger External Library Rescan
+
+Replace `YOUR_LIBRARY_ID` with the ID retrieved above.
+
+```bash
+curl -X POST \
+  "$IMMICH_URL/api/libraries/YOUR_LIBRARY_ID/scan" \
+  -H "x-api-key: $IMMICH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refreshAllFiles": false,
+    "refreshModifiedFiles": false
+  }'
+```
+
+This triggers a scan of the selected external library.
+
+## 4. Create an Automation Script
+
+Create a file:
+
+```bash
+nano immich-rescan.sh
+```
+
+Add:
+
+```bash
+#!/bin/bash
+
+IMMICH_URL="http://192.168.1.52:2283"
+IMMICH_API_KEY="YOUR_API_KEY"
+LIBRARY_ID="YOUR_LIBRARY_ID"
+
+NAS_MOUNT="/path/to/your/nas"
+
+if ! mountpoint -q "$
 
 ```bash
 - http://192.168.1.52:2283/photos
